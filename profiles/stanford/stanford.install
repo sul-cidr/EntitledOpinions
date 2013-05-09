@@ -1,0 +1,131 @@
+<?php
+/**
+* Implement hook_install().
+*
+* Perform actions to set up the site for this profile.
+*/
+function stanford_install() {
+  // Do all the install tasks from the standard install profile
+  // It's easier just to include this and then override the few things that we want to.
+  include_once(DRUPAL_ROOT . '/profiles/standard/standard.install');
+  standard_install();
+  
+  // Defaults for the Page content type
+  variable_set('comment_anonymous_page', 0);
+  variable_set('comment_default_mode_page', 1);
+  variable_set('comment_default_per_page_page', '50');
+  variable_set('comment_form_location_page', 1);
+  variable_set('comment_page', '1');
+  variable_set('comment_preview_page', '1');
+  variable_set('comment_subject_field_page', 1);
+  variable_set('node_preview_page', '1');
+  variable_set('node_submitted_page', 0);
+  variable_set('menu_parent_page', 'main-menu:0');
+  $menu_options_page = array('main-menu');
+  variable_set('menu_options_page', $menu_options_page);
+  $node_options_page = array('status', 'promote', 'revision');
+  variable_set('node_options_page', $node_options_page);
+
+  // Defaults for the Article content type
+  variable_set('comment_anonymous_article', 0);
+  variable_set('comment_default_mode_article', 1);
+  variable_set('comment_default_per_article_article', '50');
+  variable_set('comment_form_location_article', 1);
+  variable_set('comment_article', '1');
+  variable_set('comment_preview_article', '1');
+  variable_set('comment_subject_field_article', 1);
+  variable_set('node_preview_article', '1');
+  variable_set('node_submitted_article', 0);
+  variable_set('menu_parent_article', 'main-menu:0');
+  $menu_options_article = array('main-menu');
+  variable_set('menu_options_article', $menu_options_article);
+  $node_options_article = array('status', 'promote', 'revision');
+  variable_set('node_options_article', $node_options_article);
+
+  // Revoke a few stupid default permissions
+  user_role_revoke_permissions(DRUPAL_ANONYMOUS_RID, array('access comments'));
+  user_role_revoke_permissions(DRUPAL_AUTHENTICATED_RID, array('post comments', 'skip comment approval'));
+  
+  // User registration - only site administrators can create new user accounts
+  variable_set('user_register', 0);
+  
+  // Disable user-configurable timezones by default
+  variable_set('configurable_timezones', 0);
+  // Set the first day of the week to Sunday
+  variable_set('date_first_day', 0);
+
+}
+
+/**
+ * Implementation of hook_form_FORM_ID_alter().
+ *
+ * Allows the profile to alter the site-configuration form. This is
+ * called through custom invocation, so $form_state is not populated.
+ */
+function stanford_form_install_configure_form_alter(&$form, $form_state) {
+
+  // Hide the fieldset since it'll be empty anyway
+  $form['server_settings']['#type'] = 'markup';
+
+  // Server settings.
+  $form['server_settings']['clean_url']['#type'] = 'hidden';
+  $form['server_settings']['clean_url']['#default_value'] = 1;
+  $form['server_settings']['date_default_timezone']['#type'] = 'hidden';
+  $form['server_settings']['date_default_timezone']['#default_value'] = 'America/Los_Angeles';
+  $form['server_settings']['site_default_country']['#type'] = 'hidden';
+  $form['server_settings']['site_default_country']['#default_value'] = 'US';
+
+  // Hide the automatic updates block.
+  $form['update_notifications']['#type'] = 'hidden';
+  $form['update_notifications']['update_status_module']['#default_value'][0] = 0;
+  $form['update_notifications']['update_status_module']['#default_value'][1] = 0;
+  
+  /**
+   * Enable webauth module by default.
+   * We will be setting this programatically so we do not want to present it to the user.
+   */
+  $form['stanford_sites_enable_webauth']['#type'] = 'hidden';
+  $form['stanford_sites_enable_webauth']['#default_value'] = 1;
+  
+  /**
+   * Set org type: group or dept.
+   * Blank if a personal site.
+   * We will be setting this programatically so we do not want to present it to the user.
+   */
+  $form['stanford_sites_org_type']['#type'] = 'hidden';
+  $form['stanford_sites_org_type']['#default_value'] = '';
+  
+  /**
+   * Set temporary file directory.
+   * We will be setting this programatically so we do not want to present it to the user.
+   */
+  $form['stanford_sites_tmpdir']['#type'] = 'hidden';
+  $form['stanford_sites_tmpdir']['#default_value'] = '';
+  
+  $form['#submit'][] = 'stanford_sites_install_configure_form_submit';
+
+}
+
+/**
+ * Implements hook_block_info_alter().
+ */
+function stanford_block_info_alter(&$blocks, $theme, $code_blocks) {
+  $blocks['system']['powered-by']['status'] = 0;
+}
+
+/**
+ * Implements hook_filter_info_alter().
+ */
+function stanford_filter_info_alter(&$info) {
+  $info['filter_html']['default settings']['allowed_html'] = '<a> <address> <blockquote> <br> <cite> <code> <em> <h2> <h3> <h4> <h5> <h6> <li> <ol> <p> <pre> <strong> <ul>';
+}
+
+/**
+ * Process the fields we added to install_configure_form.
+ */
+function stanford_sites_install_configure_form_submit($form, &$form_state) {
+  variable_set('stanford_sites_enable_webauth', $form['stanford_sites_enable_webauth']['#value']);
+  variable_set('stanford_sites_org_type', $form['stanford_sites_org_type']['#value']);
+  variable_set('stanford_sites_tmpdir', $form['stanford_sites_tmpdir']['#value']);
+ 
+}
