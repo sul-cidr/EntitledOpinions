@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * @file
+ * User interface tweaks and other modifications for the Stanford Sites platform
+ */
+
+/**
+ * Implements hook_init().
+ */
+function stanford_sites_helper_init() {
+  $path = drupal_get_path('module', 'stanford_sites_helper') . '/css/stanford-sites-helper.css';
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function stanford_sites_helper_theme_registry_alter(&$theme_registry) {
+  $theme_registry['search_results']['theme paths'] = array(0 => drupal_get_path('module', 'stanford_sites_helper') . '/templates');
+  $theme_registry['search_results']['theme path'] = drupal_get_path('module', 'stanford_sites_helper') . '/templates';
+  $theme_registry['search_results']['path'] = drupal_get_path('module', 'stanford_sites_helper') . '/templates';
+  $theme_registry['search_results']['template'] = 'search-results';
+  $theme_registry['block__stanford_sites_helper__firststeps']['theme paths'] = array(0 => drupal_get_path('module', 'stanford_sites_helper') . '/templates');
+  $theme_registry['block__stanford_sites_helper__firststeps']['theme path'] = drupal_get_path('module', 'stanford_sites_helper') . '/templates';
+  $theme_registry['block__stanford_sites_helper__firststeps']['path'] = drupal_get_path('module', 'stanford_sites_helper') . '/templates';
+  $theme_registry['block__stanford_sites_helper__firststeps']['template'] = 'firststeps';
+  $theme_registry['block__stanford_sites_helper__firststeps']['type'] = 'module';
+}
+
+/**
+ * Returns a translatable string of help text for a search that returns no results.
+ */
+function stanford_sites_helper_search_noresults() {
+  $content = '<ul>';
+  $content .= '<li>' . t('Check if your spelling is correct.') . '</li>';
+  $content .= '<li>' . t('Simplify your search by using fewer words.') . '</li>';
+  $content .= '<li>' . t('Remove quotes around phrases to match each word individually: %stanfordquote will match less than %stanfordnoquote.', array('%stanfordquote' => '"stanford university"', '%stanfordnoquote' => 'stanford university')) . '</li>';
+  $content .= '<li>' . t('Consider loosening your query with <em>OR</em>: <em>stanford university</em> will match less than <em>stanford OR university</em>.') . '</li>';
+  $content .= '</ul>';
+  return $content;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function stanford_sites_helper_block_info() {
+  $blocks['helplinks']['info'] = t('Display a list of help links specific to Stanford Sites');
+  $blocks['helplinks']['properties']['administrative'] = 1;
+  $blocks['helplinks']['status'] = 1;
+  $blocks['helplinks']['region'] = 'help';
+  $blocks['helplinks']['visibility'] = BLOCK_VISIBILITY_LISTED;
+  $blocks['helplinks']['pages'] = "admin\nadmin/*";
+  $blocks['firststeps']['info'] = t('Stanford Sites Welcome Text');
+  $blocks['firststeps']['status'] = 1;
+  $blocks['firststeps']['weight'] = 10;
+  $blocks['firststeps']['region'] = 'content';
+  $blocks['firststeps']['visibility'] = BLOCK_VISIBILITY_LISTED;
+  $blocks['firststeps']['pages'] = "<front>";
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function stanford_sites_helper_block_view($delta) {
+  switch ($delta) {
+    case 'helplinks':
+      $block['subject'] = t('Get Help');
+      $block['content'] = t('Problems using this service? Submit a !helpsu. <hr />', array('!helpsu' => l('HelpSU request', 'http://remedyweb.stanford.edu/helpsu/2.0/helpsu-form?pcat=sites')));
+      break;
+    case 'firststeps':
+      $block['subject'] = t('Quick Steps to Get Started');
+      $block['content'] = '.';
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function stanford_sites_helper_menu() {
+  $items['getting-started'] = array(
+    'title' => 'Getting Started',
+    'page callback' => 'theme',
+    'page arguments' => array('firststeps_template'),
+    'type' => MENU_NORMAL_ITEM,
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+  );
+  return $items;
+}
+
+/**
+ * Page callback.
+ */
+function stanford_sites_helper_theme($existing, $type, $theme, $path) {
+  return array(
+    'firststeps_template' => array(
+      'template' => 'templates/firststeps',
+    ),
+  );
+}
+/**
+ * Implements hook_backup_migrate_profiles().
+ */
+function stanford_sites_helper_backup_migrate_profiles() {
+  //set this profile as default
+  variable_set('backup_migrate_profile_id', 'stanford_sites_default');
+  
+  $out = array();
+
+  // Get the stanford_sites_default profile.
+  $out['stanford_sites_default'] = backup_migrate_crud_create_item('profile', array(
+    'profile_id' => 'stanford_sites_default',
+    'name' => 'Stanford Sites Profile',
+    'filename' => '[site:name]',
+    'append_timestamp' => '1',
+    'timestamp_format' => 'Y-m-d\\TH-i-s',
+    'filters' => 
+    array(
+      'compression' => 'gzip',
+      'notify_success_enable' => 0,
+      'notify_success_email' => '',
+      'notify_failure_enable' => 0,
+      'notify_failure_email' => '',
+      'utils_site_offline' => 0,
+      'utils_site_offline_message' => 'This site is currently under maintenance. We should be back shortly. Thank you for your patience.',
+      'utils_description' => '',
+      'destinations' => 
+      array(
+        'db' => 
+        array(
+          'exclude_tables' => 
+          array(
+          ),
+          'nodata_tables' => 
+          array(
+            'cache' => 'cache',
+            'cache_admin_menu' => 'cache_admin_menu',
+            'cache_block' => 'cache_block',
+            'cache_bootstrap' => 'cache_bootstrap',
+            'cache_field' => 'cache_field',
+            'cache_filter' => 'cache_filter',
+            'cache_form' => 'cache_form',
+            'cache_image' => 'cache_image',
+            'cache_menu' => 'cache_menu',
+            'cache_page' => 'cache_page',
+            'cache_path' => 'cache_path',
+            'cache_update' => 'cache_update',
+            'cache_views' => 'cache_views',
+            'cache_views_data' => 'cache_views_data',
+            'search_dataset' => 'search_dataset',
+            'search_index' => 'search_index',
+            'search_total' => 'search_total',
+            'sessions' => 'sessions',
+            'watchdog' => 'watchdog',
+          ),
+          'utils_lock_tables' => 0,
+          'use_mysqldump' => 0,
+        ),
+        'files' => 
+        array(
+          'exclude_filepaths' => 'backup_migrate
+  styles
+  css
+  js
+  ctools
+  .htaccess
+  tmp
+  private',
+        ),
+        'files_private' => 
+        array(
+          'exclude_filepaths' => 'backup_migrate
+  styles
+  css
+  js
+  ctools
+  .htaccess
+  tmp',
+        ),
+      ),
+      'encryption' => 'none',
+      'utils_disable_query_log' => true,
+    ),
+  )
+);
+
+  return $out;
+
+}
+
+/**
+ * Fix spell check as you type (scayt) autostart behavior.
+ * See http://drupal.org/node/817894 for reference.
+ */
+function stanford_sites_helper_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    $settings['scayt_autoStartup'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function stanford_sites_helper_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  $message = t('If you are having difficulty resetting your password, please !submithelpsu.', array('!submithelpsu' => l('submit a HelpSU request', 'https://helpsu.stanford.edu/?pcat=sites')));
+  $form['name']['#suffix'] = $message;
+}
