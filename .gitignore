@@ -1,9 +1,8 @@
-.htaccess
-sites/default/settings.php
-sites/default/files
-sites/default/libraries
-sites/default/modules
-sites/default/themes
-sites/default/webauth
-php.fcgi
-
+/.htaccess
+/sites/default/settings.php
+/sites/default/files
+/sites/default/libraries
+/sites/default/modules
+/sites/default/themes
+/sites/default/webauth
+/php.fcgi
