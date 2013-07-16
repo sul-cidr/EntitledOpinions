@@ -1,9 +1,11 @@
-name = Bean All
-description = Integrate all blocks with beans.
+name = "Bean - Entitycache"
+description = "Integrates the Bean module with the Entitycache module"
+
 core = 7.x
-files[] = plugins/all.inc
+package = Performance and scalability
+
 dependencies[] = bean
-package = Bean
+dependencies[] = entitycache
 
 ; Information added by drupal.org packaging script on 2013-05-19
 version = "7.x-1.2"
