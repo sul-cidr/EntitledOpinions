@@ -53,6 +53,11 @@ Drupal.behaviors.open_framework = {
 		  for(currentDiv = 0 ; currentDiv < rowDivs.length ; currentDiv++) rowDivs[currentDiv].height(currentTallest);
 		  });
 	}
+	
+	// Add keyboard focus to .element-focusable elements in webkit browsers.
+	$('.element-focusable').on('click', function() {
+		$($(this).attr('href')).attr('tabindex', '-1').focus();
+		});
   }
 }
 
