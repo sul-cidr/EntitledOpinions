@@ -6,7 +6,21 @@
 /*
  * Variables
  */
+$user_login_text = l(t('Log in with your SUNetID.'), 'sites/default/webauth/login');
+$webauth_allow_local = variable_get('webauth_allow_local');
 $password_reset = l(t('password reset form'), 'user/password');
+$user_login_block = "<h2>Welcome to Your Stanford Sites Website</h2>";
+// check if WMD is set to allow local Drupal logins.
+// if so, display the login text to have the user log in as user 1
+if ($webauth_allow_local === 0) {
+  $user_login_block .= '<p>' . $user_login_text . '</p>';
+}
+else {
+  $user_login_block .= "<p>If you haven't already, you should log in via the form to the left.</p>\n";
+  $user_login_block .= "<p>Your user name is <strong>admin</strong> and you created a password when you set up the site.</p>\n";
+  $user_login_block .= "<p>If you cannot remember your password, you can reset it by entering <strong>&quot;admin&quot;</strong> as the username in the " . $password_reset . ".</p>\n";
+}
+$user_login_block .= "<p>Once you have logged in, you will be able to remove this text from your homepage (follow the steps under &quot;Get rid of this Quick Steps content&quot;, below).</p>\n<hr />";
 $images = drupal_get_path('module', 'stanford_sites_helper') . '/images/';
 $stanford_sites_helper_node = variable_get('stanford_sites_helper_node');
 $edit_homepage = l(t("Edit Your Homepage Content"), 'node/' . $stanford_sites_helper_node . '/edit', array('attributes' => array('class' => array('btn'))));
@@ -35,13 +49,9 @@ drupal_add_css($path);
 
 ?>
 <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
-<h2>Welcome to Your Stanford Sites Website</h2>
-  <p>If you haven't already, you should log in via the form to the left.</p>
-  <p>Your user name is <strong>admin</strong> and you created a password when you set up the site.</p>
-  <p>If you cannot remember your password, you can reset it by entering your SUNet email address or <strong>&quot;admin&quot;</strong> in the <?php print $password_reset ?></p>
-  <p>Once you have logged in, you will be able to remove this text from your homepage.</p>
+  <?php if(user_is_anonymous()) { print $user_login_block; }?>
 
-<hr />
+
   <?php print render($title_prefix); ?>
 <?php if ($block->subject): ?>
   <h2<?php print $title_attributes; ?>><?php print $block->subject ?></h2>
