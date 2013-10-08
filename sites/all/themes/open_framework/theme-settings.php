@@ -20,7 +20,6 @@ function open_framework_form_system_theme_settings_alter(&$form, &$form_state) {
     ),
   );
  
- 
   // Page Layout
   $form['layout_container'] = array(
     '#type' => 'fieldset',
@@ -49,7 +48,7 @@ function open_framework_form_system_theme_settings_alter(&$form, &$form_state) {
 	  'show-breadcrumb ' => t('Show breadcrumbs'),
     ),
   );
-    
+      
   // Background Section
   $form['background_container'] = array(
     '#type' => 'fieldset',

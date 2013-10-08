@@ -1,6 +1,6 @@
 <a href="#content" class="element-invisible element-focusable"><?php print t('Skip to content'); ?></a>
 <?php if ($main_menu): ?>
-<a href="#navigation" class="element-invisible element-focusable" data-target=".nav-collapse" data-toggle="collapse"><?php print t('Skip to navigation'); ?></a>
+<a href="#main-nav" class="element-invisible element-focusable" data-target=".nav-collapse" data-toggle="collapse"><?php print t('Skip to navigation'); ?></a>
 <?php endif; ?>
 <!-- /#skipnav -->
 <?php if ((($user->uid) && ($page['admin_shortcuts'])) || (($user->uid) && ($secondary_nav))): ?>
@@ -57,7 +57,7 @@
           <a class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
           <?php if ($primary_nav || !empty($page['navigation'])): ?>
           <div class="nav-collapse collapse">
-            <nav id="navigation" role="navigation">
+            <nav id="main-nav" role="navigation">
               <?php if (($primary_nav) && empty($page['navigation'])): ?>
               <?php print render($primary_nav); ?> 
               <!-- /#primary-menu -->
@@ -80,7 +80,7 @@
 <?php endif; ?>
 <div id="main" class="clearfix main" role="main">
   <div class="container">
-    <?php if ($breadcrumb): ?>
+    <?php if (!($is_front) && ($breadcrumb)): ?>
     <div id="breadcrumb"><?php print $breadcrumb; ?></div>
     <?php endif; ?>
     <?php if ($page['main_top']): ?>
