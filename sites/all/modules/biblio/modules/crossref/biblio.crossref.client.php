@@ -67,6 +67,11 @@ class BiblioCrossRefClient
       return;
     }
     $sxml = @simplexml_load_string($result->data);
+    if (!isset($sxml->doi_record)) {
+    	drupal_set_message(t('Failed to retrieve data for doi ') . $this->doi, 'error');
+      return;
+    }
+
     if ($error = (string)$sxml->doi_record->crossref->error) {
       drupal_set_message($error,'error');
       return;
@@ -147,14 +152,19 @@ class BiblioCrossRefClient
       case 'sup':
         $this->unixref_characterData(NULL, ' <' . $name . '>');
         break;
+      case 'doi_data':
+        $this->doi_data = TRUE;
+        break;
       default :
         $this->element = $name;
     }
 
   }
+
   function unixref_decode(&$item, $key) {
     $item = html_entity_decode($item, NULL, 'UTF-8');
   }
+
   function unixref_endElement($parser, $name) {
     switch ($name) {
       case 'doi_record' :
@@ -190,18 +200,26 @@ class BiblioCrossRefClient
 
         break;
       case 'journal_issue':
-        if (!isset($this->node['biblio_date'])) {
-          $this->node['biblio_date'] = (!empty($this->node['month']) ? $this->node['month'] . '/':'') . $this->node['year'];
+      case 'journal_article':
+        if (!isset($this->node['biblio_date']) || empty($this->node['biblio_date'])) {
+          $day   = !empty($this->node['day'])   ? $this->node['day']   : 1;
+          $month = !empty($this->node['month']) ? $this->node['month'] : 1;
+          $year  = !empty($this->node['year'])  ? $this->node['year']  : 0;
+          if ($year) {
+            $this->node['biblio_date'] = date("M-d-Y", mktime(0, 0, 0, $day, $month, $year));
+          }
+        }
+        if ((!isset($this->node['biblio_year']) || empty($this->node['biblio_year'])) && isset($this->node['year'])) {
+          $this->node['biblio_year'] = $this->node['year'];
         }
         break;
-      case 'journal_article':
       case 'conference_paper':
       case 'content_item':
       case 'report-paper_metadata':
       case 'standard_metadata':
       case 'database_date':
       case 'component':
-        if (!isset($this->node['biblio_year']) && isset($this->node['year'])) {
+        if ((!isset($this->node['biblio_year']) || empty($this->node['biblio_year'])) && isset($this->node['year'])) {
           $this->node['biblio_year'] = $this->node['year'];
           unset($this->node['year']);
         }
@@ -217,6 +235,9 @@ class BiblioCrossRefClient
       case 'sub':
       case 'sup':
         $this->unixref_characterData(NULL, '</' . $name . '> ');
+        break;
+      case 'doi_data':
+        $this->doi_data = FALSE;
         break;
       default :
     }
@@ -254,6 +275,19 @@ class BiblioCrossRefClient
             }
           }
           break;
+        case 'doi':
+          if ($this->doi_data) {
+            if ($field = $this->_unixref_field_map(trim($this->element))) {
+              $this->_set_data($field, $data);
+            }
+          }
+          break;
+        case 'resource':
+          if ($this->doi_data) {
+              $this->_set_data('biblio_url', $data);
+          }
+          break;
+
         default:
           if ($field = $this->_unixref_field_map(trim($this->element))) {
             $this->_set_data($field, $data);

@@ -68,8 +68,8 @@ class EndNoteXMLParser {
 
     if (!empty($this->unmapped)) {
       $ignored_tags = array_unique($this->unmapped);
-      $message = t("The following elements were ignored because they do not map to any biblio fields: ");
-      $message .= implode(', ',$ignored_tags);
+      $message = t("The following elements were ignored because they do not map to any biblio fields:") . ' ';
+      $message .= implode(', ', $ignored_tags);
       if (user_access('administer biblio')) {
         $message .= '. ' . t('Click !url if you wish to check the field mapping', array('!url' => l(t('here'), 'admin/config/content/biblio/iomap/edit/' . $this->format)));
       }
@@ -167,7 +167,7 @@ class EndNoteXMLParser {
       case 'subsidiary-authors' :
       case 'translated-authors' :
         $this->contributors_type = '';
-        foreach($this->contributors as $contributor) {
+        foreach ($this->contributors as $contributor) {
           $this->node->biblio_contributors[] = $contributor;
         }
         break;
@@ -247,7 +247,8 @@ class EndNoteXMLParser {
   }
 
   function endnote8_characterData($parser, $data) {
-    //    global $this->node, $this->element, $this->contributors_type, $this->contrib_count, $this->dates, $this->urls, $this->keyword_count;
+    // first replace any carriage returns with html line breaks
+    $data = str_ireplace("\r", "<br/>", $data);
     if (trim(htmlspecialchars_decode($data))) {
       switch ($this->element) {
         //Author information
@@ -355,7 +356,7 @@ class EndNoteXMLParser {
       case 'TERTIARY_AUTHORS':
       case 'SUBSIDIARY_AUTHORS':
         $this->contributors_type = '';
-        foreach($this->contributors as $contributor) {
+        foreach ($this->contributors as $contributor) {
           $this->node->biblio_contributors[] = $contributor;
         }
         break;

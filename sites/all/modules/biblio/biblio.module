@@ -44,10 +44,10 @@ function _biblio_get_auth_type($auth_category, $biblio_type) {
  * the i18nstrings module is enabled.
  */
 function _biblio_localize_fields(&$fields) {
-  if (module_exists('i18nstrings')) {
+  if (function_exists('i18n_string')) {
     foreach ($fields as $key => $row) {
-      $fields[$key]['title'] = tt("biblio:field:{$row['ftdid']}:title", $fields[$key]['title']);
-      $fields[$key]['hint'] = tt("biblio:field:{$row['ftdid']}:hint", $fields[$key]['hint']);
+      $fields[$key]['title'] = i18n_string("biblio:field:{$row['ftdid']}:title", $fields[$key]['title']);
+      $fields[$key]['hint'] = i18n_string("biblio:field:{$row['ftdid']}:hint", $fields[$key]['hint']);
     }
   }
 }
@@ -69,8 +69,8 @@ function _biblio_localize_fields(&$fields) {
  *   Translated value.
  */
 function _biblio_localize_type($tid, $value, $field = 'name') {
-  if (module_exists('i18nstrings')) {
-    return tt("biblio:type:$tid:$field", $value);
+  if (function_exists('i18n_string')) {
+    return i18n_string("biblio:type:$tid:$field", $value);
   }
   return $value;
 }
@@ -100,16 +100,17 @@ function biblio_locale($op = 'groups', $group = NULL) {
  *   specified, strings for all fields will be refreshed.
  */
 function biblio_locale_refresh_fields($tid = NULL) {
-  if (module_exists('i18nstrings')) {
+  if (function_exists('i18n_string')) {
     if (isset($tid)) {
       $result = db_query('SELECT d.* FROM {biblio_field_type} b INNER JOIN {biblio_field_type_data} d ON b.ftdid = d.ftdid WHERE tid = :tid', array(':tid' => $tid));
     }
     else {
       $result = db_query('SELECT * FROM {biblio_field_type_data}');
     }
+    $options = array('translate' => FALSE, 'update' => TRUE);
     foreach ($result as $row) {
-      tt("biblio:field:{$row->ftdid}:title", $row->title, NULL, TRUE);
-      tt("biblio:field:{$row->ftdid}:hint", $row->hint, NULL, TRUE);
+      i18n_string("biblio:field:{$row->ftdid}:title", $row->title, $options);
+      i18n_string("biblio:field:{$row->ftdid}:hint", $row->hint, $options);
     }
   }
 }
@@ -122,16 +123,17 @@ function biblio_locale_refresh_fields($tid = NULL) {
  *   specified, strings for all fields will be refreshed.
  */
 function biblio_locale_refresh_types($tid = NULL) {
-  if (module_exists('i18nstrings')) {
+  if (function_exists('i18n_string')) {
     if (isset($tid)) {
-      $result = db_query('SELECT * FROM {biblio_types} WHERE tid = :tid', array(':tid', $tid));
+      $result = db_query('SELECT * FROM {biblio_types} WHERE tid = :tid', array(':tid' => $tid));
     }
     else {
       $result = db_query('SELECT * FROM {biblio_types} WHERE tid > 0');
     }
+    $options = array('translate' => FALSE, 'update' => TRUE);
     foreach ($result as $row ) {
-      tt("biblio:type:{$row->tid}:name", $row->name, NULL, TRUE);
-      tt("biblio:type:{$row->tid}:description", $row->description, NULL, TRUE);
+      i18n_string("biblio:type:{$row->tid}:name", $row->name, $options);
+      i18n_string("biblio:type:{$row->tid}:description", $row->description, $options);
     }
   }
 }
@@ -207,6 +209,10 @@ function biblio_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
     ),
     'biblio_admin_author_edit_form' => array(
+        'file' => '/includes/biblio_theme.inc',
+        'render element' => 'form',
+    ),
+    'biblio_admin_author_edit_merge_table' => array(
         'file' => '/includes/biblio_theme.inc',
         'render element' => 'form',
     ),
@@ -293,7 +299,11 @@ function biblio_theme($existing, $type, $theme, $path) {
         'file' => '/includes/biblio_theme.inc',
         'render element' => 'form',
     ),
-    );
+    'biblio_sort_tabs' => array(
+        'file' => 'includes/biblio_theme.inc',
+        'variables' => array(),
+    )
+  );
 }
 
 function biblio_autocomplete($field, $string = '') {
@@ -515,7 +525,8 @@ function biblio_permission() {
  * Implementation of hook_user().
  */
 function biblio_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-   $account = $form['#user'];
+  if ($form['#user_category'] == 'account') {
+    $account = $form['#user'];
     include_once drupal_get_path('module', 'biblio') . '/includes/biblio.admin.inc';
     $show_form = variable_get('biblio_show_user_profile_form', '1')     ||
                  variable_get('biblio_show_crossref_profile_form', '1') ||
@@ -528,10 +539,13 @@ function biblio_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
         '#title' => t('Biblio settings'),
         '#weight' => 5,
         '#collapsible' => TRUE,
-        '#collapsed' => TRUE,
+        '#collapsed' => FALSE,
       );
       if ($admin_show_form || variable_get('biblio_show_user_profile_form', '1')) {
         $form['biblio_fieldset'] += _biblio_get_user_profile_form($account);
+      }
+      else {
+        $form['biblio_fieldset'] += _biblio_drupal_author_user_map($account);
       }
       if ($admin_show_form || variable_get('biblio_show_openurl_profile_form', '1')) {
         $form['biblio_fieldset'] += _biblio_get_user_openurl_form($account);
@@ -539,9 +553,10 @@ function biblio_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
       if ($admin_show_form || variable_get('biblio_show_crossref_profile_form', '1')) {
         $form['biblio_fieldset'] += _biblio_get_user_doi_form($account);
       }
-
     }
   }
+}
+
 function biblio_forms() {
   $forms['biblio_admin_author_types_form_new'] = array(
     'callback' => 'biblio_admin_author_types_form',
@@ -800,6 +815,12 @@ function biblio_menu() {
     'file'              => '/includes/biblio.admin.inc',
     'type'              => MENU_LOCAL_TASK,
     'weight'            => -9
+  );
+  $items['admin/config/content/biblio/pubtype/reset'] = array(
+    'page callback'     => 'biblio_admin_types_reset',
+    'access arguments'  => array('administer biblio'),
+    'file'              => '/includes/biblio.admin.inc',
+    'type'              => MENU_CALLBACK,
   );
   $items['admin/config/content/biblio/fields/reset'] = array(
     'title'             => 'Reset all types to defaults',
@@ -1139,6 +1160,10 @@ function biblio_user_presave(&$edit, $account, $catagory) {
  */
 function biblio_form($node, &$form_state) {
   global $user;
+  $path = drupal_get_path('module', 'biblio');
+  if (variable_get('biblio_button_hide', 1) == 1) {
+    drupal_add_js($path . '/misc/biblio.nodeformbuttonhide.js', 'file');
+  }
   $fields = array();
   $form['biblio_tabs'] = $tabs = array();
 
@@ -1174,7 +1199,6 @@ function biblio_form($node, &$form_state) {
         '#type'   => 'submit',
         '#value'  => $step_two ? t('Change Publication Type') : t('Next'),
         '#limit_validation_errors' => array(),
-        '#attributes' =>  array('style' => array('display: none;')),
         '#weight' => -10,
         '#submit' => array(),
     );
@@ -1391,6 +1415,7 @@ function biblio_contributor_form($contributor, $options) {
 
   $form['name'] = array(
     '#type' => 'textfield',
+    '#maxlength' => 255,
     '#autocomplete_path' =>  'biblio/autocomplete/contributor',
     '#default_value' => isset($contributor['name']) ? $contributor['name'] : '',
   );
@@ -1554,6 +1579,9 @@ function _biblio_prepare_submit(&$node) {
       $node->biblio_formats[$field] = $node->{$field}['format'];
       $node->$field = $node->{$field}['value'];
     }
+    else {
+      $node->biblio_formats[$field] = filter_default_format();
+    }
   }
 }
 /**
@@ -1570,8 +1598,8 @@ function biblio_insert($node) {
   biblio_insert_contributors($node);
   biblio_insert_keywords($node);
   $node->biblio_coins = biblio_coins($node);
-  drupal_write_record('biblio', $node);
   $duplicate = biblio_hash($node);
+  drupal_write_record('biblio', $node);
   if (isset($duplicate) && $duplicate != $node->nid) { // if this is a potential duplcate, write the nids of the pre-existing and new nodes
     $dup_map = array('vid' => $duplicate, 'did' => $node->nid);
     drupal_write_record('biblio_duplicates', $dup_map);
@@ -1661,6 +1689,9 @@ function biblio_load($nodes) {
     if ($record['biblio_formats'] != NULL) {
       $nodes[$record['nid']]->biblio_formats = unserialize($record['biblio_formats']);
     }
+    else {
+      $nodes[$record['nid']]->biblio_formats = array();
+    }
 
   }
 }
@@ -1694,6 +1725,7 @@ function biblio_view($node, $buildmode = 'full') {
 
   switch ($buildmode) {
     case 'full':
+    case 'print':
       if (variable_get('biblio_hide_bibtex_braces', 0) && !isset($node->view )) {
         $node->title = biblio_remove_brace($node->title);
         drupal_set_title(filter_xss($node->title, biblio_get_allowed_tags()));
@@ -1702,7 +1734,10 @@ function biblio_view($node, $buildmode = 'full') {
       switch (variable_get('biblio_node_layout', 'tabular')) {
         case 'orig' :
         case 'ft' :
-          $node->content['body']['#markup'] = theme('biblio_long', array('node' => $node, 'base' => $base, 'style' => $style));
+          $node->content['body']['#markup'] = theme('biblio_long', array('node' => $node, 'base' => $base, 'style_name' => $style));
+          break;
+        case 'cite':
+          $node->content['body']['#markup'] = theme('biblio_style', array('node' => $node, 'base' => $base, 'style_name' => $style));
           break;
         case 'tabular' :
         default :
@@ -1858,11 +1893,11 @@ function biblio_get_db_fields() {
  *******************************************/
 function _biblio_citekey_print($citekey) {
 
-  $nid = db_query("SELECT nid FROM {biblio} WHERE biblio_citekey = :key", array(':key' => $citekey))->fetchObject();
-  if ($nid->nid > 0) {
+  $nid = db_query("SELECT nid FROM {biblio} WHERE biblio_citekey = :key", array(':key' => $citekey))->fetchField();
+  if ($nid) {
     $style = biblio_get_style();
     $base = variable_get('biblio_base', 'biblio');
-    $node = node_load($nid->nid);
+    $node = node_load($nid);
     return theme('biblio_style', array('node' => $node, 'base' => $base, 'style' => $style));
   }
   else {
@@ -2054,64 +2089,6 @@ function biblio_hash($node) {
   return $duplicate; //return the nid of the potential duplicate
 }
 
-function biblio_token_info() {
-
-  $node['biblio_year'] = array(
-    'name' => t("Biblio: Publication year"),
-    'description' => '',
-  );
-  $node['biblio_authors'] = array(
-    'name' => t("Biblio: Authors"),
-    'description' => '',
-  );
-  $node['biblio_type_id'] = array(
-    'name' => t("Biblio: Type ID (e.g.: 100)"),
-    'description' => '',
-  );
-  $node['biblio_type'] = array(
-    'name' => t("Biblio: Type Name (e.g.: book)"),
-    'description' => '',
-  );
-  $node['biblio_citekey'] = array(
-    'name' => t("Biblio: Cite Key often used in BibTex files"),
-    'description' => '',
-  );
-
-  return array('tokens' => array('node' => $node),
-  );
-}
-
-function biblio_tokens($type, $tokens, $data = array(), $options = array()) {
-  $replacements = array();
-  if ($type == 'node' && !empty($data['node']) && $data['node']->type == 'biblio') {
-    $node = $data['node'];
-    foreach ($tokens as $name => $original) {
-      switch ($name) {
-        // Simple key values on the node.
-        case 'biblio_year':
-          $replacements[$original] = check_plain($node->biblio_year);
-          break;
-        case 'biblio_authors':
-          $replacements[$original] = check_plain($node->biblio_contributors[0]['lastname']);;
-          break;
-        case 'biblio_type_id':
-          $replacements[$original] = check_plain($node->biblio_type);
-          break;
-        case 'biblio_citekey':
-          $replacements[$original] = check_plain($node->biblio_citekey);
-          break;
-        case 'biblio_type':
-          $type = db_query('SELECT name FROM {biblio_types} as t WHERE t.tid = :tid', array(':tid' => $node -> biblio_type))->fetchField();
-          $replacements[$original] = check_plain($type);
-          break;
-
-      }
-    }
-  }
-
-  return $replacements;
-}
-
 function _biblio_profile_access($user, $type = 'profile') {
   if ($type == 'profile') {
     $key = 'biblio_show_profile';
@@ -2138,7 +2115,7 @@ function biblio_get_style() {
   if (isset($user->data['biblio_user_style']) && $user->data['biblio_user_style'] != "system") {
     return $user->data['biblio_user_style'];
   }
-  return  module_exists('biblio_citeproc') ? variable_get('biblio_citeproc_style', 'cse.csl') : variable_get('biblio_style', 'cse');
+  return  module_exists('biblio_citeproc') ? variable_get('biblio_citeproc_style', 'ieee.csl') : variable_get('biblio_style', 'cse');
 }
 
 function biblio_get_styles() {
@@ -2211,14 +2188,18 @@ function biblio_get_map($type, $format) {
     ->condition('format', $format)
     ->execute()
     ->fetchField();
+
   $map = unserialize($result);
+
   if ($type == 'export_map' && empty($map)) {
     $schema = drupal_get_schema('biblio');
     $fieldnames = array_keys($schema['fields']);
     asort($fieldnames);
     $map = array_fill_keys($fieldnames, 1);
   }
- return $map;
+
+  drupal_alter('biblio_map', $map, $type, $format);
+  return $map;
 }
 
 function biblio_save_map($maps) {
