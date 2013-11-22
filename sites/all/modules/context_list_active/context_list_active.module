@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ * context_list_active module
+ */
+
+function context_list_active() {
+  $items = array();
+
+  $items['admin/context-list-active'] = array(
+    'title' => 'List active contexts',
+    'page callback' => 'context_list_active_page_build',
+    'page arguments' => array(),
+    'access arguments' => array('administer contexts'),
+    'weight' => 50,
+    'type' => MENU_LOCAL_TASK
+  );
+
+  return $items;
+}
+
+
+
+
+/**
+ * Implements hook_page_build().
+ */
+function context_list_active_page_build(&$page) {
+  // Don't show active contexts unless the user has 'administer contexts' permissions
+  if (!user_access('administer contexts')) {
+    return;
+  }
+
+  // Include our CSS and JS
+  $path_to_module = drupal_get_path('module', 'context_list_active');
+  drupal_add_css("$path_to_module/context_list_active.css");
+  drupal_add_js("$path_to_module/context_list_active.js", array('scope' => 'footer', 'weight' => 10000));
+
+  // Get all the active contexts on this page
+  $contexts = context_active_contexts();
+
+  // Iterate through each active context and add it to a table row, with edit links and descriptions
+  $rows = array();
+  $header = array('Context', 'Conditions', 'Reactions');
+  foreach ($contexts as $context) {
+    $row = array(
+      l($context->name, 'admin/structure/context/list/' . $context->name .'/edit') . '<div class="description">'. $context->description .'</div>',
+      context_list_conditions($context->conditions),
+      context_list_reactions($context->reactions),
+    );
+
+    // Add the row
+    $rows[] = $row;
+  }
+
+  // Build the renderable array for the table
+  $table = array(
+    '#caption' => 'Active contexts',
+    '#theme' => 'table',
+    '#rows' => $rows,
+    '#header' => $header,
+    '#empty' => t('There are no active contexts for this page.'),
+  );
+
+  $page['page_bottom']['context_list_active'] = array(
+    '#type' => 'container',
+    '#attributes' => array('id' => 'context_list_active'),
+    'container' => array(
+      '#type' => 'container',
+      '#attributes' => array('id' => 'context_list_active-overlay'),
+      'table' => $table,
+      'close' => array('#markup' => '<a class="context-list-active-toggle" href="javascript:;" >Close [X}</a>'),
+    ),
+    'fade' => array('#markup' => '<div id="context_list_active-fade"></div>')
+  );
+
+  // If the admin menu is present, we'll let javascript add a menu item into it, otherwise we'll put a link at
+  // the bottom of the page
+  if(!module_exists('admin_menu')) {
+    // Add toggle link:
+    $page['page_bottom']['context_list_active']['toggle'] = array(
+      '#markup' => '<a class="context-list-active-toggle" href="javascript:;" >Toggle context browser</a>',
+    );
+  }
+}
