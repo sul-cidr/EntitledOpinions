@@ -6,3 +6,4 @@ if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS'])) {
 }
 
 $conf['allow_authorize_operations'] = FALSE;
+$conf['image_allow_insecure_derivatives'] = TRUE;
