@@ -1,0 +1,6 @@
+Stanford Courses x.x-x.x, xxxx-xx-xx
+------------------------------------
+
+Stanford Courses 7.x-3.0-alpha1, 2014-03-11
+--------------------------------------------
+- Initial Version 3 Release.
