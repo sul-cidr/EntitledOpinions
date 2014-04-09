@@ -1,0 +1,8 @@
+Stanford Image Styles x.x-x.x xxxx-xx-xx
+--------------------------------------
+
+Stanford Image 7.x-3.0-alpha1 2014-03-11
+----------------------------------------
+- Jumpstart Product Compatible Version
+- Features 2.x Compatible
+- Restored a number of image styles view modes and sizes.
