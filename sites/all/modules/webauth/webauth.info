@@ -1,17 +1,9 @@
 name = WebAuth
 description = Authenticates users through WebAuth.
-version = 7.x-3.1
+version = 7.x-3.2
 core = 7.x
 project = "webauth"
 package = "Stanford"
 configure = admin/config/webauth
 project status url = "https://drupalfeatures.stanford.edu/fserver/webauth/7.x"
 files[] = WebAuthSession.inc
-
-; <- FSERVER AUTOMATED AREA //START ->
-core = "7.x"
-datestamp = "1342209299"
-project = "webauth"
-project status url = "https://drupalfeatures.stanford.edu/projects"
-version = "7.x-3.1"
-; <- FSERVER AUTOMATED AREA //END ->

@@ -40,8 +40,9 @@ function webauth_boot() {
   elseif (isset($_COOKIE["WMDsecureLogin"]) && $_COOKIE["WMDsecureLogin"]) {
     // An session seems to exist, but we are not in HTTPs.
     // Redirect so we can start secure session.
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
     global $base_url;
-    $url = $base_url . '?q=' . $_GET['q'];
+    $url = $base_url . '/' . drupal_get_path_alias($_GET['q']);
     $url = str_replace('http://', 'https://', $url);
     header("Location: $url");
   }
@@ -75,8 +76,7 @@ function webauth_init() {
   // the user is logged in as a WebAuth user and:
   // either the user no longer has a webauth_at cookie
   // or the user's token has expired, or is not there
-  $no_check_php_loop = (bool) (array_pop(explode('/', $_GET['q'])) != 'check.php');
-  if ($user->uid > 0 && $no_check_php_loop) {
+  if ($user->uid > 0) {
     // We only want to go further if this user is authenticated via WebAuth
     if (db_query("SELECT * FROM {authmap} WHERE uid = :uid and module = :module", array(':uid' => $user->uid, ':module' => 'webauth'))->fetchField()) {
       if ((!isset($_COOKIE['webauth_at'])) ||
@@ -554,6 +554,14 @@ function webauth_user_delete($account) {
     ->execute();
 }
 
+/**
+ * Implements hook_user_role_delete().
+ */
+
+function webauth_user_role_delete($role) {
+  db_delete('webauth_roles')->condition('rid', $role->rid)->execute();
+}
+
 
 /**
  * Implements hook_user_logout().
@@ -595,7 +603,7 @@ function webauth_grant_roles(&$edit, &$account) {
     $current = array();
 
     // Find all roles that are in the webauth_roles table and add any ones that user is in.
-    $result = db_query("SELECT r.rid, r.name, wr.wa_group AS `group`, wr.warid FROM {webauth_roles} wr INNER JOIN {role} r ON r.rid = wr.rid");
+    $result = db_query("SELECT r.rid, r.name, wr.wa_group AS \"group\", wr.warid FROM {webauth_roles} wr INNER JOIN {role} r ON r.rid = wr.rid");
     while ($role = $result->fetchObject()) {
       if (in_array($role->group, $groups)) {
         $new['roles'][$role->rid] = $role->name;
@@ -667,7 +675,7 @@ function webauth_write_htaccess() {
   $rewrite_url = '';
 
   // Get all the available groups
-  $result = db_query("SELECT DISTINCT(wa_group) AS `group` FROM {webauth_roles} WHERE rid > :rid", array(':rid' => 2));
+  $result = db_query("SELECT DISTINCT(wa_group) AS \"group\" FROM {webauth_roles} WHERE rid > :rid", array(':rid' => 2));
   while ($group = $result->fetchField()) {
     $groups[] = $group;
   }
