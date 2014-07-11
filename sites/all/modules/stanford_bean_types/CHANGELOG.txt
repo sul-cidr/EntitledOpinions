@@ -1,0 +1,8 @@
+Stanford Bean Types x.x-x.x xxxx-xx-xx
+--------------------------------------
+
+Stanford Bean Types 7.x-2.0-alpha1 2014-03-11
+---------------------------------------------
+- Features 2.x Compatible Version
+- Split out permissions so module may be used in installation profile
+- Create generic bean class to support all exported beans
