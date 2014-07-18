@@ -1,14 +1,11 @@
 <?php
-// $Id$
-
 /**
  * @file
  * Context Respect module file.
  */
 
-
 /*
- * hook_ctools_plugin_api
+ * Implements hook_ctools_plugin_api().
  */
 function context_respect_ctools_plugin_api($module, $api) {
   if ($module == 'context' && $api == 'plugins') {
@@ -16,8 +13,8 @@ function context_respect_ctools_plugin_api($module, $api) {
   }
 }
 
-/*
- * hook_context_plugins
+/**
+ * Implements hook_context_plugins().
  */
 function context_respect_context_plugins() {
   $plugins['context_respect_reaction_block'] = array(
@@ -41,8 +38,8 @@ function context_respect_context_plugins() {
   return $plugins;
 }
 
-/*
- * hook_context_registry_alter
+/**
+ * Implements hook_context_registry_alter().
  */
 function context_respect_context_registry_alter(&$registry) {
   if (!empty($registry['reactions']['block'])) {
@@ -59,18 +56,18 @@ function context_respect_context_registry_alter(&$registry) {
  *
  * By default, when context respect is installed all core block display settings will be
  * followed. This setting allows them to be ignored on a block-by-block level as there are use
- * cases where context should determine display options and "disrespect" context respect.... dawg!
+ * cases where context should determine display options and "disrespect" context respect.
  */
 function context_respect_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id != 'block_admin_configure') {
     return;
   }
-  
+
   $block = new stdClass();
   $block->bid = "{$form['module']['#value']}-{$form['delta']['#value']}";
   $ignore_page = _context_respect_get_override('context_respect_override_page', $block);
   $ignore_role = _context_respect_get_override('context_respect_override_role', $block);
-  
+
   $form['visiblity']['context_respect'] = array(
     '#type' => 'fieldset',
     '#title' => t('Context Respect'),
@@ -95,21 +92,21 @@ function context_respect_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_form_submit
+ * Implements hook_form_submit().
  */
 function context_respect_form_submit($form, &$form_state) {
   $block = new stdClass();
   $block->bid = "{$form['module']['#value']}-{$form['delta']['#value']}";
   $page_value = isset($form_state['values']['ignore_page']) ?  $form_state['values']['ignore_page'] : FALSE;
   $role_value = isset($form_state['values']['ignore_role']) ?  $form_state['values']['ignore_role'] : FALSE;
-  
+
   if($page_value) {
     _context_respect_set_override('context_respect_override_page',$block, 1);
   }
   else {
     _context_respect_del_override('context_respect_override_page', $block);
   }
-  
+
   if($role_value) {
     _context_respect_set_override('context_respect_override_role',$block, 1);
   }
@@ -124,6 +121,7 @@ function context_respect_form_submit($form, &$form_state) {
  *  - The override name (context_respect_override_role, context_respect_override_page)
  * @param $block
  *   - A block object
+ * @return bool|mixed
  */
 function _context_respect_get_override($name, $block) {
   $overrides = variable_get($name, false);

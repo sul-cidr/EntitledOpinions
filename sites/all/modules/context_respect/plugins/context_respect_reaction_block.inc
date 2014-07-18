@@ -17,7 +17,7 @@ class context_respect_reaction_block extends context_reaction_block {
   function block_list($region) {
     module_load_include('module', 'block', 'block');
 
-    $context_blocks = &drupal_static('context_reaction_block_list');;
+    $context_blocks = &drupal_static('context_reaction_block_list');
     $contexts = context_active_contexts();
     if (!isset($context_blocks)) {
       $info = $this->get_blocks();
@@ -34,17 +34,17 @@ class context_respect_reaction_block extends context_reaction_block {
 
             // Check role access
             $role_match = $this->check_role_match($block);
-            
+
             // Check path access
             $page_match = $this->check_page_match($block);
 
-            if($page_match && $role_match) {
+            if ($page_match && $role_match) {
               $context_blocks[$block->region][$block->bid] = $block;
             }
           }
         }
       }
-      
+
       $this->is_editable_check($context_blocks);
       foreach ($context_blocks as $r => $blocks) {
         $context_blocks[$r] = _block_render_blocks($blocks);
@@ -75,43 +75,39 @@ class context_respect_reaction_block extends context_reaction_block {
    */
   protected function check_role_match($block) {
     global $user;
-    
+    $role_match = FALSE;
+
     // Check for overriden variables
-    $overrides = variable_get('context_respect_override_role',false);
-    if($overrides) {
-      foreach($overrides as $or_bid => $or_val) {
-        if($or_bid == $block->bid) {
+    $overrides = variable_get('context_respect_override_role', false);
+    if ($overrides) {
+      foreach ($overrides as $or_bid => $or_val) {
+        if ($or_bid == $block->bid) {
           return $or_val;
         }
       }
     }
-    
-    // Always return true for admin user
-    if($user->uid == 1) {
-      return TRUE;
-    }
-    
+
     $rids = array_keys($user->roles);
     $result = db_query("SELECT rid FROM {block_role} b WHERE b.delta = :delta and b.module = :module", array(':delta' => $block->delta, ':module' => $block->module));
-    
+
     // if the block has no roles, return TRUE until they choose to use visibility settings
     if (!$result->rowCount()) {
       return TRUE;
     }
-    
+
     foreach($result as $b) {
       if(in_array($b->rid, $rids)) {
         $role_match = TRUE;
       }
     }
-    
+
     return $role_match;
   }
-  
+
   /**
    * Helper function for determining if page level access is granted to current
    * block.
-   * 
+   *
    * @param $block
    *  A block object.
    *
@@ -120,7 +116,7 @@ class context_respect_reaction_block extends context_reaction_block {
    */
   protected function check_page_match($block) {
     // Check for overriden variables
-    $overrides = variable_get('context_respect_override_page',false);
+    $overrides = variable_get('context_respect_override_page', false);
     if($overrides) {
       foreach($overrides as $or_bid => $or_val) {
         if($or_bid == $block->bid) {
@@ -128,27 +124,27 @@ class context_respect_reaction_block extends context_reaction_block {
         }
       }
     }
-    
+
     $block_data = db_query("SELECT pages, visibility FROM {block} b where b.delta = :delta and b.module = :module", array(':delta' => $block->delta, ':module' => $block->module))->fetch();
     $page_match = TRUE;
-    
+
     // Bypass check if there are no pages set for a block
-    if (!$block_data->pages || drupal_match_path($_GET['q'], 'admin/structure/context*') || !$block_data) {
+    if (!empty($block_data) && !$block_data->pages || drupal_match_path($_GET['q'], 'admin/structure/context*') || !$block_data) {
       return TRUE;
     }
-    if($block_data->visibility < 2) {
+    if(!empty($block_data) && $block_data->visibility < 2) {
       $path = drupal_get_path_alias($_GET['q']);
       $page_match = drupal_match_path($path, $block_data->pages);
       if ($path != $_GET['q']) {
         $page_match = $page_match || drupal_match_path($_GET['q'], $block_data->pages);
       }
-      // When $block->visibility has a value of 0, the block is displayed on
-      // all pages except those listed in $block->pages. When set to 1, it
-      // is displayed only on those pages listed in $block->pages.
+      // When $block_data->visibility has a value of 0, the block is displayed on
+      // all pages except those listed in $block_data->pages. When set to 1, it
+      // is displayed only on those pages listed in $block_data->pages.
       $page_match = !($block_data->visibility xor $page_match);
     }
-    elseif (module_exists('php')) {
-      $page_match = php_eval($block->pages);
+    elseif (!empty($block_data) && module_exists('php')) {
+      $page_match = php_eval($block_data->pages);
     }
     return $page_match;
   }
