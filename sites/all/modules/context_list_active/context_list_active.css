@@ -32,3 +32,7 @@
   height: 100%;
   z-index: 90; /* makes the div the second most top layer, so it’ll lay on top of everything else EXCEPT for divs with a higher z-index (meaning the #overlay ruleset) */
 }
+
+#context_list_active-overlay table {
+  width: 100%;
+}

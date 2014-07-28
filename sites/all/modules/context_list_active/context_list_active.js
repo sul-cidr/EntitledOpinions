@@ -19,6 +19,6 @@
     }
 
     // It seems to be difficult to get these adjustments to run after admin menu - using this hacky timeout for now
-    setTimeout(alterAttach, 300);
+    setTimeout(alterAttach, 750);
   }); //END - document.ready
 })(jQuery, Drupal, this, this.document); //END - Closure
