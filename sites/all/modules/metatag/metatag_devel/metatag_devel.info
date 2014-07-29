@@ -1,8 +1,9 @@
-name = Meta Tag Test
-description = Testing module for metatag.module
+name = Metatag:Devel
+description = Provides development / debugging functionality for the Metatag module. Integrates with Devel Generate.
+package = Development
 core = 7.x
+tags[] = developer
 dependencies[] = metatag
-hidden = TRUE
 
 ; Information added by Drupal.org packaging script on 2014-07-12
 version = "7.x-1.0-rc1"
