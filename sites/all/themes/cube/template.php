@@ -4,7 +4,8 @@
  * Preprocessor for htmk.
  */
 function cube_preprocess_html(&$vars) {
-  
+    $cube_width = theme_get_setting('cube_width');
+    $vars['classes_array'][] = ($cube_width ? $cube_width : 'fixed');
 }
 
 /**
@@ -40,6 +41,12 @@ function cube_preprocess_page(&$vars) {
   // Display tabs
   $vars['primary_tabs'] = menu_primary_local_tasks();
   $vars['secondary_tabs'] = menu_secondary_local_tasks();
+
+  if(isset($vars['title_suffix']['add_or_remove_shortcut'])) {
+      $vars['add_or_remove_shortcut'] = $vars['title_suffix']['add_or_remove_shortcut'];
+      unset($vars['title_suffix']['add_or_remove_shortcut']);
+  }
+
 }
 
 function cube_preprocess_overlay(&$vars) {

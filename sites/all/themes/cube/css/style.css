@@ -15,7 +15,12 @@ a {
 
 .limiter { width:960px; }
 
-#top { background:url(images/cube.png) 0px -60px repeat-x; margin-bottom: 15px;}
+body.fluid .limiter {
+    width:auto !important;
+    margin: 0px 30px !important;
+}
+
+#top { background:url(../images/cube.png) 0px -60px repeat-x; margin-bottom: 15px;}
 
 /**
  * Branding ===========================================================
@@ -23,7 +28,7 @@ a {
 #branding {
   -moz-border-radius:5px 5px 0px 0px;
   -webkit-border-radius:5px 5px 0px 0px;
-  background:url(images/cube.png) 0px 0px repeat-x;
+  background:url(../images/cube.png) 0px 0px repeat-x;
 
   font-size:11px;
   text-shadow:#000 0px 1px 0px;
@@ -57,7 +62,7 @@ a {
 
   #branding .breadcrumb span.breadcrumb-link {
     float:left;
-    background:url(images/cube.png) 100% -35px no-repeat;
+    background:url(../images/cube.png) 100% -35px no-repeat;
     padding:0px 20px 0px 5px;
     }
 
@@ -111,7 +116,7 @@ a {
   #page-title ul.links li.active a,
   #page-title ul.links li a.active {
     color:#fff;
-    background:#08c url(images/cube.png) 0px -160px repeat-x;
+    background:#08c url(../images/cube.png) 0px -160px repeat-x;
     }
 
   #page-title ul.links li a:hover { color:#fff; }
@@ -177,6 +182,9 @@ div.pager,
     border-color:#ccc #ddd #eee;
     }
 
+  #tabs {
+      margin-bottom: 15px;
+  }
   #tabs .page-tabs ul.links {
     float:none;
     height:30px;
@@ -228,7 +236,7 @@ div.pager,
   .pager li.pager-current,
   #tabs .page-tabs li.active a,
   #tabs .page-tabs li a.active {
-    background:#08c url(images/cube.png) 0px -190px repeat-x;
+    background:#08c url(../images/cube.png) 0px -190px repeat-x;
     color:#fff;
     }
 
@@ -291,7 +299,7 @@ div.pager,
  */
 input.form-submit:hover {
   border-color:#08a #08a #046;
-  background:#08c url(images/cube.png) 0px -190px repeat-x;
+  background:#08c url(../images/cube.png) 0px -190px repeat-x;
   color:#fff;
   }
 
@@ -308,7 +316,7 @@ div.messages {
 }
 
 .block .block-title {
-  background:#08c url(images/cube.png) 0px -190px repeat-x;
+  background:#08c url(../images/cube.png) 0px -190px repeat-x;
   color:#fff;
   }
 
@@ -367,7 +375,7 @@ div.node {
   border-width:1px;
   border-color:#ccc #ddd #eee;
 
-  background:#fff url(images/vrule.png) 65% 0% repeat-y;
+  background:#fff url(../images/vrule.png) 65% 0% repeat-y;
   margin:0px 0px 10px;
 
   -moz-box-shadow:#fff 0px 1px 0px;
