@@ -1,8 +1,8 @@
 name = Stanford Slides
-description = Content type (Stanford Slide) and slideshow View, incorporating the Stanford Image Field Collection
+description = Content type (Stanford Slide) and slideshow View, incorporating the Stanford Image Field Collection plus Manage Content View
 core = 7.x
 package = Stanford
-version = 7.x-3.0-alpha1
+version = 7.x-3.0-alpha4
 project = stanford_slides
 dependencies[] = ctools
 dependencies[] = features
@@ -60,4 +60,5 @@ features[variable][] = node_submitted_stanford_slide
 features[variable][] = pathauto_taxonomy_term_stanford_slide_category_pattern
 features[variable][] = save_continue_stanford_slide
 features[views_view][] = stanford_slides
+features[views_view][] = stanford_slides_manage
 project status url = http://drupalfeatures.stanford.edu/fserver/stanford_slides/7.x
