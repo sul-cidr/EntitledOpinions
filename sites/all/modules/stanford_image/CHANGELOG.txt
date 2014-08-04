@@ -1,7 +1,16 @@
 Stanford Image x.x-x.x xxxx-xx-xx
 --------------------------------------
 
-Stanford Image 7.x-3.0-alpha2 2014-03-11
+Stanford Image 7.x-3.0-alpha3 2014-05-16
+----------------------------------------
+- BASIC-747 | Removed all trimmed text and set to default
+
+Stanford Image 7.x-3.0-alpha2 2014-03-31
+----------------------------------------
+Changes since 7.x-3.0-alpha2:
+-Removed trimmed text for default view on 9-col-banner
+
+Stanford Image 7.x-3.0-alpha1 2014-03-11
 ----------------------------------------
 - Features 2.x compatible version.
 - Restored a number of view modes and image styles.
