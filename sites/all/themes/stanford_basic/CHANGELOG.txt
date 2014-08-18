@@ -1,0 +1,21 @@
+Version 7.x-1.4 2013-03-25
+------------------------------
+by hyperboy: Added default values for theme settings
+by hyperboy: Minor CSS fixes
+
+Version 7.x-1.3 2012-06-28
+------------------------------
+by hyperboy: Updated background image upload options in theme settings
+by hyperboy: Updated spacing between header and content sections
+
+Version 7.x-1.2 2012-06-19
+------------------------------
+by hyperboy: Updated sidebar names in CSS
+
+Version 7.x-1.1 2012-05-18
+------------------------------
+by hyperboy: Updated sidebar block region names
+
+Version 7.x-1.0
+------------------------------
+by hyperboy: Initial Release
