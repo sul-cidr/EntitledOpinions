@@ -1,7 +1,7 @@
 name = Stanford Basic
 description = Tableless, multi-column theme provided by <a href="http://itservices.stanford.edu">IT Services</a>. Recommended for personal and group sites.
 core = 7.x
-version = 1.4
+version = 7.x-1.4-beta2
 
 stylesheets[all][] = css/stanford_basic.css
 stylesheets[only screen and (max-width: 640px)][] = css/mobile.css
