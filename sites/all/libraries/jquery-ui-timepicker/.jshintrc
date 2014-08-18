@@ -1,4 +1,5 @@
 {
+	"evil": true,
 	"curly": true,
 	"eqeqeq": true,
 	"immed": true,
@@ -7,8 +8,10 @@
 	"noarg": true,
 	"sub": true,
 	"undef": true,
-	"unused": true,
+	"unused": false,
+	"loopfunc": true,
 	"boss": true,
 	"eqnull": true,
-	"node": true
+	"browser": true,
+	"predef": ["jQuery"]
 }
