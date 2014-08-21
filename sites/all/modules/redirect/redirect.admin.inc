@@ -42,9 +42,6 @@ function redirect_list_form($form, &$form_state) {
     '#title' => t('Update options'),
     '#prefix' => '<div class="container-inline">',
     '#suffix' => '</div>',
-    '#attributes' => array(
-      'class' => array('redirect-list-operations'),
-    ),
   );
   $operations = array();
   foreach ($form['#operations'] as $key => $operation) {
@@ -134,14 +131,6 @@ function redirect_list_form($form, &$form_state) {
     '#header' => $header,
     '#options' => $rows,
     '#empty' => t('No URL redirects available.'),
-    '#attributes' => array(
-      'class' => array('redirect-list-tableselect'),
-    ),
-    '#attached' => array(
-      'js' => array(
-        drupal_get_path('module', 'redirect') . '/redirect.admin.js',
-      ),
-    ),
   );
   if (redirect_access('create', 'redirect')) {
     $form['rids']['#empty'] .= ' ' . l(t('Add URL redirect.'), 'admin/config/search/redirect/add', array('query' => $destination));
@@ -336,15 +325,11 @@ function redirect_edit_form($form, &$form_state, $redirect = NULL) {
     '#type' => 'value',
     '#value' => $redirect->hash,
   );
-  $form['uid'] = array(
-    '#type' => 'value',
-    '#value' => $redirect->uid,
-  );
 
   $form['source'] = array(
     '#type' => 'textfield',
     '#title' => t('From'),
-    '#description' => t("Enter an internal Drupal path or path alias to redirect (e.g. %example1 or %example2). Fragment anchors (e.g. %anchor) are <strong>not</strong> allowed.", array('%example1' => 'node/123', '%example2' => 'taxonomy/term/123', '%anchor' => '#anchor')),
+    '#description' => t("Enter an interal Drupal path or path alias to redirect (e.g. %example1 or %example2). Fragment anchors (e.g. %anchor) are <strong>not</strong> allowed.", array('%example1' => 'node/123', '%example2' => 'taxonomy/term/123', '%anchor' => '#anchor')),
     '#maxlength' => 560,
     '#default_value' => $redirect->rid || $redirect->source ? redirect_url($redirect->source, $redirect->source_options + array('alter' => FALSE)) : '',
     '#required' => TRUE,
@@ -469,7 +454,7 @@ function redirect_element_validate_redirect($element, &$form_state) {
   // Normalize the path.
   $value = drupal_get_normal_path($value, $form_state['values']['language']);
 
-  if (!valid_url($value) && !valid_url($value, TRUE) && $value != '<front>' && $value != '' && !file_exists($value)) {
+  if (!valid_url($value) && !valid_url($value, TRUE) && $value != '<front>' && $value != '') {
     form_error($element, t('The redirect path %value is not valid.', array('%value' => $value)));
   }
 
