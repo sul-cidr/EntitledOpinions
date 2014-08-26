@@ -62,7 +62,9 @@ function webauth_extras_waau_config_form_submit($form, &$form_state) {
   $name = $form_state['values']['name'];
   $email = $form_state['values']['email'];
   $makeadmin = $form_state['values']['makeadmin'];
-  webauth_extras_add_user($sunetid, $name, $email, $makeadmin);
+  $form_state['rebuild'] = TRUE;
+  return webauth_extras_add_user($sunetid, $name, $email, $makeadmin);
+  
 }
 
 /**
@@ -122,7 +124,14 @@ function webauth_extras_waau_config_form_validate($form, &$form_state) {
   $form_state['values']['email'] = $email;
 
 }
-
+/**
+ * Add a WMD user.
+ * @param string $sunet the SUNetID of the user
+ * @param string $name the user name
+ * @param string $email the email address
+ * @param boolean $makeadmin make the user an administrator
+ * @return the uid of the user if created; FALSE otherwise
+ */
 function webauth_extras_add_user($sunet = '', $name = '', $email = '', $makeadmin = FALSE) {
   $sunet = strtolower(trim($sunet));
   $authname = $sunet . '@stanford.edu';
@@ -142,8 +151,9 @@ function webauth_extras_add_user($sunet = '', $name = '', $email = '', $makeadmi
 
   // Make the user an admin if the make-admin flag was set
   if ($makeadmin) {
-    $admin_role = user_role_load_by_name('administrator');
-    $roles[$admin_role->rid] = TRUE;
+    //$admin_role = user_role_load_by_name('administrator');
+    $admin_rid = variable_get('user_admin_role', user_role_load_by_name('administrator')->rid);
+    $roles[$admin_rid] = TRUE;
   }
 
   $account->roles = $roles;
@@ -155,4 +165,10 @@ function webauth_extras_add_user($sunet = '', $name = '', $email = '', $makeadmi
   watchdog('WebAuth','Created user: %user', array('%user' => $name));
   $message = t('Successfully created WebAuth account for %user', array('%user' => $name));
   drupal_set_message($message);
+  if(isset($account->uid)){
+    return $account->uid;
+  }
+  else {
+    return FALSE;
+  }
 }

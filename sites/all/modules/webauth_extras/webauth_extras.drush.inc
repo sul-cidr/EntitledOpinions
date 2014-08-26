@@ -34,6 +34,10 @@ function webauth_extras_drush_command() {
     ),
     'aliases' => array('wamr'),
   );
+  $items['webauth-write-htaccess'] = array(
+    'description' => 'Write the WebAuth .htaccess file to disk. Performs the same function as saving the configuration through the GUI.',
+    'aliases' => array('wawh'),
+  );
   return $items;
 }
 
@@ -151,4 +155,22 @@ function drush_webauth_extras_webauth_map_role_validate($workgroup, $role) {
   if(!$role) {
     return drush_set_error('NO_ROLE_EXISTS', dt('No such role with that name exists. Check your spelling  and try again.'));
   }
+  $query = db_query("SELECT * FROM {webauth_roles} WHERE rid = :rid AND wa_group = :wa_group",
+    array(':rid' => $role->rid, ':wa_group' => $workgroup));
+  if ($query->fetchField()) {
+    return drush_set_error('MAPPING_EXISTS', dt('This workgroup is already mapped to this Drupal role!'));
+  }
+  if (preg_match("/^[-_\w\d\~]+:[\w\d-_]+$/", $workgroup) == 0) {
+    return drush_set_error('WORKGROUP_NAME', dt('There was an error in your workgroup name. Please make sure you entered it correctly.'));
 }
+
+}
+
+/**
+ * Implements drush_COMMANDFILE_COMMANDNAME().
+ */
+function drush_webauth_extras_webauth_write_htaccess() {
+  //write to the .htaccess
+  webauth_write_htaccess();
+}
+
