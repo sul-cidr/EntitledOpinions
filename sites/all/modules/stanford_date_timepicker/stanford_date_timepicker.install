@@ -23,7 +23,7 @@ function stanford_date_timepicker_uninstall() {
   variable_del('stanford_date_timepicker_default_date_format');
   variable_del('stanford_date_timepicker_default_time_format');
   variable_del('stanford_date_timepicker_default_separator');
-  variable_det('stanford_date_timepicker_minute_increment');
+  variable_del('stanford_date_timepicker_minute_increment');
 
 }
 

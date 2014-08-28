@@ -85,6 +85,13 @@ function stanford_date_timepicker_date_popup_element_process($element, &$form_st
   $element['#tree'] = TRUE;
   $element['#theme_wrappers'] = array('date_popup');
 
+  if (!empty($element['#ajax'])) {
+    $element['#ajax'] += array(
+      'trigger_as' => array('name' =>$element['#name']),
+      'event' => 'change',
+    );
+  }
+
   // Date popup does a good job at formatting the date and time field.
   // Lets let it continue to do that.
   $element['date'] = date_popup_process_date_part($element);
@@ -93,10 +100,6 @@ function stanford_date_timepicker_date_popup_element_process($element, &$form_st
   // Add new timepicker variable for us to override with.
   $element['date']['#attributes']['class'][] = 'stanford-datepicker';
   $element['time']['#attributes']['class'][] = 'stanford-timepicker';
-
-  // We will add a rel field here in order for use in the JS. The field name
-  // is the key in the settings array for the field.
-  $element['time']['#attributes']['rel'][] = $element['#field']['field_name'];
 
   // Process the formats based on the settings supplied in the settings form.
   $granularity = date_format_order($element['#date_format']);
@@ -116,7 +119,7 @@ function stanford_date_timepicker_date_popup_element_process($element, &$form_st
   );
 
   // Some special consideration has to be met. Process the field settings.
-  $id = stanford_date_timepicker_js_settings_id($element['#id'], $element['#field']['field_name'], $settings);
+  $id = stanford_date_timepicker_js_settings_id($element['#id'], $settings);
 
   // Add validation to the fields. date_popup does this and can continue to.
   if (isset($element['#element_validate'])) {
@@ -140,11 +143,10 @@ function stanford_date_timepicker_date_popup_element_process($element, &$form_st
  * Create and set the javascript settings for the field. This function handles
  * druplication and 'add another' functionality by keying the fields.
  * @param  integer $id  The elements unique id.
- * @param  string  $field_name  The name of the field being processed.
  * @param  array $settings an array of field configuration options.
  * @return [type]           [description]
  */
-function stanford_date_timepicker_js_settings_id($id, $field_name, $settings) {
+function stanford_date_timepicker_js_settings_id($id, $settings) {
   static $id_count = array();
 
   // We use a static array to account for possible multiple form_builder()
@@ -243,7 +245,7 @@ function stanford_date_timepicker_js_alter(&$javascript) {
   foreach($javascript['settings']['data'] as $index => $type) {
     if(isset($type['datePopup']) && is_array($type['datePopup'])) {
       $setting = array_pop($type['datePopup']);
-      if($setting['func'] == 'timeEntry') {
+      if(isset($setting['func']) && $setting['func'] == 'timeEntry') {
         unset($javascript['settings']['data'][$index]);
       }
     }

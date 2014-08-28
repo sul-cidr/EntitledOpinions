@@ -1,13 +1,7 @@
 core = "7.x"
 name = "Stanford Date Time Picker"
+version = 7.x-1.0-alpha2
 description = "Adds a new timepicker option for datetime fields, providing a better ui for the timepicker."
 package = "Stanford"
 dependencies[] = libraries
 dependencies[] = date_popup
-
-; Information added by Drupal.org packaging script on 2014-02-17
-version = "7.x-1.0"
-core = "7.x"
-project = "stanford_date_timepicker"
-datestamp = "1392675515"
-
