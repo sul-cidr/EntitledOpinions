@@ -136,6 +136,15 @@ function stanford_image_strongarm() {
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
+      'stanford_12_col_banner_tall' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_6_col_photo_landscape' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_icon_profile' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(

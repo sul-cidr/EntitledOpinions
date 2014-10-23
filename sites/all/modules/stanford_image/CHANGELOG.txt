@@ -1,6 +1,27 @@
 Stanford Image x.x-x.x xxxx-xx-xx
 --------------------------------------
 
+Stanford Image 7.x-3.1 2014-10-23
+---------------------------------
+Changes since 7.x-3.0:
+By cjwest:
+  - Added the 12 column tall image size
+  - Added 6-col-photo-landscape view mode to bean and field collections
+  - Added stanford_icon_profile DS view mode
+
+By jbickar:
+  - Hiding the caption label on 12-column-banner tall view mode for FC
+
+By sheamck:
+  - wysiwyg text area height fixes
+
+Stanford Image 7.x-3.0 2014-06-30
+---------------------------------
+Changes since 7.x-3.0-alpha3:
+By cjwest:
+  - Updated help text on source info
+  - Added help text on image sizes
+
 Stanford Image 7.x-3.0-alpha3 2014-05-16
 ----------------------------------------
 - BASIC-747 | Removed all trimmed text and set to default

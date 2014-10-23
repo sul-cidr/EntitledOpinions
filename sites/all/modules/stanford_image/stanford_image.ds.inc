@@ -15,6 +15,7 @@ function stanford_image_ds_view_modes_info() {
   $ds_view_mode->view_mode = 'stanford_12_col_banner';
   $ds_view_mode->label = 'Banner 12 Column';
   $ds_view_mode->entities = array(
+    'bean' => 'bean',
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_12_col_banner'] = $ds_view_mode;
@@ -24,6 +25,7 @@ function stanford_image_ds_view_modes_info() {
   $ds_view_mode->view_mode = 'stanford_3_col_header';
   $ds_view_mode->label = 'Header 3 Column';
   $ds_view_mode->entities = array(
+    'bean' => 'bean',
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_3_col_header'] = $ds_view_mode;
@@ -33,6 +35,7 @@ function stanford_image_ds_view_modes_info() {
   $ds_view_mode->view_mode = 'stanford_4_col_header';
   $ds_view_mode->label = 'Header 4 Column';
   $ds_view_mode->entities = array(
+    'bean' => 'bean',
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_4_col_header'] = $ds_view_mode;
@@ -63,6 +66,16 @@ function stanford_image_ds_view_modes_info() {
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_6_col_banner_tall'] = $ds_view_mode;
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'stanford_6_col_photo_landscape';
+  $ds_view_mode->label = 'Photo Landscape 6 Column';
+  $ds_view_mode->entities = array(
+    'bean' => 'bean',
+    'field_collection_item' => 'field_collection_item',
+  );
+  $export['stanford_6_col_photo_landscape'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
@@ -97,6 +110,7 @@ function stanford_image_ds_view_modes_info() {
   $ds_view_mode->view_mode = 'stanford_9_col_banner';
   $ds_view_mode->label = 'Banner 9 Column ';
   $ds_view_mode->entities = array(
+    'bean' => 'bean',
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_9_col_banner'] = $ds_view_mode;
@@ -109,6 +123,15 @@ function stanford_image_ds_view_modes_info() {
     'field_collection_item' => 'field_collection_item',
   );
   $export['stanford_9_col_banner_short'] = $ds_view_mode;
+
+  $ds_view_mode = new stdClass();
+  $ds_view_mode->api_version = 1;
+  $ds_view_mode->view_mode = 'stanford_icon_profile';
+  $ds_view_mode->label = 'Icon Profile';
+  $ds_view_mode->entities = array(
+    'field_collection_item' => 'field_collection_item',
+  );
+  $export['stanford_icon_profile'] = $ds_view_mode;
 
   $ds_view_mode = new stdClass();
   $ds_view_mode->api_version = 1;
