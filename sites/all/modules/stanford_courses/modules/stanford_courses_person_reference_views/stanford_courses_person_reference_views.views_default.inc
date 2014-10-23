@@ -39,17 +39,23 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '50';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
-    'field_s_course_year' => 'field_s_course_year',
+    'field_s_course_ec_link' => 'field_s_course_ec_link',
     'field_s_course_term' => 'field_s_course_term',
+    'field_s_course_year' => 'field_s_course_year',
     'field_s_course_subject' => 'field_s_course_subject',
     'field_s_course_code' => 'field_s_course_subject',
     'title' => 'title',
+    'field_s_course_location' => 'field_s_course_location',
     'field_s_course_dow' => 'field_s_course_dow',
+    'field_s_course_time_end' => 'field_s_course_time_end',
     'field_s_course_time' => 'field_s_course_time',
+    'body' => 'body',
+    'nid' => 'nid',
+    'edit_node' => 'field_s_course_subject',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
-    'field_s_course_year' => array(
+    'field_s_course_ec_link' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -57,6 +63,15 @@ function stanford_courses_person_reference_views_views_default_views() {
       'empty_column' => 0,
     ),
     'field_s_course_term' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_s_course_year' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -82,7 +97,21 @@ function stanford_courses_person_reference_views_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'field_s_course_location' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_s_course_dow' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_s_course_time_end' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -96,13 +125,34 @@ function stanford_courses_person_reference_views_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'body' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
   );
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<p>Sorry, there are no courses available based on your search filter. Click on the reset button to enter a new search filter.</p>';
+  $handler->display->display_options['empty']['area']['content'] = '<p>There are no courses available based on your search.</p> 
+<p>&nbsp;</p>
+<a class="btn" href="courses">See all Course</a>';
   $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   /* Relationship: Content: Section Information (field_s_course_section_info) */
   $handler->display->display_options['relationships']['field_s_course_section_info_value']['id'] = 'field_s_course_section_info_value';
@@ -201,6 +251,23 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '<a class="edit-link" href="node/[nid]/edit">Edit</a>';
+  $handler->display->display_options['fields']['edit_node']['element_type'] = 'div';
+  $handler->display->display_options['fields']['edit_node']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Code (field_s_course_code) */
   $handler->display->display_options['sorts']['field_s_course_code_value']['id'] = 'field_s_course_code_value';
   $handler->display->display_options['sorts']['field_s_course_code_value']['table'] = 'field_data_field_s_course_code';
@@ -338,13 +405,14 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
+    'field_s_course_ec_link' => 'field_s_course_ec_link',
     'field_s_course_code_integer' => 'field_s_course_code_integer',
     'field_s_course_section_number' => 'title',
     'field_s_course_subject' => 'title',
     'field_s_course_code' => 'title',
     'title' => 'title',
+    'field_s_course_co_person' => 'field_s_course_co_person',
     'field_s_course_person' => 'field_s_course_person',
-    'field_s_course_co_instructor' => 'field_s_course_person',
     'field_s_course_section_year' => 'field_s_course_section_year',
     'field_s_course_term' => 'field_s_course_section_year',
     'field_s_course_dow' => 'field_s_course_dow',
@@ -352,9 +420,18 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_time' => 'field_s_course_dow',
     'field_s_course_location' => 'field_s_course_dow',
     'field_s_course_syllabus' => 'field_s_course_dow',
+    'nid' => 'nid',
+    'edit_node' => 'title',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
+    'field_s_course_ec_link' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_s_course_code_integer' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
@@ -390,14 +467,18 @@ function stanford_courses_person_reference_views_views_default_views() {
       'separator' => '<br />',
       'empty_column' => 0,
     ),
-    'field_s_course_person' => array(
-      'align' => '',
-      'separator' => '<br />',
-      'empty_column' => 0,
-    ),
-    'field_s_course_co_instructor' => array(
+    'field_s_course_co_person' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_s_course_person' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '<br />',
       'empty_column' => 0,
     ),
     'field_s_course_section_year' => array(
@@ -443,6 +524,20 @@ function stanford_courses_person_reference_views_views_default_views() {
       'empty_column' => 0,
     ),
     'field_s_course_syllabus' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -452,6 +547,16 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = '<p>There are no courses available based on your search.</p> 
+<p>&nbsp;</p>
+<a class="btn" href="courses">Reset Search</a>';
+  $handler->display->display_options['empty']['area']['format'] = 'filtered_html';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Content: Section Information (field_s_course_section_info) */
   $handler->display->display_options['relationships']['field_s_course_section_info_value']['id'] = 'field_s_course_section_info_value';
@@ -616,6 +721,22 @@ function stanford_courses_person_reference_views_views_default_views() {
     'text' => 'Download Syllabus',
   );
   $handler->display->display_options['fields']['field_s_course_syllabus']['delta_offset'] = '0';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '<a class="edit-link" href="node/[nid]/edit">Edit</a>';
+  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Subject (field_s_course_subject) */
   $handler->display->display_options['sorts']['field_s_course_subject_value']['id'] = 'field_s_course_subject_value';
@@ -653,27 +774,32 @@ function stanford_courses_person_reference_views_views_default_views() {
     'stanford_course' => 'stanford_course',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Title */
-  $handler->display->display_options['filters']['title']['id'] = 'title';
-  $handler->display->display_options['filters']['title']['table'] = 'node';
-  $handler->display->display_options['filters']['title']['field'] = 'title';
-  $handler->display->display_options['filters']['title']['operator'] = 'contains';
-  $handler->display->display_options['filters']['title']['group'] = 1;
-  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
-  $handler->display->display_options['filters']['title']['expose']['label'] = 'Search courses by title';
-  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
-  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
-  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+  /* Filter criterion: Global: Combine fields filter */
+  $handler->display->display_options['filters']['combine']['id'] = 'combine';
+  $handler->display->display_options['filters']['combine']['table'] = 'views';
+  $handler->display->display_options['filters']['combine']['field'] = 'combine';
+  $handler->display->display_options['filters']['combine']['operator'] = 'contains';
+  $handler->display->display_options['filters']['combine']['group'] = 1;
+  $handler->display->display_options['filters']['combine']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['combine']['expose']['operator_id'] = 'combine_op';
+  $handler->display->display_options['filters']['combine']['expose']['label'] = 'Search courses by title';
+  $handler->display->display_options['filters']['combine']['expose']['operator'] = 'combine_op';
+  $handler->display->display_options['filters']['combine']['expose']['identifier'] = 'combine';
+  $handler->display->display_options['filters']['combine']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
-    13 => 0,
-    11 => 0,
+    6 => 0,
+    5 => 0,
+    4 => 0,
+    3 => 0,
     9 => 0,
     7 => 0,
-    5 => 0,
-    15 => 0,
-    17 => 0,
+    8 => 0,
+  );
+  $handler->display->display_options['filters']['combine']['fields'] = array(
+    'field_s_course_subject' => 'field_s_course_subject',
+    'field_s_course_code' => 'field_s_course_code',
+    'title' => 'title',
   );
   /* Filter criterion: Field collection item: Year (field_s_course_section_year) */
   $handler->display->display_options['filters']['field_s_course_section_year_value']['id'] = 'field_s_course_section_year_value';
@@ -681,8 +807,8 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['filters']['field_s_course_section_year_value']['field'] = 'field_s_course_section_year_value';
   $handler->display->display_options['filters']['field_s_course_section_year_value']['relationship'] = 'field_s_course_section_info_value';
   $handler->display->display_options['filters']['field_s_course_section_year_value']['value'] = array(
-    2012 => '2012',
     2013 => '2013',
+    2014 => '2014',
   );
   $handler->display->display_options['filters']['field_s_course_section_year_value']['group'] = 1;
   $handler->display->display_options['filters']['field_s_course_section_year_value']['exposed'] = TRUE;
@@ -744,6 +870,7 @@ function stanford_courses_person_reference_views_views_default_views() {
     'PRC' => 'PRC',
     'T/D' => 'T/D',
   );
+  $handler->display->display_options['filters']['field_s_course_component_value']['group'] = 1;
   $handler->display->display_options['filters']['field_s_course_component_value']['reduce_duplicates'] = TRUE;
   $handler->display->display_options['path'] = 'courses/search';
   $handler->display->display_options['menu']['title'] = 'Courses';
@@ -765,6 +892,8 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_section_number' => 'field_s_course_section_number',
     'field_s_course_code' => 'title',
     'title' => 'title',
+    'field_s_course_co_person' => 'field_s_course_co_person',
+    'field_s_course_person' => 'field_s_course_person',
     'field_s_course_section_year' => 'field_s_course_section_year',
     'field_s_course_term' => 'field_s_course_section_year',
     'field_s_course_dow' => 'field_s_course_dow',
@@ -772,6 +901,7 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_time' => 'field_s_course_dow',
     'field_s_course_location' => 'field_s_course_dow',
     'field_s_course_syllabus' => 'field_s_course_dow',
+    'edit_node' => 'title',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -817,6 +947,20 @@ function stanford_courses_person_reference_views_views_default_views() {
       'separator' => '<br />',
       'empty_column' => 0,
     ),
+    'field_s_course_co_person' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_s_course_person' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'field_s_course_section_year' => array(
       'sortable' => 0,
       'default_sort_order' => 'desc',
@@ -825,6 +969,8 @@ function stanford_courses_person_reference_views_views_default_views() {
       'empty_column' => 0,
     ),
     'field_s_course_term' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -858,6 +1004,13 @@ function stanford_courses_person_reference_views_views_default_views() {
       'empty_column' => 0,
     ),
     'field_s_course_syllabus' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -1043,6 +1196,25 @@ function stanford_courses_person_reference_views_views_default_views() {
     'text' => 'Download Syllabus',
   );
   $handler->display->display_options['fields']['field_s_course_syllabus']['delta_offset'] = '0';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '<a class="edit-link" href="node/[nid]/edit">Edit</a>';
+  $handler->display->display_options['fields']['edit_node']['element_type'] = 'div';
+  $handler->display->display_options['fields']['edit_node']['element_class'] = 'edit-link';
+  $handler->display->display_options['fields']['edit_node']['element_label_type'] = 'div';
+  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['edit_node']['text'] = 'Edit';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Subject (field_s_course_subject) */
   $handler->display->display_options['sorts']['field_s_course_subject_value']['id'] = 'field_s_course_subject_value';
@@ -1127,8 +1299,8 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_section_number' => 'field_s_course_section_number',
     'field_s_course_code' => 'title',
     'title' => 'title',
-    'field_s_course_co_person' => 'field_s_course_person',
     'field_s_course_person' => 'field_s_course_person',
+    'field_s_course_co_person' => 'field_s_course_person',
     'field_s_course_section_year' => 'field_s_course_section_year',
     'field_s_course_term' => 'field_s_course_section_year',
     'field_s_course_dow' => 'field_s_course_dow',
@@ -1136,6 +1308,8 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_time' => 'field_s_course_dow',
     'field_s_course_location' => 'field_s_course_dow',
     'field_s_course_syllabus' => 'field_s_course_dow',
+    'nid' => 'nid',
+    'edit_node' => 'title',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
@@ -1174,18 +1348,18 @@ function stanford_courses_person_reference_views_views_default_views() {
       'separator' => '<br />',
       'empty_column' => 0,
     ),
-    'field_s_course_co_person' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'field_s_course_person' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '<br />',
+      'empty_column' => 0,
+    ),
+    'field_s_course_co_person' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
       'empty_column' => 0,
     ),
     'field_s_course_section_year' => array(
@@ -1196,6 +1370,8 @@ function stanford_courses_person_reference_views_views_default_views() {
       'empty_column' => 0,
     ),
     'field_s_course_term' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -1231,6 +1407,18 @@ function stanford_courses_person_reference_views_views_default_views() {
     'field_s_course_syllabus' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'edit_node' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -1378,6 +1566,21 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['fields']['field_s_course_syllabus']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_s_course_syllabus']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_s_course_syllabus']['type'] = 'file_url_plain';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['label'] = '';
+  $handler->display->display_options['fields']['edit_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['edit_node']['alter']['text'] = '<a class="edit-link" href="node/[nid]/edit">Edit</a>';
+  $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Field collection item: Date Range -  start date (field_s_course_section_dates) */
   $handler->display->display_options['sorts']['field_s_course_section_dates_value']['id'] = 'field_s_course_section_dates_value';
@@ -1442,14 +1645,6 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<p>No current courses listed.</p>
-      <p><a class="more-link" href="https://sites.stanford.edu/english/courses">All Current Courses</a></p>';
-  $handler->display->display_options['empty']['area']['format'] = 'content_editor_text_format';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: ExploreCourses Link */
   $handler->display->display_options['fields']['field_s_course_ec_link']['id'] = 'field_s_course_ec_link';
@@ -1497,6 +1692,13 @@ function stanford_courses_person_reference_views_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '[field_s_course_term] [field_s_course_section_year]<br />
       [title]';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Content: Edit link */
+  $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
+  $handler->display->display_options['fields']['edit_node']['element_type'] = 'div';
+  $handler->display->display_options['fields']['edit_node']['element_class'] = 'edit-link';
+  $handler->display->display_options['fields']['edit_node']['element_label_type'] = 'div';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Field collection item: Instructor (field_s_course_person) */
   $handler->display->display_options['arguments']['field_s_course_person_target_id']['id'] = 'field_s_course_person_target_id';

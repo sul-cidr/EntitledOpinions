@@ -2,7 +2,7 @@ name = Stanford Courses
 description = Automatically creates courses from explorecourses.stanford.edu
 core = 7.x
 package = Stanford
-version = 7.x-3.2
+version = 7.x-3.3
 project = stanford_courses
 dependencies[] = ctools
 dependencies[] = date
@@ -120,3 +120,4 @@ features_exclude[field_instance][field_collection_item-field_s_image_info-field_
 features_exclude[field_instance][field_collection_item-field_s_image_info-field_s_image_credits] = field_collection_item-field_s_image_info-field_s_image_credits
 features_exclude[field_instance][field_collection_item-field_s_image_info-field_s_image_image] = field_collection_item-field_s_image_info-field_s_image_image
 features_exclude[field_instance][field_collection_item-field_s_image_info-field_s_image_source_info] = field_collection_item-field_s_image_info-field_s_image_source_info
+project status url = 'https://github.com/SU-SWS/stanford_courses'
