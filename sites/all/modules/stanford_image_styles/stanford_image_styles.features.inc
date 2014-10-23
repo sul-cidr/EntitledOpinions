@@ -33,6 +33,29 @@ function stanford_image_styles_image_default_styles() {
     'label' => '12-col-banner',
   );
 
+  // Exported image style: 12-col-banner-tall.
+  $styles['12-col-banner-tall'] = array(
+    'name' => '12-col-banner-tall',
+    'label' => '12-col-banner-tall',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 1200,
+          'height' => 500,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: 3-col-header.
   $styles['3-col-header'] = array(
     'name' => '3-col-header',
@@ -148,6 +171,29 @@ function stanford_image_styles_image_default_styles() {
     'label' => '6-col-banner-tall',
   );
 
+  // Exported image style: 6-col-photo-landscape.
+  $styles['6-col-photo-landscape'] = array(
+    'name' => '6-col-photo-landscape',
+    'label' => '6-col-photo-landscape',
+    'effects' => array(
+      2 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 570,
+          'height' => 430,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: 8-col-banner.
   $styles['8-col-banner'] = array(
     'name' => '8-col-banner',
@@ -261,6 +307,30 @@ function stanford_image_styles_image_default_styles() {
       ),
     ),
     'label' => '9-col-banner-short',
+  );
+
+  // Exported image style: icon-profile.
+  $styles['icon-profile'] = array(
+    'name' => 'icon-profile',
+    'label' => 'icon-profile',
+    'effects' => array(
+      1 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 50,
+          'height' => 65,
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
   );
 
   // Exported image style: icon-square.
