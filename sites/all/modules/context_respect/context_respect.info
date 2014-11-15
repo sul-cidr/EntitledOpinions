@@ -4,9 +4,3 @@ package = "Context"
 core = 7.x
 dependencies[] = ctools
 dependencies[] = context
-; Information added by Drupal.org packaging script on 2014-05-15
-version = "7.x-1.2+3-dev"
-core = "7.x"
-project = "context_respect"
-datestamp = "1400195028"
-
