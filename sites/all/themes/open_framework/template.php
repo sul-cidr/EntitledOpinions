@@ -1,14 +1,42 @@
 <?php
 function open_framework_preprocess_html(&$vars) {
   // theme option variables
-  $vars['content_order_classes'] = theme_get_setting('content_order_classes');
-  $vars['front_heading_classes'] = theme_get_setting('front_heading_classes');
-  $vars['breadcrumb_classes'] = theme_get_setting('breadcrumb_classes');
-  $vars['border_classes'] = theme_get_setting('border_classes');
-  $vars['corner_classes'] = theme_get_setting('corner_classes');
-  $vars['body_bg_type'] = theme_get_setting('body_bg_type');
-  $vars['body_bg_classes'] = theme_get_setting('body_bg_classes');
-  $vars['body_bg_path'] = theme_get_setting('body_bg_path');
+  $vars['content_order_classes'] = !empty($vars['content_order_classes']) ? $vars['content_order_classes'] : theme_get_setting('content_order_classes');
+  $vars['front_heading_classes'] = !empty($vars['front_heading_classes']) ? $vars['front_heading_classes'] : theme_get_setting('front_heading_classes');
+  $vars['breadcrumb_classes'] =    !empty($vars['breadcrumb_classes']) ?    $vars['breadcrumb_classes'] :    theme_get_setting('breadcrumb_classes');
+  $vars['border_classes'] =        !empty($vars['border_classes']) ?        $vars['border_classes'] :        theme_get_setting('border_classes');
+  $vars['corner_classes'] =        !empty($vars['corner_classes']) ?        $vars['corner_classes'] :        theme_get_setting('corner_classes');
+  $vars['body_bg_type'] =          !empty($vars['body_bg_type']) ?          $vars['body_bg_type'] :          theme_get_setting('body_bg_type');
+  $vars['body_bg_classes'] =       !empty($vars['body_bg_classes']) ?       $vars['body_bg_classes'] :       theme_get_setting('body_bg_classes');
+  $vars['body_bg_path'] =          !empty($vars['body_bg_path']) ?          $vars['body_bg_path'] :          theme_get_setting('body_bg_path');
+  $vars['font_awesome_version'] =  !empty($vars['font_awesome_version']) ?  $vars['font_awesome_version'] :  theme_get_setting('font_awesome_version');
+
+  // Variables
+  $content_order_classes = $vars['content_order_classes'];
+  $front_heading_classes = $vars['front_heading_classes'];
+  $breadcrumb_classes =    $vars['breadcrumb_classes'];
+  $border_classes =        $vars['border_classes'];
+  $corner_classes =        $vars['corner_classes'];
+  $body_bg_type =          $vars['body_bg_type'];
+  $body_bg_classes =       $vars['body_bg_classes'];
+  $body_bg_path =          $vars['body_bg_path'];
+
+  // Default path for body background image
+  if (file_uri_scheme($body_bg_path) == 'public') {
+    $body_bg_path = file_create_url($body_bg_path);
+  }
+
+  // If body background image is enabled, add following style to body
+  if (!empty($body_bg_classes)) {
+    drupal_add_css('body {background: url('. $body_bg_path .') repeat top left;}', array('group' => CSS_THEME, 'type' => 'inline', 'media' => 'screen', 'preprocess' => FALSE, 'weight' => '9999',));
+  }
+
+  // Add body class based on style selected
+  $vars['classes_array'][] = $vars['content_order_classes'];
+  $vars['classes_array'][] = $vars['front_heading_classes'];
+  $vars['classes_array'][] = $vars['breadcrumb_classes'];
+  $vars['classes_array'][] = $vars['border_classes'];
+  $vars['classes_array'][] = $vars['corner_classes'];
 }
 
 function open_framework_js_alter(&$javascript) {
@@ -40,6 +68,17 @@ function open_framework_js_alter(&$javascript) {
 }
 
 function open_framework_preprocess_page(&$vars) {
+  // Font Awesome
+  $font_awesome_version = theme_get_setting('font_awesome_version');
+
+  if ($font_awesome_version == 'font-awesome-3') {
+  drupal_add_css(drupal_get_path('theme', 'open_framework') . '/packages/font-awesome-3.2.1/css/font-awesome.min.css', array('group' => CSS_DEFAULT, 'media' => 'all', 'weight' => 500, 'preprocess' => TRUE));
+  }
+
+  if ($font_awesome_version == 'font-awesome-4') {
+  drupal_add_css(drupal_get_path('theme', 'open_framework') . '/packages/font-awesome-4.3.0/css/font-awesome.min.css', array('group' => CSS_DEFAULT, 'media' => 'all', 'weight' => 500, 'preprocess' => TRUE));
+  }
+
   // Add page template suggestions based on the aliased path. For instance, if the current page has an alias of about/history/early, we'll have templates of:
   // page-about-history-early.tpl.php, page-about-history.tpl.php, page-about.tpl.php
   // Whichever is found first is the one that will be used.
