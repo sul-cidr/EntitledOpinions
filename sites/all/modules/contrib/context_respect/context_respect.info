@@ -1,0 +1,13 @@
+name = Context Respect
+description = "Respect normal block visibility."
+package = "Context"
+core = 7.x
+dependencies[] = ctools
+dependencies[] = context
+
+; Information added by drush on 2015-05-06
+version = "7.x-1.2+3-dev"
+core = "7.x"
+project = "context_respect"
+datestamp = "1430933295"
+

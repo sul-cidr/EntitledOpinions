@@ -1,6 +1,0 @@
-name = Context Respect
-description = "Respect normal block visibility."
-package = "Context"
-core = 7.x
-dependencies[] = ctools
-dependencies[] = context

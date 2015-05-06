@@ -1,0 +1,16 @@
+name = CSS Injector
+description = Adds CSS to the page output based on configurable rules.
+core = 7.x
+
+files[] = css_injector.admin.inc
+files[] = css_injector.install
+files[] = css_injector.module
+files[] = css_injector.test
+
+configure = admin/config/development/css-injector
+
+; Information added by drush on 2015-05-06
+version = "41bee7e4421ecfc52a6b673eef6fcde875282a2b"
+project = "css_injector"
+datestamp = "1430933297"
+
