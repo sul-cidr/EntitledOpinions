@@ -1,6 +1,17 @@
 Stanford Page x.x-x.x xxxx-xx-xx
 --------------------------------
 
+Stanford Page 7.x-2.0 2014-11-27
+---------------------------------------
+- BASIC-1030 | Changed default sort order to last updated date
+- Cleanup on field_s_page_file
+- Updating field_s_page_file to default to inserting icon with link
+- Added row to manage view
+- Update stanford_page.info to include project status url
+- Update and rename README.txt to README.md
+- BASIC-767 | Add author to manage content
+- Removed Body from base field and added features exclude so that it does not happen again
+
 Stanford Page 7.x-2.0-alpha3 2014-05-16
 ---------------------------------------
 - BASIC-807: Changed exposed filter title on VBO

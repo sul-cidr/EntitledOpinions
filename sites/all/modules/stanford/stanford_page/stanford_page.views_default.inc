@@ -40,24 +40,18 @@ function stanford_page_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'counter' => 'counter',
     'views_bulk_operations' => 'views_bulk_operations',
-    'field_s_person_profile_picture' => 'field_s_person_profile_picture',
+    'field_s_image_info' => 'field_s_image_info',
     'title' => 'title',
     'timestamp' => 'title',
     'status' => 'status',
     'changed' => 'changed',
-    'field_s_person_last_name' => 'field_s_person_last_name',
-    'field_s_person_type' => 'field_s_person_type',
-    'field_s_person_faculty_type' => 'field_s_person_faculty_type',
-    'field_s_person_student_type' => 'field_s_person_student_type',
-    'field_s_person_staff_type' => 'field_s_person_staff_type',
-    'field_s_person_weight' => 'field_s_person_weight',
+    'name' => 'name',
     'nid' => 'nid',
     'edit_node' => 'edit_node',
     'view_node' => 'edit_node',
     'delete_node' => 'edit_node',
-    'field_s_person_first_name' => 'field_s_person_first_name',
   );
-  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['default'] = 'changed';
   $handler->display->display_options['style_options']['info'] = array(
     'counter' => array(
       'align' => '',
@@ -69,11 +63,11 @@ function stanford_page_views_default_views() {
       'separator' => ' | ',
       'empty_column' => 0,
     ),
-    'field_s_person_profile_picture' => array(
-      'sortable' => 1,
+    'field_s_image_info' => array(
+      'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
-      'separator' => ' | ',
+      'separator' => '',
       'empty_column' => 0,
     ),
     'title' => array(
@@ -97,45 +91,12 @@ function stanford_page_views_default_views() {
     ),
     'changed' => array(
       'sortable' => 1,
-      'default_sort_order' => 'asc',
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_s_person_last_name' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => ' | ',
-      'empty_column' => 0,
-    ),
-    'field_s_person_type' => array(
-      'align' => '',
-      'separator' => ' | ',
-      'empty_column' => 0,
-    ),
-    'field_s_person_faculty_type' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => ' | ',
-      'empty_column' => 0,
-    ),
-    'field_s_person_student_type' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => ' | ',
-      'empty_column' => 0,
-    ),
-    'field_s_person_staff_type' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_s_person_weight' => array(
+    'name' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -164,19 +125,22 @@ function stanford_page_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'field_s_person_first_name' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
   );
   /* Relationship: Field: Image (field_s_image_info) */
   $handler->display->display_options['relationships']['field_s_image_info_value']['id'] = 'field_s_image_info_value';
   $handler->display->display_options['relationships']['field_s_image_info_value']['table'] = 'field_data_field_s_image_info';
   $handler->display->display_options['relationships']['field_s_image_info_value']['field'] = 'field_s_image_info_value';
   $handler->display->display_options['relationships']['field_s_image_info_value']['delta'] = '-1';
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  /* Field: Global: View result counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['label'] = 'Row';
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Bulk operations: Content */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
@@ -346,6 +310,13 @@ function stanford_page_views_default_views() {
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = 'Author';
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';

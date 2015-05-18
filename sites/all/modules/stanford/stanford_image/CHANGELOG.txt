@@ -1,6 +1,12 @@
 Stanford Image x.x-x.x xxxx-xx-xx
 --------------------------------------
 
+7.x-3.2                2015-03-19
+---------------------------------
+
+- Added access checks on views (perms)
+
+
 Stanford Image 7.x-3.1 2014-10-23
 ---------------------------------
 Changes since 7.x-3.0:

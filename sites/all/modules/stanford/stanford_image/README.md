@@ -1,7 +1,8 @@
 #[Stanford Image](https://github.com/SU-SWS/stanford_image)
-##### Version: 7.x-3.1
+##### Version: 7.x-3.2
 
 Maintainers: [cynmij](https://github.com/cynmij), [cjwest](https://github.com/cjwest)
+
 [Changelog.txt](CHANGELOG.txt)
 
 This module provides an image Field Collection and associated Display Suite view modes. It requires the [stanford_image_styles module](https://github.com/SU-SWS/stanford_image_styles), and is the foundation for several other modules. This allows content authors to upload and place images on content types with added information such as a caption.

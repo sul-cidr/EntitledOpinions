@@ -25,14 +25,35 @@ function stanford_bean_types_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'stanford_12_col_banner_tall' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_9_col_banner' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_12_col_banner' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '1',
         ),
         'metatags' => array(
           'weight' => '40',
+        ),
+        'label' => array(
+          'weight' => '0',
+        ),
+        'revision' => array(
+          'weight' => '4',
+        ),
+        'view_mode' => array(
+          'weight' => '3',
+        ),
+        'redirect' => array(
+          'weight' => '5',
         ),
       ),
       'display' => array(
@@ -62,6 +83,30 @@ function stanford_bean_types_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'stanford_12_col_banner_tall' => array(
+        'weight' => '-5',
+        'visible' => TRUE,
+        'custom_settings' => FALSE,
+      ),
+      'stanford_9_col_banner' => array(
+        'weight' => '-5',
+        'visible' => TRUE,
+        'custom_settings' => FALSE,
+      ),
+      'stanford_12_col_banner' => array(
+        'weight' => '-5',
+        'visible' => TRUE,
+        'custom_settings' => FALSE,
+      ),
+      'stanford_6_col_photo_landscape' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_4_col_header' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_3_col_header' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -75,7 +120,19 @@ function stanford_bean_types_strongarm() {
       'display' => array(
         'title' => array(
           'default' => array(
-            'weight' => '-5',
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'stanford_6_col_photo_landscape' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'stanford_4_col_header' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'stanford_3_col_header' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),

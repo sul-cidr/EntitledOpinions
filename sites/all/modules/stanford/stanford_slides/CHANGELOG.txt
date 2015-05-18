@@ -1,6 +1,11 @@
 Stanford Slides x.x-x.x xxxx-xx-xx
 ----------------------------------
 
+Stanford Slides 7.x-3.0 2014-11-27
+-----------------------------------------
+- Update and rename README.txt to README.md
+- Update stanford_slides.info to add project status url
+
 Stanford Slides 7.x-3.0-alpha3 2014-05-16
 -----------------------------------------
 - BASIC-761: Fixed menu position
