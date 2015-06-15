@@ -4,10 +4,3 @@ package = Context
 core = 7.x
 dependencies[] = context
 dependencies[] = context_ui
-
-; Information added by drush on 2015-05-06
-version = "7.x-1.1+6-dev"
-core = "7.x"
-project = "context_list"
-datestamp = "1430933289"
-
