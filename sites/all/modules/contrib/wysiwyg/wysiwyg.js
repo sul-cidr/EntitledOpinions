@@ -167,6 +167,8 @@ Drupal.wysiwygDetach = function (context, params, trigger) {
   var editor = Drupal.wysiwyg.instances[params.field].editor;
   if (jQuery.isFunction(Drupal.wysiwyg.editor.detach[editor])) {
     Drupal.wysiwyg.editor.detach[editor](context, params, trigger);
+    var field = $('#' + params.field, context);
+    field.val(Drupal.wysiwyg.removeBlankTags(field.val()));
   }
 };
 
@@ -255,6 +257,21 @@ Drupal.wysiwyg.getParams = function(element, params) {
   params.resizable = parseInt(params.resizable, 10);
   return params;
 };
+
+/**
+ * Removes unwanted 'blank' <p> and <br /> tags from an HTML string.
+ *
+ * Editors sometimes leave tags like <p>&nbsp;</p> when nothing was entered.
+ * This function removes those tags to allow for truly empty fields.
+ * It also removes an empty div left by Firebug if it was enabled.
+ *
+ * @param content
+ *  An HTML string to remove tags from.
+*/
+Drupal.wysiwyg.removeBlankTags = function(content) {
+  content = content.replace(/<div firebugversion="(?:\d|\.)+" id="_firebugConsole" style="display: none;">&nbsp;<\/div>/i, '');
+  return content.replace(/^(?:<p>)?(?:&nbsp;|\s|<br(?:\s\/)?>|\n|\r|<\/p>(?:\s|\r\n)*<p>)*(?:<\/p>)?$/i, '');
+}
 
 /**
  * Allow certain editor libraries to initialize before the DOM is loaded.
