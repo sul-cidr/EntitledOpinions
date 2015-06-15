@@ -257,7 +257,7 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
  * Validation callback for the CSS rule edit form.
  */
 function css_injector_edit_validate($form, &$form_state) {
-  $directory = drupal_realpath('public://css_injector');
+  $directory = 'public://css_injector';
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
     form_error($form, t('The directory %directory is not writable', array('%directory' => $directory)));
   }
