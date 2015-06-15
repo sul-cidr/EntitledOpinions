@@ -4,11 +4,3 @@ dependencies[] = context
 core = 7.x
 package = Context
 files[] = context_condition_useragent.inc
-
-
-; Information added by drush on 2015-06-15
-version = "7.x-1.x-dev"
-core = "7.x"
-project = "context_useragent"
-datestamp = "1434397033"
-
