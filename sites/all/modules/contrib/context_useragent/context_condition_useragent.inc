@@ -17,9 +17,7 @@ class context_condition_useragent extends context_condition {
   function condition_form($context) {
     $form = parent::condition_form($context);
     unset($form['#options']);
-    $values = $this->fetch_from_context($context, 'values');
     $form['#type'] = 'textfield';
-    $form['#default_value'] = $values[0];
     $form['#description'] = t('A regular expression pattern to match the useragent against.  Example: !d', array('!d' => '<code>Firefox</code>'));
     return $form;
   }
