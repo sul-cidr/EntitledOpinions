@@ -4,11 +4,3 @@ core = 7.x
 configure = admin/config/content/social-share
 
 dependencies[] = token
-
-
-; Information added by drush on 2015-05-06
-version = "7.x-2.1"
-core = "7.x"
-project = "social_share"
-datestamp = "1430933299"
-
