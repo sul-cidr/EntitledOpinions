@@ -8,9 +8,3 @@ files[] = css_injector.module
 files[] = css_injector.test
 
 configure = admin/config/development/css-injector
-
-; Information added by drush on 2015-06-15
-version = "41bee7e4421ecfc52a6b673eef6fcde875282a2b"
-project = "css_injector"
-datestamp = "1434397349"
-
