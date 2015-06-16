@@ -26,9 +26,14 @@ class context_respect_reaction_block extends context_reaction_block {
         $options = $this->fetch_from_context($context);
         if (!empty($options['blocks'])) {
           foreach ($options['blocks'] as $block) {
-            $block = (object) $block;
+            $bid = $block['module'] . '-' . $block['delta'];
+            if (!isset($info[$bid])) {
+              continue;
+            }
+            // Copy general block settings.
+            $block = (object) array_merge((array) $info[$bid], $block);
+            // Set context name and others.
             $block->context = $context->name;
-            $block->bid = "{$block->module}-{$block->delta}";
             $block->title = isset($info[$block->bid]->title) ? $info[$block->bid]->title : NULL;
             $block->cache = isset($info[$block->bid]->cache) ? $info[$block->bid]->cache : DRUPAL_NO_CACHE;
 
