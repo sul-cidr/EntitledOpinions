@@ -2,26 +2,29 @@
 
 /**
  * @file
- * context_list_active module
+ * Primary file context_list_active module
  */
 
-function context_list_active() {
-  $items = array();
-
-  $items['admin/context-list-active'] = array(
-    'title' => 'List active contexts',
-    'page callback' => 'context_list_active_page_build',
-    'page arguments' => array(),
-    'access arguments' => array('administer contexts'),
-    'weight' => 50,
-    'type' => MENU_LOCAL_TASK
+/**
+ * Implements hook_admin_menu_output_build().
+ */
+function context_list_active_admin_menu_output_build(&$content) {
+  // Add our toggle link
+  $content['context-list-active'] = array(
+    // We want to be weighted after 'account' (weight 100) because there seems to be a little rendering bug with the
+    // account drop down when there is an extra link to the right of it.
+    '#weight' => 200,
+    '#theme' => 'admin_menu_links',
+    '#wrapper_attributes' => array('id' => 'admin-menu-context-list-active'),
+  );
+  $content['context-list-active']['toggle'] = array(
+    '#attributes' => array('class' => array('admin-menu-action', 'context-list-active-toggle')),
+    '#access' => user_access('administer contexts'),
+    '#title' => t('Show active contexts'),
+    '#href' => '',
   );
 
-  return $items;
 }
-
-
-
 
 /**
  * Implements hook_page_build().
@@ -35,7 +38,7 @@ function context_list_active_page_build(&$page) {
   // Include our CSS and JS
   $path_to_module = drupal_get_path('module', 'context_list_active');
   drupal_add_css("$path_to_module/context_list_active.css");
-  drupal_add_js("$path_to_module/context_list_active.js", array('scope' => 'footer', 'weight' => 10000));
+  drupal_add_js("$path_to_module/context_list_active.js");
 
   // Get all the active contexts on this page
   $contexts = context_active_contexts();
@@ -45,7 +48,7 @@ function context_list_active_page_build(&$page) {
   $header = array('Context', 'Conditions', 'Reactions');
   foreach ($contexts as $context) {
     $row = array(
-      $context->name . ' ' . l('[edit]', 'admin/structure/context/list/' . $context->name .'/edit') . '<div class="description">'. $context->description .'</div>',
+      $context->name . ' ' . l('[edit]', 'admin/structure/context/list/' . $context->name . '/edit') . '<div class="description">' . $context->description . '</div>',
       context_list_conditions($context->conditions),
       context_list_active_reactions($context->reactions),
     );
@@ -57,30 +60,30 @@ function context_list_active_page_build(&$page) {
   // Build the renderable array for the table
   $table = array(
     '#caption' => '<h2>Active contexts</h2> <h3>Current page: ' . url(current_path()) . '</h3>',
-    '#theme' => 'table',
-    '#rows' => $rows,
-    '#header' => $header,
-    '#empty' => t('There are no active contexts for this page.'),
+    '#theme'   => 'table',
+    '#rows'    => $rows,
+    '#header'  => $header,
+    '#empty'   => t('There are no active contexts for this page.'),
   );
 
   $page['page_bottom']['context_list_active'] = array(
-    '#type' => 'container',
+    '#type'       => 'container',
     '#attributes' => array('id' => 'context_list_active'),
-    'container' => array(
-      '#type' => 'container',
+    'container'   => array(
+      '#type'       => 'container',
       '#attributes' => array('id' => 'context_list_active-overlay'),
-      'table' => $table,
-      'close' => array('#markup' => '<a class="context-list-active-toggle" href="javascript:;" >Close [X}</a>'),
+      'table'       => $table,
+      'close'       => array('#markup' => '<a class="context-list-active-toggle" href="javascript:;" >Close [X}</a>'),
     ),
-    'fade' => array('#markup' => '<div id="context_list_active-fade"></div>')
+    'fade'        => array('#markup' => '<div id="context_list_active-fade"></div>')
   );
 
-  // If the admin menu is present, we'll let javascript add a menu item into it, otherwise we'll put a link at
-  // the bottom of the page
-  if(!module_exists('admin_menu')) {
+  // If the admin menu is present, our implementation of it's build hook will add the toggle link there, otherwise we'll
+  // insert a link at the bottom of the page.
+  if (!module_exists('admin_menu')) {
     // Add toggle link:
     $page['page_bottom']['context_list_active']['toggle'] = array(
-      '#markup' => '<a class="context-list-active-toggle" href="javascript:;" >Toggle context browser</a>',
+      '#markup' => '<div id="context-list-active-bottom"><a class="context-list-active-toggle" href="javascript:;" >Toggle context browser</a></div>',
     );
   }
 }
@@ -114,7 +117,7 @@ function context_list_active_reactions($reactions) {
       $display_class = 'ContextListReactionDisplay_' . $reaction;
     }
     // Override this class with our own version
-    if($display_class == 'ContextListReactionDisplay_block') {
+    if ($display_class == 'ContextListReactionDisplay_block') {
       $display_class = 'ContextListReactionDisplay_blockWithName';
     }
     $display = new $display_class;
@@ -128,4 +131,3 @@ function context_list_active_reactions($reactions) {
     array_map('context_list_create_list_items', $reaction_description)
   ) . '</ol>';
 }
-
