@@ -1,6 +1,10 @@
 Stanford Page x.x-x.x xxxx-xx-xx
 --------------------------------
 
+Stanford Page 7.x-2.1 2015-06-26
+---------------------------------------
+- Removed foreign keys from features export.
+
 Stanford Page 7.x-2.0 2014-11-27
 ---------------------------------------
 - BASIC-1030 | Changed default sort order to last updated date
