@@ -21,9 +21,9 @@ files[] = includes/DateIcalFeedsParser.inc
 files[] = includes/DateIcalIcalcreatorParser.inc
 files[] = includes/DateIcalDateModuleParser.inc
 
-; Information added by  packaging script on 2013-11-18
-version = "7.x-2.13"
+; Information added by Drupal.org packaging script on 2015-06-19
+version = "7.x-2.14"
 core = "7.x"
 project = "date_ical"
-datestamp = "1384804110"
+datestamp = "1434737286"
 
