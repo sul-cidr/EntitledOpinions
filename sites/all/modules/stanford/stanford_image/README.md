@@ -1,5 +1,5 @@
 #[Stanford Image](https://github.com/SU-SWS/stanford_image)
-##### Version: 7.x-3.2
+##### Version: 7.x-3.3
 
 Maintainers: [cynmij](https://github.com/cynmij), [cjwest](https://github.com/cjwest)
 

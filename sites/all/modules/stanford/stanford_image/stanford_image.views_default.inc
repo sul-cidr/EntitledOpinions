@@ -136,11 +136,6 @@ function stanford_image_views_default_views() {
   );
   $handler->display->display_options['style_options']['sticky'] = TRUE;
   /* Relationship: Field collection item: Entity with the Image (field_s_image_info) */
-  $handler->display->display_options['relationships']['field_s_image_info_bean']['id'] = 'field_s_image_info_bean';
-  $handler->display->display_options['relationships']['field_s_image_info_bean']['table'] = 'field_collection_item';
-  $handler->display->display_options['relationships']['field_s_image_info_bean']['field'] = 'field_s_image_info_bean';
-  $handler->display->display_options['relationships']['field_s_image_info_bean']['label'] = 'Block using image';
-  /* Relationship: Field collection item: Entity with the Image (field_s_image_info) */
   $handler->display->display_options['relationships']['field_s_image_info_node']['id'] = 'field_s_image_info_node';
   $handler->display->display_options['relationships']['field_s_image_info_node']['table'] = 'field_collection_item';
   $handler->display->display_options['relationships']['field_s_image_info_node']['field'] = 'field_s_image_info_node';
@@ -156,27 +151,28 @@ function stanford_image_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
     'action::views_bulk_operations_delete_item' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
-    'action::system_message_action' => array(
+    'action::views_bulk_operations_delete_revision' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::views_bulk_operations_script_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
     'action::views_bulk_operations_modify_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
@@ -186,7 +182,6 @@ function stanford_image_views_default_views() {
           '_all_' => '_all_',
         ),
       ),
-      'postpone_processing' => 0,
     ),
     'action::views_bulk_operations_argument_selector_action' => array(
       'selected' => 0,
@@ -197,19 +192,12 @@ function stanford_image_views_default_views() {
         'url' => '',
       ),
     ),
-    'action::system_goto_action' => array(
-      'selected' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'postpone_processing' => 0,
-    ),
     'action::system_send_email_action' => array(
       'selected' => 0,
+      'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'postpone_processing' => 0,
     ),
   );
   /* Field: Field collection item: URL */
@@ -225,6 +213,7 @@ function stanford_image_views_default_views() {
   $handler->display->display_options['fields']['counter']['label'] = '';
   $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['counter']['counter_start'] = '1';
+  $handler->display->display_options['fields']['counter']['reverse'] = 0;
   /* Field: Field collection item: Image */
   $handler->display->display_options['fields']['field_s_image_image']['id'] = 'field_s_image_image';
   $handler->display->display_options['fields']['field_s_image_image']['table'] = 'field_data_field_s_image_image';
@@ -247,15 +236,12 @@ function stanford_image_views_default_views() {
   $handler->display->display_options['fields']['timestamp']['relationship'] = 'field_s_image_info_node';
   $handler->display->display_options['fields']['timestamp']['label'] = 'New';
   $handler->display->display_options['fields']['timestamp']['element_label_colon'] = FALSE;
-  /* Field: Block: Label */
-  $handler->display->display_options['fields']['label']['id'] = 'label';
-  $handler->display->display_options['fields']['label']['table'] = 'bean';
-  $handler->display->display_options['fields']['label']['field'] = 'label';
-  $handler->display->display_options['fields']['label']['relationship'] = 'field_s_image_info_bean';
   /* Field: Content: Published */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'node';
   $handler->display->display_options['fields']['status']['field'] = 'status';
+  $handler->display->display_options['fields']['status']['relationship'] = 'field_s_image_info_node';
+  $handler->display->display_options['fields']['status']['not'] = 0;
   /* Field: Field collection item: Caption */
   $handler->display->display_options['fields']['field_s_image_caption']['id'] = 'field_s_image_caption';
   $handler->display->display_options['fields']['field_s_image_caption']['table'] = 'field_data_field_s_image_caption';
@@ -270,6 +256,9 @@ function stanford_image_views_default_views() {
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
   $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['relationship'] = 'field_s_image_info_node';
+  $handler->display->display_options['fields']['created']['date_format'] = 'stanford_time';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'stanford_time';
   /* Field: Field collection item: Field collection item ID */
   $handler->display->display_options['fields']['item_id']['id'] = 'item_id';
   $handler->display->display_options['fields']['item_id']['table'] = 'field_collection_item';
