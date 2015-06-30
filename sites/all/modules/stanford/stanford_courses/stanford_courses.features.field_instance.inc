@@ -10,7 +10,8 @@
 function stanford_courses_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_co_person'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_co_person'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_co_person'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -70,7 +71,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_component'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_component'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_component'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -102,7 +104,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_dow'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_dow'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_dow'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -166,7 +169,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_instructor'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_instructor'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_instructor'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -200,7 +204,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_location'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_location'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_location'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -264,7 +269,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_section_class_id'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_section_class_id'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_section_class_id'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -331,7 +337,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_section_dates'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_section_dates'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_section_dates'] = array(
     'bundle' => 'field_s_course_section_info',
     'deleted' => 0,
@@ -372,7 +379,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_section_number'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_section_number'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_section_number'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -412,7 +420,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_section_year'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_section_year'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_section_year'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -443,7 +452,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_syllabus'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_syllabus'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_syllabus'] = array(
     'bundle' => 'field_s_course_section_info',
     'deleted' => 0,
@@ -523,7 +533,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_term'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_term'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_term'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -554,7 +565,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_time'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_time'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_time'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -618,7 +630,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_time_end'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_time_end'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_time_end'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -686,7 +699,8 @@ function stanford_courses_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'field_collection_item-field_s_course_section_info-field_s_course_units'
+  // Exported field_instance:
+  // 'field_collection_item-field_s_course_section_info-field_s_course_units'
   $field_instances['field_collection_item-field_s_course_section_info-field_s_course_units'] = array(
     'bundle' => 'field_s_course_section_info',
     'default_value' => NULL,
@@ -951,6 +965,7 @@ function stanford_courses_field_default_field_instances() {
     'label' => 'ExploreCourses Link',
     'required' => 0,
     'settings' => array(
+      'absolute_url' => 1,
       'attributes' => array(
         'class' => '',
         'configurable_title' => 0,
@@ -963,6 +978,7 @@ function stanford_courses_field_default_field_instances() {
       ),
       'enable_tokens' => 0,
       'title' => 'value',
+      'title_label_use_field_label' => FALSE,
       'title_maxlength' => 128,
       'title_value' => 'View this course and available sections on ExploreCourses',
       'url' => 0,
@@ -975,6 +991,71 @@ function stanford_courses_field_default_field_instances() {
       'settings' => array(),
       'type' => 'link_field',
       'weight' => 12,
+    ),
+  );
+
+  // Exported field_instance: 'node-stanford_course-field_s_course_ec_tag'
+  $field_instances['node-stanford_course-field_s_course_ec_tag'] = array(
+    'bundle' => 'stanford_course',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Full concatenated "ORG::tag" tag from ExploreCourses, e.g., "IR::wim"',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_s_course_ec_tag',
+    'label' => 'ExploreCourses Tag(s)',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'content_editor_text_format' => 'content_editor_text_format',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'content_editor_text_format' => array(
+              'weight' => -10,
+            ),
+            'filtered_html' => array(
+              'weight' => 0,
+            ),
+            'full_html' => array(
+              'weight' => 1,
+            ),
+            'plain_text' => array(
+              'weight' => 10,
+            ),
+          ),
+        ),
+      ),
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 17,
     ),
   );
 
@@ -1568,6 +1649,8 @@ function stanford_courses_field_default_field_instances() {
   t('Enter the section number (e.g., 01, 02, 03, etc.)');
   t('Enter the start time of the course section.');
   t('ExploreCourses Link');
+  t('ExploreCourses Tag(s)');
+  t('Full concatenated "ORG::tag" tag from ExploreCourses, e.g., "IR::wim"');
   t('Grading');
   t('Instructor(s)');
   t('Location(s)');
