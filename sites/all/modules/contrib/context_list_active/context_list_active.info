@@ -8,9 +8,9 @@ version = 7.x-1.x
 dependencies[] = context
 dependencies[] = context_list
 
-; Information added by Drupal.org packaging script on 2013-12-21
-version = "7.x-1.0-alpha2"
+; Information added by Drupal.org packaging script on 2015-06-03
+version = "7.x-1.0"
 core = "7.x"
 project = "context_list_active"
-datestamp = "1387589006"
+datestamp = "1433361781"
 

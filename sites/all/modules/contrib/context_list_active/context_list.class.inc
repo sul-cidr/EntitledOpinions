@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Contains ContextListReactionDisplay_blockWithName class
+ */
+
+/**
  * The reaction display class for blocks
  *
  * Nearly a duplicate of the class it extends, except we fetch the human readable block name
@@ -14,7 +19,7 @@ class ContextListReactionDisplay_blockWithName extends ContextListReactionDispla
       // @todo - Probably a more efficient way then recalling the hook_block_info function multiple times, but
       // performance impact is probably negligible, especially for a dev module
       $info = call_user_func($details['module'] . '_block_info');
-      if(!empty($info[$details['delta']]['info'])) {
+      if (!empty($info[$details['delta']]['info'])) {
         $block_name = $info[$details['delta']]['info'];
       }
       else {
@@ -26,13 +31,13 @@ class ContextListReactionDisplay_blockWithName extends ContextListReactionDispla
 
       // Original function follows:
 
-      switch ($details['module']){
+      switch ($details['module']) {
         case 'menu':
-          $block_link .= ' ('. l('Edit', 'admin/structure/menu/manage/'. $details['delta']) .')';
+          $block_link .= ' (' . l(t('Edit'), 'admin/structure/menu/manage/' . $details['delta']) . ')';
           break;
         case 'views':
           $view = str_replace('-', '/', $details['delta']);
-          $block_link .= ' ('. l('Edit', 'admin/structure/views/view/' . $view) .')';
+          $block_link .= ' (' . l(t('Edit'), 'admin/structure/views/view/' . $view) . ')';
           break;
       }
 

@@ -1,24 +1,35 @@
 (function ($, Drupal, window, document, undefined) {
-  $(document).ready(function () {
-
-    var alterAttach = function() {
-      // If the admin menu is present, add our toggler link to it
-      var $adminMenuWrapper = $('#admin-menu-wrapper > ul');
-      if($adminMenuWrapper.length) {
-        // Add a menu item in with javascript
-        $adminMenuWrapper.last().append('<li class="admin-menu-action context-list-active-toggle"><a href="">Show active contexts</a></li>');
-      }
-
-      // Cause the context browser to appear when the toggler is clicked
-      $('.context-list-active-toggle').click(function(e){
+  Drupal.behaviors.contextListActive = {
+    attach: function (context, settings) {
+      // Attach the toggle behavior to the link in the overlay and the link at the bottom of the page (only used when
+      // admin_menu is not present
+      $('#context_list_active-overlay .context-list-active-toggle, #context-list-active-bottom .context-list-active-toggle', context).click(function (e) {
         $('#context_list_active-overlay').toggle();
-
-        e.preventDefault();
         return false;
       });
     }
+  };
 
-    // It seems to be difficult to get these adjustments to run after admin menu - using this hacky timeout for now
-    setTimeout(alterAttach, 750);
-  }); //END - document.ready
+  Drupal.admin = Drupal.admin || {};
+  Drupal.admin.behaviors = Drupal.admin.behaviors || {};
+
+  /**
+   * @ingroup admin_behaviors
+   * @{
+   */
+
+  /**
+   * Toggles the context browser when clicked from the admin menu
+   */
+  Drupal.admin.behaviors.contextBrowserToggle = function (context, settings, $adminMenu) {
+    var $toggle = $adminMenu.find('.context-list-active-toggle');
+    $toggle.click(function () {
+      $('#context_list_active-overlay').toggle();
+      return false;
+    });
+  };
+
+  /**
+   * @} End of "ingroup admin_behaviors".
+   */
 })(jQuery, Drupal, this, this.document); //END - Closure
