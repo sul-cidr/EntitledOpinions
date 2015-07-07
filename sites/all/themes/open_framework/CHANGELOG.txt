@@ -1,3 +1,7 @@
+Version 7.x-2.4
+------------------------------
+meganem: Fixed clear-row for table breakpoint
+
 Version 7.x-2.3
 ------------------------------
 hyperboy: Added missing body classes for body background image theme option
