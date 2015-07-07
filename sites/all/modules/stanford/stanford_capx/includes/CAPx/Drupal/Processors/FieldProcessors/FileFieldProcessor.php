@@ -55,6 +55,12 @@ class FileFieldProcessor extends FieldTypeProcessor {
         continue;
       }
 
+      // If the placeholder variable is available check so we don't get an
+      // empty image.
+      if (isset($value['placeholder']) && $value['placeholder'] === TRUE) {
+        continue;
+      }
+
       // Allow altering as this could get messy.
       drupal_alter('capx_pre_fetch_remote_file', $value);
 
@@ -156,8 +162,10 @@ class FileFieldProcessor extends FieldTypeProcessor {
    */
   public function getFileName($data) {
 
+    $salt = time();
+
     $extension = $this->getExtentionByType($data['contentType']);
-    $filename = md5($data['url']) . $extension;
+    $filename = md5($data['url'] . $salt) . $extension;
 
     return $filename;
   }
