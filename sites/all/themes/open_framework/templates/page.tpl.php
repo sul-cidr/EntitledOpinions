@@ -82,14 +82,6 @@
 </div>
 <!-- /#main-menu -->
 <?php endif; ?>
-
-
-<?php if ($page['fullwidth_top']): ?>
-  <div id="fullwidth-top" class="row-fluid fullwidth">
-    <div class="container"> <?php print render($page['fullwidth_top']); ?> </div>
-  </div>
-<?php endif; ?>
-
 <div id="main" class="clearfix main" role="main">
   <div class="container">
     <?php if (!($is_front) && ($breadcrumb)): ?>
@@ -235,13 +227,6 @@
   </div>
 </div>
 <!-- /#main, /#main-wrapper -->
-
-<?php if ($page['fullwidth_bottom']): ?>
-  <div id="fullwidth-bottom" class="row-fluid fullwidth">
-    <div class="container"> <?php print render($page['fullwidth_bottom']); ?> </div>
-  </div>
-<?php endif; ?>
-
 <?php if ($page['footer']): ?>
 <div id="footer" class="clearfix site-footer" role="contentinfo">
   <div class="container">
