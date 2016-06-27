@@ -1,7 +1,7 @@
 name = Open Framework
 description = Responsive base theme built with Twitter Bootstrap. Learn more at the <a href="http://openframework.stanford.edu">Open Framework website</a>.
 core = 7.x
-version = 7.x-2.4
+version = 7.x-2.5-dev
 project = "open_framework"
 project status url = https://github.com/SU-SWS/open_framework
 
@@ -17,6 +17,7 @@ regions[site_login] = Site: Login
 regions[header] = Header
 regions[navigation] = Navigation
 regions[search_box] = Search Box
+regions[fullwidth_top] = Full Width Top
 regions[main_top] = Main: Top
 regions[main_upper] = Main: Upper
 regions[sidebar_first] = First sidebar
@@ -42,6 +43,7 @@ regions[content_bottom] = Content: Bottom
 regions[sidebar_second] = Second sidebar
 regions[main_lower] = Main: Lower
 regions[main_bottom] = Main: Bottom
+regions[fullwidth_bottom] = Full Width Bottom
 regions[footer] = Footer
 
 ; Settings
