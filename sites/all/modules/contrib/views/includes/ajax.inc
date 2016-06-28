@@ -48,16 +48,14 @@ function views_ajax() {
 
       // Add all $_POST data, because AJAX is always a post and many things,
       // such as tablesorts, exposed filters and paging assume $_GET.
-      $_GET = $_POST + $_GET;
+      $_GET = $_POST + drupal_get_query_parameters($_GET, array('page'));
 
       // Overwrite the destination.
       // @see drupal_get_destination()
       $origin_destination = $path;
-      $query = $_REQUEST;
-      unset($query['q']);
-      $query_string = drupal_http_build_query($query);
-      if ($query_string != '') {
-        $origin_destination .= '?' . $query_string;
+      $query = drupal_http_build_query(drupal_get_query_parameters());
+      if ($query != '') {
+        $origin_destination .= '?' . $query;
       }
       $destination = &drupal_static('drupal_get_destination');
       $destination = array('destination' => $origin_destination);
