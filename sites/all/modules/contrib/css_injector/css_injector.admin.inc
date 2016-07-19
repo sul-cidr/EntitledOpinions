@@ -102,7 +102,8 @@ function theme_css_injector_admin_form($variables) {
  * Form builder function for the CSS rule edit form.
  */
 function css_injector_edit($form, $form_state, $crid = NULL) {
-  if (isset($crid)) {
+
+  if (isset($crid) && is_numeric($crid)) {
     $rule = _css_injector_load_rule($crid, TRUE);
     $path = _css_injector_rule_uri($rule['crid']);
     if (file_exists($path)) {
@@ -112,7 +113,7 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
       $rule['css_text'] = '';
     }
   }
-  else {
+  else if (!isset($crid)) {
     $rule = array(
       'title' => '',
       'rule_type' => CSS_INJECTOR_PAGES_NOTLISTED,
@@ -127,8 +128,12 @@ function css_injector_edit($form, $form_state, $crid = NULL) {
 
   // Adding css stylesheet for icons.
   $form['#attached']['js'] = array(
-    drupal_get_path('module', 'css_injector') . '/ace/ace.js',
-    drupal_get_path('module', 'css_injector') . '/syntax_highlighter.js',
+    drupal_get_path('module', 'css_injector') . '/ace/ace.js' => array(
+      'preprocess' => FALSE,
+    ),
+    drupal_get_path('module', 'css_injector') . '/syntax_highlighter.js' => array(
+      'preprocess' => FALSE,
+    ),
   );
 
   $form['#attached']['css'] = array(
