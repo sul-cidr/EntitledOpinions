@@ -205,6 +205,81 @@ function stanford_image_styles_image_default_styles() {
     'label' => '9-col-banner-short',
   );
 
+  // Exported image style: banner-850x400.
+  $styles['banner-850x400'] = array(
+    'label' => 'banner (850x400)',
+    'effects' => array(
+      2 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 850,
+          'height' => 400,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: full-width-banner.
+  $styles['full-width-banner'] = array(
+    'label' => 'Full Width Banner (Scale and Crop 1600x600)',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 1600,
+          'height' => 600,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: full-width-banner-short.
+  $styles['full-width-banner-short'] = array(
+    'label' => 'full-width-banner-short',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 1600,
+          'height' => 500,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: half-page-profile.
+  $styles['half-page-profile'] = array(
+    'label' => 'Half Page Profile (Scale and Crop 600x700)',
+    'effects' => array(
+      3 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 600,
+          'height' => 700,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: huge-landscape.
+  $styles['huge-landscape'] = array(
+    'label' => 'Huge Landscape (Scale and Crop 1500x1200)',
+    'effects' => array(
+      2 => array(
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => 1500,
+          'height' => 1200,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   // Exported image style: icon-profile.
   $styles['icon-profile'] = array(
     'label' => 'icon-profile',
@@ -214,6 +289,22 @@ function stanford_image_styles_image_default_styles() {
         'data' => array(
           'width' => 50,
           'height' => 65,
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: icon-scaled.
+  $styles['icon-scaled'] = array(
+    'label' => 'icon-scaled',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 50,
+          'height' => '',
           'upscale' => 0,
         ),
         'weight' => 1,
@@ -450,6 +541,38 @@ function stanford_image_styles_image_default_styles() {
       ),
     ),
     'label' => 'sm-profile',
+  );
+
+  // Exported image style: sm-profile-scaled.
+  $styles['sm-profile-scaled'] = array(
+    'label' => 'sm-profile-scaled',
+    'effects' => array(
+      1 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '',
+          'height' => 110,
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
+  // Exported image style: sm-scaled.
+  $styles['sm-scaled'] = array(
+    'label' => 'sm-scaled',
+    'effects' => array(
+      2 => array(
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 120,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 1,
+      ),
+    ),
   );
 
   // Exported image style: sm-square.
