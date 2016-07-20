@@ -52,6 +52,14 @@ function stanford_easy_wysiwyg_css_css_alter(&$css) {
   }
 
   $wysiwyg_css_data = drupal_add_css();
+  // Let CSS Injector do its thang.
+  if (function_exists('css_injector_css_alter')) {
+    css_injector_css_alter($wysiwyg_css_data);
+  }
+  // Sort the array of CSS files by weight.
+  uasort($wysiwyg_css_data, function($a, $b) {
+    return $a['weight'] - $b['weight'];
+  });
   $wysiwyg_css = array();
 
   // Remove print stuff.
