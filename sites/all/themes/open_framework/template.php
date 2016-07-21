@@ -48,7 +48,7 @@ function open_framework_js_alter(&$javascript) {
     $jquery_version = '1.9.1';
     $migrate_file = drupal_get_path('theme', 'open_framework') . '/js/jquery-migrate-1.2.1.min.js';
     $migrate_version = '1.2.1';
-  $form_file = drupal_get_path('theme', 'open_framework') . '/js/jquery-form-3.31.0.min.js';
+	$form_file = drupal_get_path('theme', 'open_framework') . '/js/jquery-form-3.31.0.min.js';
     $form_version = '3.31.0';
     $javascript['misc/jquery.js']['data'] = $jquery_file;
     $javascript['misc/jquery.js']['version'] = $jquery_version;
@@ -60,7 +60,7 @@ function open_framework_js_alter(&$javascript) {
       $javascript["$migrate_file"]['weight'] = 1;
       $javascript["$migrate_file"]['group'] = -101;
     }
-  if (isset($javascript['misc/jquery.form.js'])) {
+	if (isset($javascript['misc/jquery.form.js'])) {
       $javascript['misc/jquery.form.js']['data'] = $form_file;
       $javascript['misc/jquery.form.js']['version'] = $form_version;
       $javascript['misc/jquery.form.js']['weight'] = 2;
@@ -83,7 +83,7 @@ function open_framework_preprocess_page(&$vars) {
   }
 
   if ($font_awesome_version == 'font-awesome-4') {
-  drupal_add_css(drupal_get_path('theme', 'open_framework') . '/packages/font-awesome-4.6.1/css/font-awesome.min.css', array('group' => CSS_DEFAULT, 'media' => 'all', 'weight' => 20, 'preprocess' => TRUE));
+  drupal_add_css(drupal_get_path('theme', 'open_framework') . '/packages/font-awesome-4.3.0/css/font-awesome.min.css', array('group' => CSS_DEFAULT, 'media' => 'all', 'weight' => 20, 'preprocess' => TRUE));
   }
 
   // Add page template suggestions based on the aliased path. For instance, if the current page has an alias of about/history/early, we'll have templates of:
@@ -279,12 +279,12 @@ function open_framework_status_messages($variables) {
   );
 
   foreach (drupal_get_messages($display) as $type => $messages) {
-    $class = (isset($status_class[$type])) ? ' alert-' . $status_class[$type] : " " . drupal_clean_css_identifier($type);
+    $class = (isset($status_class[$type])) ? ' alert-' . $status_class[$type] : '';
     $output .= "<div class=\"alert alert-block$class\">\n";
 
     if (arg(0) != 'admin' && arg(0) != 'panels' && arg(0) != 'ctools') {
     $output .= "  <a class=\"close\" data-dismiss=\"alert\" href=\"#\">x</a>\n";
-  }
+	}
 
     if (!empty($status_heading[$type])) {
       $output .= '<h2 class="element-invisible">' . $status_heading[$type] . "</h2>\n";
@@ -398,7 +398,7 @@ function open_framework_menu_link(array $vars) {
       $element['#localized_options']['attributes']['class'][] = 'dropdown-toggle';
       $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
 
-      // Check if this element is nested within another.
+      // Check if this element is nested within another
       if ((!empty($element['#original_link']['depth'])) && ($element['#original_link']['depth'] > 1)) {
       // Generate as dropdown submenu
         $element['#attributes']['class'][] = 'dropdown-submenu';
@@ -501,93 +501,85 @@ function _bootstrap_local_tasks($tabs = FALSE) {
 
 function open_framework_is_in_nav_menu($element) {
 
-  $static_menu_cache = &drupal_static(__FUNCTION__);
-  $menu_name = $element["#original_link"]["menu_name"];
-  $bid = NULL;
+  // #theme holds one or more suggestions for theming function names for the link
+  // simplify things by casting into an array
+  $link_theming_functions = (isset($element['#theme'])) ? (array)$element['#theme'] : array();
 
-  // Menu Blocks has this for some reason.
-  if (isset($element["#bid"])) {
-    $bid = $element["#bid"]["module"] . "_" . $element["#bid"]["delta"];
+  // Avoid calculating this more than once
+  $nav_theming_functions = &drupal_static(__FUNCTION__);
+
+  // if not done yet, calculate the names of the theming function for all the blocks
+  // in the navigation region
+
+  if (!isset($nav_theming_functions)) {
+
+    // get all blocks in the navigation region
+    $blocks = block_list('navigation');
+
+	// Blocks placed using the context module don't show up using Drupal's block_list
+	// If context is enabled, see if it has placed any blocks in the navigation area
+	// See: http://drupal.org/node/785350
+    $context_blocks = array();
+
+	if (module_exists('context')) {
+	  $reaction_block_plugin = context_get_plugin('reaction', 'block');
+	  $context_blocks = $reaction_block_plugin->block_list('navigation');
+	}
+
+    $blocks = array_merge($blocks, $context_blocks);
+
+    // extract just their IDs (<module>_<delta>)
+    $ids = array_keys($blocks);
+
+    // translate the ids into function names for comparison purposes
+    $nav_theming_functions = array_map('open_framework_block_id_to_function_name', $ids);
+
   }
 
-  // Not part of a menu? Get outta here.
-  if (empty($menu_name)) {
-    return;
-  }
+  // if there is nothing in the navigation section, the main menu is added automatically, so
+  // we watch for that.
+  // 'menu_link__main_menu' is the theming function name for the main-menu
+  if ((empty($nav_theming_functions)) && (in_array('menu_link__main_menu', $link_theming_functions))) {
+    return TRUE;
+  };
 
-  // For everything but menu blocks.
-  if (isset($static_menu_cache[$menu_name])) {
-    return $static_menu_cache[$menu_name];
-  }
-
-  // For menu blocks.
-  if (!empty($bid) && isset($static_menu_cache[$bid])) {
-    return $static_menu_cache[$bid];
-  }
-
-  // Check Drupal core blocks for this menu and its block placement.
-  $delta = str_replace("-","_", $menu_name);
-  $block_list = block_list("navigation");
-  $keys = array_keys($block_list);
-  foreach ($keys as $key) {
-    $lower_key = str_replace("-","_", $key);
-    $lower_key = str_replace("system_", "", $lower_key);
-    if ($delta == $lower_key) {
-      $static_menu_cache[$menu_name] = TRUE;
-      return TRUE;
-    }
-  }
-
-  if (module_exists("context") && !$static_menu_cache['context_cycle']) {
-
-    // Ensure all contexts have been evaluated.
-    module_invoke_all('context_page_condition');
-
-    // Context could also be placing the blocks. Lets check it.
-    $reaction_block_plugin = context_get_plugin('reaction', 'block');
-    $contexts = context_active_contexts();
-
-    foreach ($contexts as $context_name => $context) {
-      $options = $reaction_block_plugin->fetch_from_context($context);
-      if (!empty($options['blocks'])) {
-        foreach ($options['blocks'] as $context_block) {
-          if ($context_block['region'] == "navigation") {
-            if ($context_block["module"] == "menu_block") {
-              $static_menu_cache["menu_block_" . $context_block['delta']] = TRUE;
-            }
-            else {
-              $static_menu_cache[$context_block['delta']] = TRUE;
-            }
-          }
-        }
-      }
-    }
-
-    // Don't loop through this again.
-    $static_menu_cache['context_cycle'] = TRUE;
-  }
-
-  // For the context condition.
-  if (isset($static_menu_cache[$menu_name]) && $static_menu_cache[$menu_name] === TRUE) {
+  // Find out if any of the theming functions for the blocks are the same
+  // as the theming functions for the link.
+  $intersect = array_intersect($nav_theming_functions, $link_theming_functions);
+  if ((!empty($intersect))) {
     return TRUE;
   }
+  else {
+    return FALSE;
+  }
+}
 
-  // For context condition and menu_block.
-  if (!empty($bid)) {
-    if (isset($static_menu_cache[$bid]) && $static_menu_cache[$bid] === TRUE) {
-      return TRUE;
-    }
+/*
+ *  Convert a block id to a theming function name
+ */
+
+function open_framework_block_id_to_function_name ($id) {
+  // if a system block, remove 'system_'
+  $id = str_replace('system_', '', $id);
+
+  // recognize menu and block_menu module blocks
+  if (strpos($id, 'menu_block_') === false) {
+    // if a menu block but not a menu_block block, remove menu_
+    $id = str_replace('menu_',       '', $id);
+  }
+  else {
+    // if a menu_block block, keep menu_block, but add an
+	// underscore. Not sure why this is different from other
+	// core modules
+    $id = str_replace('menu_block_', 'menu_block__', $id);
   }
 
-  // If at this part and still no block found check to see if it is the main
-  // menu from the theme settings
-  if ($menu_name == "main-menu") {
-    return TRUE;
-  }
+  // massage the id to looks like a theming function name
+  // use the same function used to create the name of theming function
+  $id = strtr($id, '-', '_');
+  $name = 'menu_link__' . $id;
 
-  // This is not part of the main navigation region. Cache this too.
-  $static_menu_cache[$menu_name] = FALSE;
-  return FALSE;
+  return $name;
 }
 
 /*
@@ -605,8 +597,7 @@ function open_framework_breadcrumb(&$variables) {
       $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
 
       $output .= '<div class="breadcrumb">' . implode(' » ', $breadcrumb) . '</div>';
-    }
-    else {
+    } else {
       $output = '<div class="breadcrumb">' . t('Home') . '</div>';
     }
   }
