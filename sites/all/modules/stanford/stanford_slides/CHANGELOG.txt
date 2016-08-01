@@ -1,6 +1,10 @@
 Stanford Slides x.x-x.x xxxx-xx-xx
 ----------------------------------
 
+Stanford Slides 7.x-3.1 2016-05-30
+-----------------------------------------
+- Removed duplicate manage slides view
+
 Stanford Slides 7.x-3.0 2014-11-27
 -----------------------------------------
 - Update and rename README.txt to README.md
