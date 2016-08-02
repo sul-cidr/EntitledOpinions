@@ -1,6 +1,21 @@
 Stanford Image x.x-x.x xxxx-xx-xx
 --------------------------------------
 
+7.x-3.5                2016-05-30
+---------------------------------
+- Added stanford_banner_850x400 view mode and style
+- Added 6-col-banner-short view mode and style
+- Removed unused VBO options from manage view
+
+7.x-3.4                2015-10-16
+---------------------------------
+- removed dependency on stanford_person
+- added vbo operations back to feature
+- Added banner full width short view mode
+- Add stanford full width banner short view mode
+- VPTL view mode for full-width-banner
+- Added sm-scaled and icon-scaled view modes
+
 7.x-3.3                2015-06-26
 ---------------------------------
 - Cache yer views.

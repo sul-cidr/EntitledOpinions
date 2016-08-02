@@ -145,6 +145,39 @@ function stanford_image_strongarm() {
       'stanford_icon_profile' => array(
         'custom_settings' => TRUE,
       ),
+      'stanford_icon_scaled' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_sm_scaled' => array(
+        'custom_settings' => TRUE,
+      ),
+      'large_landscape' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_callout_block' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_list' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_tiles' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_full_width_banner' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_full_width_banner_short' => array(
+        'custom_settings' => TRUE,
+      ),
+      'stanford_huge_landscape' => array(
+        'custom_settings' => FALSE,
+      ),
+      'stanford_banner_850x400' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
