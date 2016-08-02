@@ -1,11 +1,17 @@
 /* global **************************** */
+
+
 /* ----- body ------------------------ */
 
 body {
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
 }
+
+
 /* ----- custom fonts ---------------- */
+
+
 /* ----- text ------------------------ */
 
 h2,
@@ -56,6 +62,8 @@ code {
     font-style: italic;
     font-size: 13px;
 }
+
+
 /* ----- links ----------------------- */
 
 a,
@@ -95,6 +103,8 @@ h2 a:hover,
 h3 a:hover {
     text-decoration: none;
 }
+
+
 /* ----- lists ----------------------- */
 
 ul.inline,
@@ -103,6 +113,8 @@ ul.links.inline li {
     margin-left: 0;
     padding-left: 0;
 }
+
+
 /* ----- tables ---------------------- */
 
 tr.even,
@@ -129,6 +141,8 @@ th {
 td {
     vertical-align: top;
 }
+
+
 /* ----- forms ----------------------- */
 
 .form-item label {
@@ -156,6 +170,8 @@ select,
 .chzn-container {
     max-width: 100%;
 }
+
+
 /* override for views exposed forms submit */
 
 .form-type-checkbox label {
@@ -210,13 +226,14 @@ input.placeholder,
 textarea.placeholder {
     color: #aaa;
 }
+
+
 /* ----- Invisible and Focusable Elements (skipnav) ----------------------- */
 
 .element-invisible {
     position: absolute !important;
     clip: rect(1px 1px 1px 1px);
     /* IE6, IE7 */
-
     clip: rect(1px, 1px, 1px, 1px);
 }
 
@@ -228,6 +245,8 @@ textarea.placeholder {
     height: auto;
     padding: 0 1em;
 }
+
+
 /* ----- other ----------------------- */
 
 hr {
@@ -241,7 +260,19 @@ hr {
 .box-shadow-none {
     box-shadow: none !important;
 }
+
+.well.well-invisible {
+    padding: 20px;
+    border: none;
+    background: transparent;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+
 /* header ******************************/
+
+
 /* ----- header region --------------- */
 
 .header {
@@ -255,6 +286,8 @@ hr {
 .header-content {
     clear: both;
 }
+
+
 /* ----- search box ------------------ */
 
 .nav-search {
@@ -301,6 +334,8 @@ hr {
 #block-search-form form {
     margin: 0;
 }
+
+
 /* ----- logo ------------------------ */
 
 .header .site-logo {
@@ -312,6 +347,8 @@ hr {
     max-height: 100px;
     max-width: none;
 }
+
+
 /* ----- site title and slogan ------- */
 
 .site-name,
@@ -353,7 +390,11 @@ hr {
 .site-login {
     text-align: right;
 }
+
+
 /* navigation ************************ */
+
+
 /* ----- main navigation ------------- */
 
 .site-main-menu {
@@ -381,6 +422,8 @@ nav h2 {
     position: absolute;
     left: -10000px;
 }
+
+
 /* ----- admin shortcuts / secondary menu -------- */
 
 .admin-shortcuts {
@@ -433,12 +476,29 @@ nav h2 {
     top: 5px;
     left: 190px;
 }
+
+
 /* ----- admin menu ------------------ */
 
 #admin-menu li {
     line-height: normal;
 }
+
+
 /* ----- pager nav ------------------- */
+
+
+/* full-width regions **************** */
+
+.fullwidth .container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
 /* sidebars ************************** */
 
 .sidebar {
@@ -448,6 +508,8 @@ nav h2 {
 .sidebar .nav {
     margin-left: 1.2em;
 }
+
+
 /* footer **************************** */
 
 .site-footer {
@@ -459,7 +521,11 @@ nav h2 {
     font-size: 20px;
     line-height: 1.5em;
 }
+
+
 /* ----- fat footer ------------------ */
+
+
 /* content *****************************/
 
 .main,
@@ -471,6 +537,8 @@ nav h2 {
 .node .submitted {
     margin-bottom: 1em;
 }
+
+
 /* views ***************************** */
 
 .views-row {
@@ -483,20 +551,26 @@ nav h2 {
 .field-collection-view {
     border-bottom: 0;
 }
+
+
 /* containers ************************ */
+
+
 /* ----- blocks ---------------------- */
 
 .main .block {
     margin-bottom: 30px;
 }
 
-.main .block.block-no-bottom-margin {
+.block.block-no-bottom-margin {
     margin-bottom: 0;
 }
 
 .main #block-system-main {
     margin-bottom: 0;
 }
+
+
 /* ----- callouts and blockquotes ---- */
 
 .callout,
@@ -523,6 +597,8 @@ nav h2 {
     width: 27.25%;
     border: 1px solid #eee;
 }
+
+
 /* ----- pullquote text -------------- */
 
 .pullquote,
@@ -548,6 +624,8 @@ blockquote > p:first-child {
     letter-spacing: .05em;
     font-size: 12px;
 }
+
+
 /* postcard layouts ****************** */
 
 .postcard-left,
@@ -556,6 +634,13 @@ blockquote > p:first-child {
 .postcard-right-wrap {
     clear: both;
     margin-bottom: 15px;
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin-top: 0;
+    }
 }
 
 .postcard-left > div,
@@ -566,36 +651,22 @@ blockquote > p:first-child {
 .postcard-left-wrap > div:first-child,
 .postcard-left > div:first-child {
     float: left;
+    img {
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
 }
 
 .postcard-right-wrap > div:first-child,
 .postcard-right > div:first-child {
     float: right;
+    img {
+        margin-left: 15px;
+        margin-bottom: 15px;
+    }
 }
 
-.postcard-left > div:first-child img,
-.postcard-left-wrap > div:first-child img,
-.postcard-right > div:first-child img,
-.postcard-right-wrap > div:first-child img {
-    margin-bottom: 15px;
-}
 
-.postcard-left > div:first-child img,
-.postcard-left-wrap > div:first-child img {
-    margin-right: 15px;
-}
-
-.postcard-right > div:first-child img,
-.postcard-right-wrap > div:first-child img {
-    margin-left: 15px;
-}
-
-.postcard-left h2,
-.postcard-left-wrap h2,
-.postcard-right h2,
-.postcard-right-wrap h2 {
-    margin-top: 0;
-}
 /* images **************************** */
 
 img,
@@ -652,11 +723,15 @@ a img {
 .main .border-hairline a:hover img {
     border: 1px solid #373737;
 }
+
+
 /* media ***************************** */
 
 iframe {
     max-width: 100%;
 }
+
+
 /* ----- Video Player ------------- */
 
 .video-player {
@@ -686,7 +761,11 @@ iframe {
     top: 0;
     width: 100%;
 }
+
+
 /* helper classes ******************** */
+
+
 /* ----- Views Row Lines ------------- */
 
 .views-row-lines .views-row {
@@ -700,6 +779,8 @@ iframe {
     border-top: 1px solid #F0F0F0;
     padding-top: 1em;
 }
+
+
 /* ----- positioning ----------------- */
 
 .spacer {
@@ -754,13 +835,21 @@ iframe {
     overflow: hidden;
     z-index: -1000;
 }
+
+
 /* already defined by drupal */
+
+
 /* ----- sizing ---------------------- */
 
 .span-full {
     width: 100%;
 }
+
+
 /* general overrides ***************** */
+
+
 /* ----- block alert overrides -- */
 
 .block.alert {
@@ -773,6 +862,8 @@ iframe {
     padding-right: 10px;
     padding-left: 10px;
 }
+
+
 /* ----- field collection overrides -- */
 
 .field-collection-container {
@@ -788,6 +879,8 @@ iframe {
 .field-collection-container .field-items .field-item {
     margin: 0;
 }
+
+
 /* ----- collapsable fieldset overrides -- */
 
 html.js fieldset.collapsed {
@@ -798,6 +891,8 @@ legend {
     margin-bottom: 1em;
     line-height: 1.5em;
 }
+
+
 /* ----- field label overrides ------- */
 
 .field .field-label {
@@ -811,6 +906,8 @@ legend {
 .page-node .content-body .field-type-field-collection {
     margin-bottom: 0;
 }
+
+
 /* ----- admin menu overrides -- */
 
 #admin-menu {
@@ -819,7 +916,11 @@ legend {
     padding-right: 0;
     padding-left: 0;
 }
+
+
 /* features overrides ******* */
+
+
 /* ----- views slideshow ------------- */
 
 .views_slideshow_cycle_main {
@@ -850,7 +951,11 @@ legend {
     width: 100%;
     height: auto;
 }
+
+
 /* administration ******************** */
+
+
 /* ----- admin ----------------------- */
 
 ul.primary {
@@ -860,8 +965,14 @@ ul.primary {
 .vertical-tabs .summary {
     font-size: 12px;
 }
+
+
 /* media queries ********************* */
+
+
 /* ----- responsive ------------------ */
+
+
 /* landscape phones and down */
 
 @media (max-width: 480px) {
@@ -886,6 +997,8 @@ ul.primary {
         display: block;
     }
 }
+
+
 /* landscape phones to tablet */
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -910,6 +1023,17 @@ ul.primary {
         float: left;
         margin-right: 0;
         width: 49%;
+    }
+    .main-top .block.span12,
+    .main-upper .block.span12,
+    .main-lower .block.span12,
+    .main-bottom .block.span12,
+    .content-top .block.span12,
+    .content-upper .block.span12,
+    .content-body .block.span12,
+    .content-lower .block.span12,
+    .content-bottom .block.span12 {
+        width: 100%;
     }
     .main-top .block,
     .main-upper .block,
@@ -969,6 +1093,17 @@ ul.primary {
     .site-sidebar-second .block:nth-child(2n) {
         margin-right: 0;
     }
+    .main-top .block[class*="span"].clear-row,
+    .main-upper .block[class*="span"].clear-row,
+    .main-lower .block[class*="span"].clear-row,
+    .main-bottom .block[class*="span"].clear-row,
+    .content-top .block[class*="span"].clear-row,
+    .content-upper .block[class*="span"].clear-row,
+    .content-body .block[class*="span"].clear-row,
+    .content-lower .block[class*="span"].clear-row,
+    .content-bottom .block[class*="span"].clear-row {
+        margin-right: 2%;
+    }
     .main-top .block.span12.clear-row,
     .main-upper .block.span12.clear-row,
     .main-lower .block.span12.clear-row,
@@ -993,7 +1128,6 @@ ul.primary {
         margin-left: 0;
     }
     /* fix for .well on blocks in first sidebar and second sidebar */
-
     .site-sidebar-first .block.well,
     .site-sidebar-second .block.well {
         width: 37%;
@@ -1007,6 +1141,8 @@ ul.primary {
         margin-right: 20px;
     }
 }
+
+
 /* landscape phone to portrait tablet */
 
 @media (max-width: 767px) {
@@ -1104,6 +1240,8 @@ ul.primary {
         float: right;
     }
 }
+
+
 /* portrait tablet to landscape and desktop */
 
 @media (min-width: 768px) and (max-width: 979px) {
@@ -1123,18 +1261,21 @@ ul.primary {
         width: 40%;
     }
     .footer-content .block.span2,
-    .footer-content .block.span3 {
+    .footer-content .block.span3,
+    .footer-content .block.span4 {
         float: left;
         margin-left: 0;
         margin-right: 4%;
         width: 30.6%;
     }
     .footer-content .block.span2:nth-child(3n+1),
-    .footer-content .block.span3:nth-child(3n+1) {
+    .footer-content .block.span3:nth-child(3n+1),
+    .footer-content .block.span4:nth-child(3n+1) {
         clear: both;
     }
     .footer-content .block.span2:nth-child(3n),
-    .footer-content .block.span3:nth-child(3n) {
+    .footer-content .block.span3:nth-child(3n),
+    .footer-content .block.span4:nth-child(3n) {
         margin-right: 0;
     }
     .sidebar-first .content-row3 .span4,
@@ -1234,6 +1375,8 @@ ul.primary {
         margin-left: 0;
     }
 }
+
+
 /* large desktop */
 
 @media (min-width: 980px) {
@@ -1244,6 +1387,8 @@ ul.primary {
         margin-left: 0;
     }
 }
+
+
 /* desktop */
 
 @media (min-width: 980px) and (max-width: 1199px) {
