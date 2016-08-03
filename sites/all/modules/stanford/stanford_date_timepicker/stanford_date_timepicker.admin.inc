@@ -6,7 +6,7 @@
 
 /**
  * Default settings configuration form.
- * url: admin/config/stanford-datetimepicker
+ * url: admin/config/stanford/datetimepicker
  * @param  array $form see form api
  * @param  array $form_state see form api
  * @return array the form array.

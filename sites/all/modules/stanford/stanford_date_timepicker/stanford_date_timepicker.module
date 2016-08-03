@@ -40,12 +40,18 @@ function stanford_date_timepicker_permission() {
  * Implements hook_menu().
  */
 function stanford_date_timepicker_menu() {
-  $items['admin/config/stanford-datetimepicker'] = array(
-    'title' => 'Stanford Date Timepicker Configuration',
+  $items['admin/config/stanford/datetimepicker'] = array(
+    'title' => 'Stanford Date Timepicker',
+    'description' => "Configure module default settings.",
     'page callback' => 'drupal_get_form',
     'page arguments' => array('stanford_date_timepicker_config_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'stanford_date_timepicker.admin.inc',
+  );
+
+  $items['admin/config/stanford/datetimepicker/settings'] = array(
+    'title' => 'Stanford Date Timepicker',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
   return $items;

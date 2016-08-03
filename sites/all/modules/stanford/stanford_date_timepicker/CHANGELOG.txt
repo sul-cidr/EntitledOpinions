@@ -1,6 +1,10 @@
 Stanford Date Timepicker 7.x-xx-xxxx xxxx-xx-xx
 ------------------------------------------------
 
+Stanford Date Timepicker 7.x-1.3 2016-08-03
+-------------------------------------------
+- Changed path of config menu item to be a sub-menu-item
+
 7.x-1.2                               2015-03-19
 ------------------------------------------------
 - Issue #2395745 by kreynen: Fixes for config menu path and .info
