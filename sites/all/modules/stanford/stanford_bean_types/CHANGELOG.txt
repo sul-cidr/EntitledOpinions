@@ -1,6 +1,31 @@
 Stanford Bean Types x.x-x.x xxxx-xx-xx
 --------------------------------------
 
+7.x-3.0                            2016-05-30
+---------------------------------------------
+- Modified permissions module to install directly to database
+- Full width banner CSS included
+
+7.x-2.8                            2016-01-14
+---------------------------------------------
+- Upgrade hook finilization.
+
+7.x-2.7                            2015-10-19
+---------------------------------------------
+- Added upgrade hook for ds_bean_fields module
+- New image style types
+- New address field
+- New image insert field
+- Removed codeclimate.yml
+
+7.x-2.6                            2015-10-19
+---------------------------------------------
+- Created .codeclimate.yml
+- Added fullwdith banner short view mode on stanford banner
+- Restored testimonial block
+- Added new module ds_bean_fields to support layout for icon-block
+- Added icon-block bean type
+
 7.x-2.5                            2015-06-26
 ---------------------------------------------
 - Removed foreign keys from features.

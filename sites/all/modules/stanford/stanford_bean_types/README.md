@@ -1,7 +1,7 @@
 #[Stanford Bean Types](https://github.com/SU-SWS/stanford_bean_types)
-##### Version: 7.x-2.5-dev+2
+##### Version: 7.x-3.0
 
-Maintainers: [jbickar](https://github.com/jbickar), [sherakama](https://github.com/sherakama)
+Maintainers: [jbickar](https://github.com/jbickar), [sherakama](https://github.com/sherakama), [boznik](https://github.com/boznik)
 
 [Changelog.txt](CHANGELOG.txt)
 
@@ -35,6 +35,9 @@ Sub Modules
 
 **[Stanford Bean Types Permissions](https://github.com/SU-SWS/stanford_bean_types/tree/7.x-2.x-dev/modules/stanford_bean_types_permissions)**
 Stanford Bean Type Permissions modules provides some out of the box permissions that may be installed through an installation profile as it is dependant on the Stanford Bean Types module. This module may be safely disabled and overridden through the permissions setting page.
+
+**[DS Bean Fields](https://github.com/SU-SWS/stanford_bean_types/tree/7.x-2.x-dev/modules/ds_bean_fields)**
+Display suite handling of the title field in BEAN types.
 
 
 Installation
