@@ -1,0 +1,6 @@
+Stanford Feeds Helper
+
+
+Version                       7.x-1.0 2016-08-26
+------------------------------------------------
+- Initial release!
