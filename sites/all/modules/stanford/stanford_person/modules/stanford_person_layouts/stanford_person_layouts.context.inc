@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * stanford_person_views.context.inc
+ * stanford_person_layouts.context.inc
  */
 
 /**
  * Implements hook_context_default_contexts().
  */
-function stanford_person_views_context_default_contexts() {
+function stanford_person_layouts_context_default_contexts() {
   $export = array();
 
   $context = new stdClass();
@@ -43,6 +43,7 @@ function stanford_person_views_context_default_contexts() {
   t('People');
   $export['stanford_people_all_pages'] = $context;
 
+
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
@@ -52,8 +53,12 @@ function stanford_person_views_context_default_contexts() {
   $context->conditions = array(
     'path' => array(
       'values' => array(
+        '~people/faculty/directory' => '~people/faculty/directory',
+        '~people/faculty/profiles' => '~people/faculty/profiles',
+        '~people/faculty/list' => '~people/faculty/list',
+        '~people/faculty/cap-list' => '~people/faculty/cap-list',
+        '~people/faculty/grid' => '~people/faculty/grid',
         'people/faculty' => 'people/faculty',
-        'people/faculty/*' => 'people/faculty/*',
       ),
     ),
   );
@@ -66,12 +71,6 @@ function stanford_person_views_context_default_contexts() {
           'region' => 'sidebar_first',
           'weight' => '-8',
         ),
-        'views-stanford_quote-block_2' => array(
-          'module' => 'views',
-          'delta' => 'stanford_quote-block_2',
-          'region' => 'sidebar_first',
-          'weight' => '-7',
-        ),
       ),
     ),
   );
@@ -83,6 +82,7 @@ function stanford_person_views_context_default_contexts() {
   t('People');
   $export['stanford_people_faculty_pages'] = $context;
 
+
   $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
@@ -92,8 +92,13 @@ function stanford_person_views_context_default_contexts() {
   $context->conditions = array(
     'path' => array(
       'values' => array(
+        '~people/staff/directory' => '~people/staff/directory',
+        '~people/staff/profiles' => '~people/staff/profiles',
+        '~people/staff/lists' => '~people/staff/lists',
+        '~people/staff/list' => '~people/staff/list',
+        '~people/staff/cap-list' => '~people/staff/cap-list',
+        '~people/staff/grid' => '~people/staff/grid',
         'people/staff' => 'people/staff',
-        'people/staff/*' => 'people/staff/*',
       ),
     ),
   );
@@ -126,6 +131,12 @@ function stanford_person_views_context_default_contexts() {
   $context->conditions = array(
     'path' => array(
       'values' => array(
+        '~people/students/directory' => '~people/students/directory',
+        '~people/students/profiles' => '~people/students/profiles',
+        '~people/students/list' => '~people/students/list',
+        '~people/students/cap-list' => '~people/students/cap-list',
+        '~people/students/lists' => '~people/students/lists',
+        '~people/students/grid' => '~people/students/grid',
         'people/student' => 'people/student',
         'people/student/*' => 'people/student/*',
         'people/students' => 'people/students',
