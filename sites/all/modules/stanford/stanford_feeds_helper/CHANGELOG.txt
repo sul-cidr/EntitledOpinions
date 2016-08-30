@@ -1,5 +1,10 @@
 Stanford Feeds Helper
 
+Version                       7.x-1.1 2016-08-29
+------------------------------------------------
+- Re-introduced the field_collection throttle
+- PHP notice bug fix
+
 
 Version                       7.x-1.0 2016-08-26
 ------------------------------------------------
