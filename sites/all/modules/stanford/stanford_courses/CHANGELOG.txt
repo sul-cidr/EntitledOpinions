@@ -1,6 +1,45 @@
 Stanford Courses x.x-x.x, xxxx-xx-xx
 ------------------------------------
 
+7.x-4.0                   2016-08-30
+------------------------------------
+- Removed field collection throttle functionality
+- Removed field collection sub target code in favor of new helper module
+- Added dependency on new stanford_feeds_helper module
+- Added upgrade paths for new XML schema version
+- New contrib version dependencies for feeds and field_collection
+
+7.x-3.10                  2016-05-30
+------------------------------------
+- Multiple bug fixes around the course tagging
+- Multiple result index bug fixes
+- Added field collection throttle
+-
+
+7.x-3.9                   2016-02-17
+------------------------------------
+- mapping of tags to human readable things
+- added field collection additions on introsems course section
+
+
+7.x-3.8                   2015-11-10
+------------------------------------
+- Offset list date by two weeks so no overlap.
+
+7.x-3.7                   2015-10-19
+------------------------------------
+
+- ECON-125: Pad out return array for field_multiple_values as tamper does not respect associative array key index alone
+- VPSADEV-146: Added the author filter back in
+- VPSADEV-146: fix to avoid overridden feature
+- Reverted VBO stuff in manage view
+- VPSADEV-146: Added author to exposed filters of manage view
+- Updating hook_help to remove references to the Course Section content type
+- Added new feeds tamper plugin: Array keyword filter
+- Support stanford_courses_minimal
+- Update README.md
+
+
 7.x-3.6                   2015-06-26
 ------------------------------------
 - Removed foreign keys from feature

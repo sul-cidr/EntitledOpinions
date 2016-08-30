@@ -1,5 +1,5 @@
 #[Stanford Courses](https://github.com/SU-SWS/stanford_courses)
-##### Version: 7.x-3.6
+##### Version: 7.x-4.0
 
 Maintainers: [jbickar](https://github.com/jbickar), [sherakama](https://github.com/sherakama)
 
@@ -18,7 +18,7 @@ A collection of default views for use with the course module. This module should
 A listing of all courses complete with an exposed filter block that allows users to search, sort, and filter through the list of courses.
 
 * **Current Courses Page**
-A listing of all courses that are in progress. This view will only show courses that are active for the current term.
+A listing of all courses that are in progress. This view will only show courses that are active for the current term. All components are included with the exception of Discussion Section (DIS), Independent Study (INS),  Practicum (PRC), and Thesis/Dissertation (T/D).
 
 * **Section Information Block**
 The section information block is used when placed on a course node to display a table of section information.
@@ -41,6 +41,9 @@ The Stanford Courses Person Reference feature adds an entity reference field to 
 **[Stanford Courses Person Reference Views](modules/stanford_courses_person_reference_views)**
 The person reference views is a replacement set of views for the default course views. When enabled the default course views module should be disabled. Included in this set of views is an extra field for a link to a Stanford Person content type but is otherwise identical to the default course views.
 
+**[Stanford Courses Tag Translate](modules/stanford_courses_tag_translate)**
+Adds a field to the course content type that allows for the storage of a human readable version of the explore courses tags. Also, by default, this module alters the course importer to allow you to automatically have the translations.
+
 
 Installation
 ---
@@ -59,7 +62,9 @@ Pretty URL:
 http://explorecourses.stanford.edu/search?view=catalog&academicYear=&page=0&q=BIOE&filter-departmentcode-BIOE=on&filter-coursestatus-Active=on&filter-term-Spring=on
 
 XML URL:
-https://explorecourses.stanford.edu/search?view=xml-20130201&academicYear=&page=0&q=BIOE&filter-departmentcode-BIOE=on&filter-coursestatus-Active=on&filter-term-Spring=on
+https://explorecourses.stanford.edu/search?view=xml-20140630&academicYear=&page=0&q=BIOE&filter-departmentcode-BIOE=on&filter-coursestatus-Active=on&filter-term-Spring=on
+
+view options: xml-20140630
 
 If you are experiencing issues with this module try reverting the feature first. If you are still experiencing issues try posting an issue on the GitHub issues page.
 
