@@ -1,10 +1,11 @@
-#[Stanford AFS Quota](https://github.com/SU-SWS/stanford_sites_helper/modules/stanford_afs_quota/)
+#[Stanford Webauth Block](https://github.com/SU-SWS/stanford_module)
 ##### Version: 7.x-1.6
 
 Maintainers: [jbickar](https://github.com/jbickar), [sherakama](https://github.com/sherakama)
 [Changelog.txt](CHANGELOG.txt)
 
-This module adds file storage checking for those on Stanford Sites.
+This module places the webauth login block where it should be using Context.
+
 
 Installation
 ---
@@ -16,6 +17,10 @@ Configuration
 
 Nothing special needed.
 
+Troubleshooting
+---
+
+If you are experiencing issues with this module try reverting the feature first. If you are still experiencing issues try posting an issue on the GitHub issues page.
 
 Contribution / Collaboration
 ---
