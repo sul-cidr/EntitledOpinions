@@ -80,56 +80,39 @@ function stanford_capx_admin_config_settings() {
 
   $has_orgs = \CAPx\Drupal\Organizations\Orgs::checkOrgs();
   if (!$has_orgs) {
-    drupal_set_message(t('The organization codes are not available. You should sync with the API now.'), 'warning');
+    drupal_set_message(t('The organization codes are not available. You should sync with the API now.'), 'warning', FALSE);
   }
 
-  // Organizations
-  // ---------------------------------------------------------------------------
+  $form = drupal_get_form("stanford_capx_admin_config_settings_get_all_the_forms_form");
 
-  $form = drupal_get_form("stanford_capx_config_settings_data_sync_form");
-  $output['content']["orgsform"] = $form;
-
-  // Settings form
-  // ---------------------------------------------------------------------------
-
-  $form = drupal_get_form('stanford_capx_config_settings_form');
-  $output["content"]["settingsform"] = $form;
+  $output['content']['submitbuttons'] = $form;
 
   return $output;
 }
 
 /**
- * [stanford_capx_config_settings_data_sync_form description]
+ * Returns all the forms that make up the settings page.
  * @param  [type] $form       [description]
  * @param  [type] $form_state [description]
  * @return [type]             [description]
  */
-function stanford_capx_config_settings_data_sync_form($form, $form_state) {
-  $form['orggroup'] = array(
-    '#type' => "fieldset",
-    '#title' => t("Organizations & Schema"),
-    '#description' => t("The CAPx module needs some information from the CAP API in order to function properly. Below are actions that require communication with the CAP API server and you must be connected before you can run these tasks."),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
+function stanford_capx_admin_config_settings_get_all_the_forms_form($form, &$form_state) {
 
-  // Organizations.
-  $form['orggroup']['orgcodeinfo']['#markup'] = "<h3>Organizations</h3>";
-  $form['orggroup']['orgcodeinfo']['#markup'] .= "<p>" . t("Organization codes come from the CAP API and are saved to a taxonomy. This taxonomy powers the organization code autocomplete in the import section.") . "</p>";
-  $form['orggroup']['orgcodeinfo']['#markup'] .= "<p>" . t("Last sync: @date", array("@date" => variable_get('capx_last_orgs_sync', 'never'))) . "</p>";
-  $form['orggroup']['orgcodeinfo']['#markup'] .= "<p>" . t("View all organization codes: !link", array("!link" => l(t('Organization taxonomy'), 'admin/structure/taxonomy/capx_organizations'))) . "</p>";
-  $form['orggroup']['orgcodeinfo']['#markup'] .= "<p>" . l(t('Get organization data'), 'admin/config/capx/organizations/sync', array("attributes" => array('class' => array('btn button')), 'query' => array('destination' => current_path()))) . "</p>";
+  // $form = system_settings_form($form);
+  $form = stanford_capx_config_auth_settings_form($form, $form_state);
 
-  // Schema.
-  $form['orggroup']['schemainfo']['#markup'] = "<br /><h3>Schema Information</h3>";
-  $form['orggroup']['schemainfo']['#markup'] .= "<p>" . t("The CAP API provides a schema of the information available. The CAPx module needs this in order to power the data browser that is found on a mapping page.") . "</p>";
-  $form['orggroup']['schemainfo']['#markup'] .= "<p>" . t("Last sync: @date", array("@date" => variable_get('capx_last_schema_sync', 'never'))) . "</p>";
-  $form['orggroup']['submit'] = array(
+  $connection = CAPxConnection::testConnection();
+  if ($connection->status) {
+    $form = stanford_capx_config_settings_form($form, $form_state);
+    $form = stanford_capx_config_settings_data_sync_form($form, $form_state);
+  }
+
+
+  $form['actions']['submit'] = array(
+    '#value' => t("Save settings"),
     '#type' => 'submit',
-    '#value' => 'Get schema information',
-    '#op' => 'submit',
   );
-  $form['#submit'][] = "stanford_capx_schema_refresh";
+
   return $form;
 }
 
@@ -167,7 +150,7 @@ function stanford_capx_admin_config_help() {
   $content = "<h2>" . t("Getting started") . "</h2>";
   $content .= "<p>" . t("Importing content from CAP can be completed in 3 steps:") . "</p>";
   $content .= "<ol><li>";
-  $content .= t("!connect - Connect to the CAP API using your authentication credentials.", array("!connect" => l(t("Connect"), "admin/config/capx/connect")));
+  $content .= t("!connect - Connect to the CAP API using your authentication credentials.", array("!connect" => l(t("Settings"), "admin/config/capx/settings")));
   $content .= "</li><li>";
   $content .= t("!mapping - Create a mapping that links CAP fields to your own fields.", array("!mapping" => l(t("Mapping"), "admin/config/capx/mapper")));
   $content .= "</li><li>";
@@ -234,19 +217,19 @@ function stanford_capx_admin_config_mapper() {
 function stanford_capx_admin_config_mapper_new() {
   $output = array();
 
+  // Add some css.
+  $output['#attached']['css'][] = drupal_get_path('module', 'stanford_capx') . "/css/stanford_capx.admin.css";
+
   // Management Menu.
   $menu_block = stanford_capx_management_menu_block();
   $output['content']['capx_menu_block'] = $menu_block;
 
-  // Add some css.
-  $output['#attached']['css'][] = drupal_get_path('module', 'stanford_capx') . "/css/stanford_capx.admin.css";
+  // Get and render the mapper form.
+  $output['content']['mapper_form'] = drupal_get_form('stanford_capx_mapper_form');
 
   // Data browser block.
   $block = block_load('stanford_capx', 'data_browser_launch');
   $output['content']['data_browser'] = _block_get_renderable_array(_block_render_blocks(array($block)));
-
-  // Get and render the mapper form.
-  $output['content']['mapper_form'] = drupal_get_form('stanford_capx_mapper_form');
 
   return $output;
 }
@@ -258,8 +241,11 @@ function stanford_capx_admin_config_mapper_new() {
  */
 function stanford_capx_admin_config_mapper_edit($mapper_machine_name) {
   $output = array();
-  $mapper = capx_cfe_load_by_machine_name($mapper_machine_name, 'mapper');
 
+  // Add some css.
+  $output['#attached']['css'][] = drupal_get_path('module', 'stanford_capx') . "/css/stanford_capx.admin.css";
+
+  $mapper = capx_cfe_load_by_machine_name($mapper_machine_name, 'mapper');
   if (!$mapper) {
     throw new Exception(t("Could not load a mapping with provided machine name. Please check url."));
   }
@@ -268,20 +254,16 @@ function stanford_capx_admin_config_mapper_edit($mapper_machine_name) {
   $menu_block = stanford_capx_management_menu_block();
   $output['content']['capx_menu_block'] = $menu_block;
 
-  // Add some css.
-  // drupal_add_css(drupal_get_path('module', 'stanford_capx') . "/css/stanford_capx.admin.css");
-  $output['#attached']['css'][] = drupal_get_path('module', 'stanford_capx') . "/css/stanford_capx.admin.css";
-
-  // Data browser block.
+  // In use block.
   $block = block_load('stanford_capx', 'mapper_in_use');
   $output['content']['mapper_in_use'] = _block_get_renderable_array(_block_render_blocks(array($block)));
+
+  // Render form.
+  $output['content']['mapper_form'] = drupal_get_form('stanford_capx_mapper_form', $mapper);
 
   // Data browser block.
   $block = block_load('stanford_capx', 'data_browser_launch');
   $output['content']['data_browser_launch'] = _block_get_renderable_array(_block_render_blocks(array($block)));
-
-  // Render form.
-  $output['content']['mapper_form'] = drupal_get_form('stanford_capx_mapper_form', $mapper);
 
   return $output;
 }

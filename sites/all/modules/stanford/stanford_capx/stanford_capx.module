@@ -49,7 +49,7 @@ $CAP_RESTRICTED_FIELD_PROPERTIES = array(
   'attributes',
 );
 
-define('STANFORD_CAPX_FILE_PATH', 'private://stanford_capx/');
+define('STANFORD_CAPX_FILE_PATH', 'private://stanford_capx');
 define('STANFORD_CAPX_SCHEMA_FILE', 'schema.json');
 
 /**
@@ -69,7 +69,19 @@ function stanford_capx_permission() {
   return array(
     'administer capx' => array(
       'title' => t('Administer CAPx'),
-      'description' => t('Administer and Configure CAPx settings.'),
+      'description' => t('Administer and configure CAPx settings.'),
+    ),
+    // 'capx administer importers' => array(
+    //   'title' => t('Administer CAPx Importers'),
+    //   'description' => t('Administer and configure CAPx importers.'),
+    // ),
+    // 'capx administer mappers' => array(
+    //   'title' => t('Administer CAPx Mappers'),
+    //   'description' => t('Administer and configure CAPx mappers.'),
+    // ),
+    'capx advanced administrator' => array(
+      'title' => t('Administer Advanced CAPx settings'),
+      'description' => t('Administer and Ccnfigure CAPx advanced settings.'),
     ),
   );
 }
@@ -107,15 +119,6 @@ function stanford_capx_menu() {
     'page callback' => 'stanford_capx_admin_config',
     'access arguments' => array('administer capx'),
     'type' => MENU_NORMAL_ITEM,
-  );
-
-  // Connect page.
-  $items['admin/config/capx/connect'] = array(
-    'title' => 'Connect',
-    'page callback' => 'stanford_capx_admin_config_connect',
-    'access arguments' => array('administer capx'),
-    'type' => MENU_NORMAL_ITEM,
-    'weight' => -10,
   );
 
   // Settings Page.
@@ -281,6 +284,15 @@ function stanford_capx_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_flush_caches().
+ */
+function stanford_capx_flush_caches() {
+  // Sort of hacky but this works...
+  variable_del("stanford_capx_admin_messages");
+  return array();
+}
+
 // Cron
 // /////////////////////////////////////////////////////////////////////////////
 
@@ -315,14 +327,14 @@ function stanford_capx_cron_queue_info() {
   // A queue process for importing/sync profiles.
   $queues['stanford_capx_profiles'] = array(
     'worker callback' => 'stanford_capx_cron_queue_callback',
-    'time' => variable_get('stanford_capx_runtime_limit', 120),
+    'time' => variable_get('stanford_capx_runtime_limit', 240),
     'skip on cron' => FALSE,
   );
 
   // A queue process for finding and removing orphans.
   $queues['stanford_capx_profile_orphans'] = array(
     'worker callback' => 'stanford_capx_cron_orphan_queue_callback',
-    'time' => variable_get('stanford_capx_runtime_limit', 120),
+    'time' => variable_get('stanford_capx_runtime_limit', 240),
     'skip on cron' => FALSE,
   );
 
@@ -500,7 +512,7 @@ function stanford_capx_schema_load($format = 'json', $reset = FALSE) {
     return FALSE;
   }
 
-  $file = STANFORD_CAPX_FILE_PATH . STANFORD_CAPX_SCHEMA_FILE;
+  $file = STANFORD_CAPX_FILE_PATH . "/" . STANFORD_CAPX_SCHEMA_FILE;
 
   // @TODO: Refresh automatically under some condition? Weekly?
   // If forcing a refesh or the schema hasn't been downloaded, download it!
@@ -531,7 +543,7 @@ function stanford_capx_schema_load($format = 'json', $reset = FALSE) {
  *   FALSE if failed or a json string if success.
  */
 function stanford_capx_schema_refresh() {
-  $file = STANFORD_CAPX_FILE_PATH . STANFORD_CAPX_SCHEMA_FILE;
+  $file = STANFORD_CAPX_FILE_PATH . "/" . STANFORD_CAPX_SCHEMA_FILE;
 
   // Ensure the modules' private files directory exists and is writable.
   if (stanford_capx_files_dir_exists()) {

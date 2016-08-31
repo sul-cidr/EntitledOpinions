@@ -153,7 +153,7 @@ function stanford_capx_connection_status_block() {
     $content .= '<h2 class="error">' . t('Not Connected') . '</h2>';
 
     if ($connection->code == 0) {
-      $content .= t("Please go to the !connt page to connect to the CAP API.", array("!connt" => l(t("CAPx connection"), "admin/config/capx/connect")));
+      $content .= t("Please go to the !connt page to connect to the CAP API.", array("!connt" => l(t("CAPx settings"), "admin/config/capx/settings")));
     }
     else {
       $vars = array('@code' => $connection->code, '@message' => $connection->message);
@@ -194,14 +194,15 @@ function stanford_capx_data_browser_launch_block() {
   $rows[] = array('Body', '$.bio.html');
   $rows[] = array('Profile picture', '$.profilePhotos.bigger');
   $rows[] = array('Email', '$.primaryContact.email');
-  $rows[] = array('Last updated', '$.lastModified');
+  $rows[] = array('Profiles URL', '$.meta.links[1].href');
   $rows[] = array('-------------', "--------------");
-  $rows[] = array('Cohort', '$.maintainers.*.title');
+  // $rows[] = array('Cohort', '$.maintainers.*.title');
+  $rows[] = array('Affiliations', '$.affiliations');
   $rows[] = array('Job title short', '$.shortTitle.label.text');
-  $rows[] = array('Job title long', '$.longTitle[0]');
+  $rows[] = array('Job title long', '$.longTitle.title');
   // $rows[] = array('Dissertation title', '');
   $rows[] = array('Degrees / education', '$.education.*.label.text');
-  $rows[] = array('Title and department', '$.longTitle[0]');
+  $rows[] = array('Title and department', '$.longTitle.title');
   // $rows[] = array('Faculty status', '');
   $rows[] = array('Fax', '$.primaryContact.fax');
   $rows[] = array('CV - file', '$.documents.cv');
@@ -217,6 +218,7 @@ function stanford_capx_data_browser_launch_block() {
   $rows[] = array('Graduation year', '$.education.*.yearIssued');
   $rows[] = array('Personal info links title', '$.internetLinks.*.label.text');
   $rows[] = array('Personal info links url', '$.internetLinks.*.url');
+  $rows[] = array('Lab website url', '$.internetLinks.[?(@.type="Lab Site")].url');
   $rows[] = array('Fields of interest', '$.professionalInterests.text');
   $rows[] = array('Mailing address', '$.primaryContact.address');
   $rows[] = array('Mailing address city', '$.primaryContact.city');
@@ -228,7 +230,7 @@ function stanford_capx_data_browser_launch_block() {
   $rows[] = array('Staff type', '$.titles.*.type');
   $rows[] = array('Field of study', '$.education.*.fieldOfStudy');
   $rows[] = array('Type', '$.titles.*.type');
-  $output .= theme('table', array('rows' => $rows, 'header' => $header));
+  $output .= theme('table', array('rows' => $rows, 'header' => $header, 'sticky' => FALSE));
 
   return $output;
 }

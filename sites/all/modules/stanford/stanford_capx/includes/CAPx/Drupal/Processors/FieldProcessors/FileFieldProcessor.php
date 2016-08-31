@@ -22,8 +22,15 @@ class FileFieldProcessor extends FieldTypeProcessor {
    * @see FieldProcessorAbstract::put()
    */
   public function put($data) {
-    $data = $this->process($data);
-    parent::put($data);
+    $processed = $this->process($data);
+
+    // If data was passed in but nothing came out of processing then something went wrong and we don't want to update
+    // the field.
+    if (!empty($data) && empty($processed)) {
+      return;
+    }
+
+    parent::put($processed);
   }
 
   /**
@@ -40,6 +47,8 @@ class FileFieldProcessor extends FieldTypeProcessor {
    */
   public function process($data) {
     $return = array();
+    $entity = $this->getEntity();
+
     // Normalize data because it comes in a bit funky as we take whole array
     // from the CAP API data.
     $data = reset($data);
@@ -64,10 +73,23 @@ class FileFieldProcessor extends FieldTypeProcessor {
       // Allow altering as this could get messy.
       drupal_alter('capx_pre_fetch_remote_file', $value);
 
-      // @todo We can put a check in place to see if file was changed so
-      // we don't fetch it again, but Drupal doesn't allow to store
-      // lastModified data by default, this means we will need to handle
-      // this ourselves. DO we really want to do it?
+      // The filename never changes when the file is modified but there are timestamps available.
+      // Check the local entity's timestamp against the one from the API in order to determine if the file has changed.
+      $field_values = $entity->{$this->fieldName}->raw();
+
+      if (isset($field_values['timestamp']) && isset($value['lastModified'])) {
+        // Timestamp from API.
+        $lastModified = strtotime($value['lastModified']);
+        // Local timestamp.
+        $lastImported = $field_values['timestamp'];
+        // If the modified timestamp is the same as the server's then we don't need to update anything.
+        if ($lastModified <= $lastImported) {
+          $return['fid'][] = $field_values['fid'];
+          continue;
+        }
+      }
+
+      // If the file needs to be updated or is new then we must fetch and save it from the server.
       // Request the file from the remote server.
       $file_data = $this->fetchRemoteFile($value);
       if (empty($file_data)) {
@@ -133,7 +155,7 @@ class FileFieldProcessor extends FieldTypeProcessor {
     $client = new \CAPx\APILib\HTTPClient();
     $guzzle = $client->getHttpClient();
     try {
-      $response = $guzzle->get($data['url'])->send();
+      $response = $guzzle->get($data['url']);
     }
     catch (\Exception $e) {
       $this->logIssue($e);
@@ -143,7 +165,7 @@ class FileFieldProcessor extends FieldTypeProcessor {
       $this->logIssue(new \Exception(t('Could not fetch file from URL: @url', array('@url' => $data['url']))));
     }
     else {
-      $file = $response->getBody(TRUE);
+      $file = $response->getBody();
     }
 
     return $file;
@@ -161,12 +183,8 @@ class FileFieldProcessor extends FieldTypeProcessor {
    *   A unique filename.
    */
   public function getFileName($data) {
-
-    $salt = time();
-
     $extension = $this->getExtentionByType($data['contentType']);
-    $filename = md5($data['url'] . $salt) . $extension;
-
+    $filename = md5($data['url']) . $extension;
     return $filename;
   }
 

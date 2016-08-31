@@ -18,6 +18,11 @@ class CAPxConnection {
    */
   public static function testConnection() {
     $auth = CAPxConnection::testAuthConnection();
+
+    if ($auth->status && !empty($auth->token)) {
+      variable_set('stanford_capx_token', $auth->token);
+    }
+
     $api  = CAPxConnection::testApiConnection();
 
     if ($auth->status && $api->status) {
@@ -111,6 +116,10 @@ class CAPxConnection {
     $client = new HTTPClient();
     $client->setEndpoint($endpoint);
     $client->setApiToken($token);
+    $opts = $client->getHttpOptions();
+    $opts['connect_timeout'] = 2.00;
+    $opts['timeout'] = 5.00;
+    $client->setHttpOptions($opts);
 
     try {
       $results = $client->api('orgs')->getOrg('BSWS');

@@ -8,13 +8,13 @@ namespace CAPx\Drupal\Processors\FieldProcessors;
 
 abstract class FieldProcessorAbstract implements FieldProcessorInterface {
 
-  // Entity
+  // Entity.
   protected $entity;
 
-  // Field Name
+  // Field Name.
   protected $fieldName;
 
-  // Type of field or widget
+  // Type of field or widget.
   protected $type;
 
   /**
@@ -86,7 +86,13 @@ abstract class FieldProcessorAbstract implements FieldProcessorInterface {
           // Value wrapper assumes we providing single value.
           case 'EntityDrupalWrapper':
           case 'EntityValueWrapper':
-            $field->set(array_shift($data));
+
+            // Only Shift if it is an array.
+            if (is_array($data)) {
+              $data = array_shift($data);
+            }
+
+            $field->set($data);
             break;
         }
       }
@@ -126,13 +132,55 @@ abstract class FieldProcessorAbstract implements FieldProcessorInterface {
     }
 
     // If no key value was specified then assume the column key.
-    if (isset($data[0][0])) {
+    if (isset($data[0][0]) && is_array(($data[0][0]))) {
       foreach ($data[0] as $int => $value) {
         $return[$int][$columnKey] = $value;
       }
     }
 
     return $return;
+  }
+
+  /**
+   * Logs an issue to watchdog.
+   * @param  \Exception|null $e [description]
+   * @return [type]             [description]
+   */
+  public function logIssue(\Exception $e = NULL) {
+    $entity = $this->getEntity();
+
+    // BEAN is returning its delta when using this.
+    // $entityId = $entity->getIdentifier();
+
+    $entityType = $entity->type();
+    $entityRaw = $entity->raw();
+    list($entityId, $vid, $bundle) = entity_extract_ids($entityType, $entityRaw);
+
+
+    $logText = 'Could not save the field data for %field on %type id: %profileId.';
+
+    if (isset($e)) {
+      $logText .= ' ';
+      $logText .= get_class($e);
+      $logText .= ': ' . check_plain($e->getMessage());
+    }
+
+    watchdog(
+      'stanford_capx_field',
+      $logText,
+      array(
+        '%field' => $this->getFieldName(),
+        '%type' => $entity->getBundle(),
+        '%profileId' => $entityId ? $entityId : 'unknown',
+      ),
+      WATCHDOG_ERROR
+    );
+
+    // Now throw $e so that the mapper knows something went wrong.
+    if (isset($e)) {
+      throw $e;
+    }
+
   }
 
 
@@ -174,7 +222,6 @@ abstract class FieldProcessorAbstract implements FieldProcessorInterface {
     $this->fieldName = $name;
   }
 
-
   /**
    * Setter function
    * @param string $type The field type.
@@ -191,35 +238,5 @@ abstract class FieldProcessorAbstract implements FieldProcessorInterface {
     return $this->type;
   }
 
-
-  public function logIssue(\Exception $e = NULL) {
-    $entity = $this->getEntity();
-
-    // BEAN is returning its delta when using this.
-    // $entityId = $entity->getIdentifier();
-
-    $entityType = $entity->type();
-    $entityRaw = $entity->raw();
-    list($entityId, $vid, $bundle) = entity_extract_ids($entityType, $entityRaw);
-
-
-    $logText = 'Could not save the field data for %field on %type id: %profileId.';
-    if (isset($e)) {
-      $logText .= ' ';
-      $logText .= get_class($e);
-      $logText .= ': ' . check_plain($e->getMessage());
-    }
-
-    watchdog(
-      'stanford_capx_field',
-      $logText,
-      array(
-        '%field' => $this->getFieldName(),
-        '%type' => $entity->getBundle(),
-        '%profileId' => $entityId ? $entityId : 'unknown',
-      ),
-      WATCHDOG_ERROR
-    );
-  }
 
 }
