@@ -21,6 +21,20 @@ function _nodeformcols_get_node_type_form($type) {
   );
   $fs += form_state_defaults();
   $nf = drupal_retrieve_form($nfid, $fs);
+  // Add in field_groups if they exist.
+  if (module_exists('field_group') && !empty($nf['#groups'])) {
+    foreach ($nf['#groups'] as $group) {
+      $group_title = $group->label . ' (' . t('Field group') . ')';
+      $nf[$group->group_name] = array(
+        '#group'  =>  $group,
+        '#weight' =>  $group->weight,
+        '#title'  =>  $group_title,
+      );
+      foreach ($nf['#groups'][$group->group_name]->children as $group_field) {
+        unset($nf[$group_field]);
+      }
+    }
+  }
   drupal_prepare_form($nfid, $nf, $fs);
   drupal_process_form($nfid, $nf, $fs);
   return $nf;
@@ -35,8 +49,10 @@ function nodeformcols_update_placements($type, $variant, &$placements) {
     $field = $form[$key];
     if (
       substr($key, 0, 8) == 'section_' ||
+      // Exclude hidden fields.
       (isset($field['#type']) && in_array($field['#type'], array('value', 'hidden', 'token'))) ||
-      (isset($field['#type'], $field['#group']) && $field['#type'] === 'fieldset')
+      // Exclude the vertical tabs.
+      (isset($field['#group']) && $field['#group'] == 'additional_settings')
     ) {
       // Remove placements that meet exclusion rules.
       if (isset($placements[$key])) {
@@ -128,7 +144,7 @@ function nodeformcols_configuration_form($form, $form_state, $node_type, $varian
     $form['variant'] = array(
       '#type' => 'item',
       '#title' => t('Select a form variant'),
-      '#value' => theme('links', array('links' => $variant_links)),
+      '#markup' => theme('links', array('links' => $variant_links)),
     );
   }
 
