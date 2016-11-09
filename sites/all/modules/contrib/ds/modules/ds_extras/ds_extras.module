@@ -213,6 +213,10 @@ function ds_extras_field_attach_view_alter(&$build, $context) {
         }
         if (isset($block_data[$block_key]) && is_array($block_data[$block_key])) {
           $block_data[$block_key] += $properties;
+
+          if (module_exists('field_group') && !empty($block_data[$block_key]['#fieldgroups'])) {
+            $block_data[$block_key]['#pre_render'][] = 'field_group_form_pre_render';
+          }
         }
       }
     }
