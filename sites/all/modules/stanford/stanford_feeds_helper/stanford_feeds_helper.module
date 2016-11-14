@@ -4,8 +4,36 @@
  * Code for the Stanford Feeds Helper module.
  */
 
- /**
- * Implements hook_feeds_processor_targets_alter()
+/**
+ * Implements hook_menu().
+ */
+function stanford_feeds_helper_menu() {
+  $items = array();
+  $items['admin/config/stanford/stanford_feeds_helper'] = array(
+    'title' => 'Stanford Feeds Helper',
+    'description' => t("Configuration settings for feeds."),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('stanford_feeds_helper_configure'),
+    'access arguments' => array('administer stanford_feeds_helper'),
+    'file' => "stanford_feeds_helper.admin.inc",
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function stanford_feeds_helper_permission() {
+  return array(
+    'administer stanford_feeds_helper' => array(
+      'title' => t('Administer Stanford Feeds Helper'),
+      'description' => t('Perform administration tasks for the feeds helper module.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_feeds_processor_targets_alter().
  */
 function stanford_feeds_helper_feeds_processor_targets_alter(&$targets, $entity_type, $bundle_name) {
   // Load up.
@@ -17,7 +45,7 @@ function stanford_feeds_helper_feeds_processor_targets_alter(&$targets, $entity_
     $files = drupal_system_listing('/.*\.inc$/', $path, 'name', 0);
     foreach ($files as $file) {
       if (strstr($file->uri, '/mappers/')) {
-        require_once (DRUPAL_ROOT . '/' . $file->uri);
+        require_once DRUPAL_ROOT . '/' . $file->uri;
       }
     }
   }
@@ -45,7 +73,7 @@ function stanford_feeds_helper_feeds_processor_targets_alter(&$targets, $entity_
 }
 
 /**
- * Process Field Collection items
+ * Process Field Collection items.
  */
 function stanford_feeds_helper_feeds_set_target($source, &$entity, $target, $value) {
   $sub_targets = &drupal_static(__FUNCTION__, array());
@@ -87,7 +115,7 @@ function stanford_feeds_helper_feeds_set_target($source, &$entity, $target, $val
       }
 
       // Zero out.
-      $field_collection_item = null;
+      $field_collection_item = NULL;
 
       if (isset($field['und'][$delta]['entity'])) {
         $field_collection_item = $field['und'][$delta]['entity'];
@@ -118,7 +146,7 @@ function stanford_feeds_helper_feeds_set_target($source, &$entity, $target, $val
       if (isset($_sub_targets[$sub_target]['callback']) && function_exists($_sub_targets[$sub_target]['callback'])) {
         $callback = $_sub_targets[$sub_target]['callback'];
 
-        // Normalize
+        // Normalize.
         if (!is_array($value[$delta])) {
           $value[$delta] = array($value[$delta]);
         }
@@ -143,8 +171,8 @@ function stanford_feeds_helper_feeds_set_target($source, &$entity, $target, $val
         $callback($source, $field_collection_item, $sub_target, $value[$delta], $sub_mapping);
       }
 
-      // No need to save the field collection here. Just wait until the node is saved.
-      // If we save the FC here we get a huge performance degregation.
+      // No need to save the field collection here. Just wait until the node is
+      // saved. If we save the FC here we get a huge performance degregation.
       $field['und'][$delta]['entity'] = $field_collection_item;
 
       // Break when only hitting the max delta.
@@ -166,9 +194,11 @@ function stanford_feeds_helper_feeds_set_target($source, &$entity, $target, $val
 }
 
 /**
- * Multiple field values are a pain in the rear. They are additive and we do not
- * always want them to be. This function targets a couple of items and truncates
- * their values before saving the new ones.
+ * Multiple field values are a pain in the rear.
+ *
+ * They are additive and we do not always want them to be. This function targets
+ * a couple of items and truncates their values before saving the new ones.
+ *
  * @param $target
  * @param $entity
  * @param $field
@@ -246,7 +276,7 @@ function stanford_feeds_helper_field_collection_file_feeds_set_target($source, $
       watchdog('feeds', check_plain($e->getMessage()));
     }
     if ($file) {
-      $field['und'][$i] = (array)$file;
+      $field['und'][$i] = (array) $file;
       $field['und'][$i]['display'] = 1; // @todo: Figure out how to properly populate this field.
       if ($info['cardinality'] == 1) {
         break;
@@ -256,4 +286,42 @@ function stanford_feeds_helper_field_collection_file_feeds_set_target($source, $
   }
   $entity->{$target} = $field;
 
+}
+
+/**
+ * Implements hook_feeds_presave().
+ */
+function stanford_feeds_helper_feeds_presave($source, $entity, $item) {
+
+  // Check if duplicate reduction is on. If not we end our journey here.
+  if (!variable_get("stanford_feeds_helper_prevent_duplicates", FALSE)) {
+    return;
+  }
+
+  // It is not a fun journey to partake without the feeds_item information.
+  if (!isset($entity->feeds_item)) {
+    return;
+  }
+
+  // GUID and Importer ID are used as keys to look for duplicates in the DB.
+  $guid = $entity->feeds_item->guid;
+  $importer_nid = $entity->feeds_item->feed_nid;
+
+  // Check to see if another importer already has this GUID by looking in the
+  // feeds_item table for a matching GUID that is not THIS importer. We have to
+  // find other importers with the same GUID as it would prevent updating if
+  // we matched with ourselves.
+  $results = db_select("feeds_item", "fi")
+    ->fields("fi", array("entity_id"))
+    ->condition("guid", $guid)
+    ->condition("feed_nid", $importer_nid, "!=")
+    ->execute()
+    ->rowCount();
+
+  // We found a match somewhere else. Prevent this thing from saving.
+  if ($results >= 1) {
+    $entity->feeds_item->skip = TRUE;
+  }
+
+  // All quiet on the western front. Nothing to do.
 }
