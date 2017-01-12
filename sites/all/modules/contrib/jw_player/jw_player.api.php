@@ -34,28 +34,3 @@ function hook_jw_player_plugin_info($preset) {
   );
   return $plugins;
 }
-/**
- * Checks a file for JW Player supported media formats.
- *
- * This hook allow third party module to provide media formats verification for
- * video and audio streams inside a file to be used in JW Player.
- *
- * @param array|object $file
- *   A file object (or array) to check for support.
- *
- * @return bool
- *   TRUE if the file is supported by JW Player.
- */
-function hook_jw_player_supports($file) {
-
-}
-
-/**
- * Alter the list of mime types supported by JW Player.
- *
- * @param array $types
- *   A list of mime types as an array of strings.
- */
-function hook_jw_player_supported_mimetypes_alter(&$types) {
-
-}

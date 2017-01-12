@@ -78,23 +78,15 @@ function jw_player_ctools_export_ui_form(&$form, &$form_state) {
     '#weight' => 5,
   );
 
-  $form['settings']['primary'] = array(
+  $form['settings']['mode'] = array(
     '#type' => 'radios',
     '#title' => t('Embed mode'),
     '#description' => t('Select your primary embed mode. Choosing HTML5 primary means that modern browsers that also support flash will use the HTML5 player first where possible. While this is desirable, the Flash based player supports more features and is generally more reliable.'),
     '#options' => array(
-      'html5' => t('HTML5 primary, Flash failover'),
       'flash' => t('Flash primary, HTML5 failover'),
+      'html5' => t('HTML5 primary, Flash failover'),
     ),
     '#default_value' => isset($settings['mode']) ? $settings['mode'] : 'html5',
-  );
-
-  $form['settings']['responsive'] = array(
-    '#type' => 'checkbox',
-    '#title' => 'Use a Responsive Design',
-    '#description' => 'Enable Responsive Design using a percentage based width and an aspect ratio.',
-    '#default_value' => $settings['responsive'],
-    '#weight' => 4.99,
   );
 
   $form['settings']['width'] = array(
@@ -102,7 +94,7 @@ function jw_player_ctools_export_ui_form(&$form, &$form_state) {
     '#size' => 10,
     '#title' => t('Width'),
     '#description' => t('Enter the width for this player.'),
-    '#field_suffix' => ' ' . t('pixels or percentage'),
+    '#field_suffix' => ' ' . t('pixels'),
     '#default_value' => $settings['width'],
     '#required' => TRUE,
     '#weight' => 5,
@@ -117,33 +109,19 @@ function jw_player_ctools_export_ui_form(&$form, &$form_state) {
     '#default_value' => $settings['height'],
     '#required' => TRUE,
     '#weight' => 6,
-    '#states' => array(
-      'visible' => array(
-        ':input[name="settings[responsive]"]' => array('checked' => FALSE),
-      ),
-    ),
   );
 
-  $form['settings']['aspectratio'] = array(
-    '#type' => 'textfield',
-    '#size' => 10,
-    '#title' => t('Aspect ratio'),
-    '#description' => t('Enter the aspect ratio for this player.'),
-    '#default_value' => isset($settings['aspectratio']) ? $settings['aspectratio'] : '16:9',
-    '#required' => TRUE,
-    '#weight' => 6,
-    '#states' => array(
-      'visible' => array(
-        ':input[name="settings[responsive]"]' => array('checked' => TRUE),
-      ),
+  $form['settings']['controlbar'] = array(
+    '#title' => t('Controlbar Position'),
+    '#type' => 'select',
+    '#description' => t('Where the controlbar should be positioned.'),
+    '#default_value' => !empty($settings['controlbar']) ? $settings['controlbar']: 'none',
+    '#options' => array(
+      'none' => t('None'),
+      'bottom' => t('Bottom'),
+      'top' => t('Top'),
+      'over' => t('Over')
     ),
-  );
-
-  $form['settings']['controls'] = array(
-    '#title' => t('Controls'),
-    '#type' => 'checkbox',
-    '#description' => t('Whether to display the video controls (controlbar, icons and dock).'),
-    '#default_value' => !empty($settings['controls']) ? $settings['controls']: TRUE,
     '#weight' => 7,
   );
 
@@ -179,40 +157,17 @@ function jw_player_ctools_export_ui_form(&$form, &$form_state) {
   // );
 
   // Skins.
-  
-  $skin_options = array(
-      'bekle' => 'Bekle*',
-      'modieus' => 'Modieus*',
-      'glow' => 'Glow*',
-      'five' => 'Five*',
-      'beelden' => 'Stormtrooper*',
-      'vapor' => 'Vapor*',
-      'roundster' => 'Roundster*'
-      );
+  $skin_options = array();
   foreach (jw_player_skins() as $skin) {
     $skin_options[$skin->name] = drupal_ucfirst($skin->name);
   }
 
   $form['settings']['skin'] = array(
     '#title' => t('Skin'),
-    '#description' => t('Select a skin, some skins (*) require a premium licence'),
     '#type' => 'select',
     '#default_value' => !empty($settings['skin']) ? $settings['skin']: FALSE,
     '#empty_option' => t('None (default skin)'),
     '#options' => $skin_options,
-  );
-  
-  $form['settings']['stretching'] = array(
-    '#title' => t('Stretching'),
-    '#description' => t('How to resize the poster and video to fit the display.'),
-    '#type' => 'select',
-    '#default_value' => !empty($settings['skin']) ? $settings['skin']: 'uniform',
-    '#options' => array(
-      'none' => t('None (keep original dimensions)'),
-      'exactfit' => t(' Exact Fit (stretch disproportionally)'),
-      'uniform' => t('Uniform (stretch proportionally; black borders)'),
-      'fill' => t('Fill (stretch proportionally; parts cut off)'),
-      ),
   );
 
   // Add preset plugin settings.
@@ -262,11 +217,11 @@ function jw_player_ctools_export_ui_form(&$form, &$form_state) {
     }
   }
 
-  $form['settings']['autostart'] = array(
-    '#title' => t('Autostart'),
+  $form['settings']['autoplay'] = array(
+    '#title' => t('Autoplay'),
     '#type' => 'checkbox',
-    '#description' => t('Automatically start playing the video on page load. Can be true or false (default). Autostart does not work on mobile devices like iOS and Android.'),
-    '#default_value' => !empty($settings['autostart']) ? $settings['autostart']: FALSE,
+    '#description' => t('Set the video to autoplay on page load'),
+    '#default_value' => !empty($settings['autoplay']) ? $settings['autoplay']: 'false',
     '#weight' => 4,
   );
 
