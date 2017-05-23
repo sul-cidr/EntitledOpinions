@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the iTunes Feed feature.
+ */
+
+include_once 'itunes_feed.features.inc';

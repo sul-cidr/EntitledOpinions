@@ -1,0 +1,16 @@
+name = iTunes Feed
+description = Creates a feed for iTunes podcast
+core = 7.x
+package = Features
+version = 7.x-1.0
+dependencies[] = getid3
+dependencies[] = libraries
+dependencies[] = views
+dependencies[] = views_rss
+dependencies[] = views_rss_core
+dependencies[] = views_rss_itunes
+dependencies[] = views_ui
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[views_view][] = itunes_feed
+features_exclude[dependencies][ctools] = ctools
