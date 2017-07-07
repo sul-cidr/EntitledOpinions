@@ -11,31 +11,29 @@ function itunes_feed_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'itunes_feed';
+  $view->name = 'podcast_xml';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'iTunes Feed';
+  $view->human_name = 'Podcast XML';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Entitled Opinions';
+  $handler->display->display_options['title'] = 'iTunes Podcast XML';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Path */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'node';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['absolute'] = TRUE;
+  $handler->display->display_options['style_plugin'] = 'views_xml_style';
+  $handler->display->display_options['style_options']['plaintext_output'] = 1;
+  $handler->display->display_options['style_options']['header'] = '';
+  $handler->display->display_options['style_options']['author'] = 'Anonymous';
+  $handler->display->display_options['style_options']['using_views_api_mode'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -43,15 +41,10 @@ function itunes_feed_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Date */
   $handler->display->display_options['fields']['field_date']['id'] = 'field_date';
   $handler->display->display_options['fields']['field_date']['table'] = 'field_data_field_date';
   $handler->display->display_options['fields']['field_date']['field'] = 'field_date';
-  $handler->display->display_options['fields']['field_date']['label'] = '';
-  $handler->display->display_options['fields']['field_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_date']['type'] = 'date_plain';
   $handler->display->display_options['fields']['field_date']['settings'] = array(
     'format_type' => 'itunes_formatted',
@@ -61,36 +54,40 @@ function itunes_feed_views_default_views() {
     'multiple_to' => '',
     'show_remaining_days' => 0,
   );
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  /* Field: Content: About Guest */
-  $handler->display->display_options['fields']['field_about_guest']['id'] = 'field_about_guest';
-  $handler->display->display_options['fields']['field_about_guest']['table'] = 'field_data_field_about_guest';
-  $handler->display->display_options['fields']['field_about_guest']['field'] = 'field_about_guest';
-  $handler->display->display_options['fields']['field_about_guest']['type'] = 'text_plain';
+  /* Field: Content: iTunes Description */
+  $handler->display->display_options['fields']['field_itunes_description']['id'] = 'field_itunes_description';
+  $handler->display->display_options['fields']['field_itunes_description']['table'] = 'field_data_field_itunes_description';
+  $handler->display->display_options['fields']['field_itunes_description']['field'] = 'field_itunes_description';
+  $handler->display->display_options['fields']['field_itunes_description']['type'] = 'text_plain';
   /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download']['id'] = 'field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download']['field'] = 'field_link_to_download';
-  $handler->display->display_options['fields']['field_link_to_download']['label'] = 'Audio';
+  $handler->display->display_options['fields']['field_link_to_download']['label'] = 'MP3 URL';
   $handler->display->display_options['fields']['field_link_to_download']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_link_to_download']['type'] = 'enclosure';
+  $handler->display->display_options['fields']['field_link_to_download']['type'] = 'file_url_plain';
   /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download_1']['id'] = 'field_link_to_download_1';
   $handler->display->display_options['fields']['field_link_to_download_1']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download_1']['field'] = 'field_link_to_download';
-  $handler->display->display_options['fields']['field_link_to_download_1']['label'] = 'Audio';
+  $handler->display->display_options['fields']['field_link_to_download_1']['label'] = 'Episode MP3 Enclosure';
   $handler->display->display_options['fields']['field_link_to_download_1']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_link_to_download_1']['type'] = 'itunes:duration';
+  $handler->display->display_options['fields']['field_link_to_download_1']['type'] = 'enclosure';
   /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download_2']['id'] = 'field_link_to_download_2';
   $handler->display->display_options['fields']['field_link_to_download_2']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download_2']['field'] = 'field_link_to_download';
-  $handler->display->display_options['fields']['field_link_to_download_2']['label'] = 'Audio';
+  $handler->display->display_options['fields']['field_link_to_download_2']['label'] = 'Episode MP3 Duration';
   $handler->display->display_options['fields']['field_link_to_download_2']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_link_to_download_2']['type'] = 'file_url_plain';
+  $handler->display->display_options['fields']['field_link_to_download_2']['type'] = 'itunes:duration';
+  /* Field: Content: Path */
+  $handler->display->display_options['fields']['path']['id'] = 'path';
+  $handler->display->display_options['fields']['path']['table'] = 'node';
+  $handler->display->display_options['fields']['path']['field'] = 'path';
+  /* Field: Content: Episode MP3 */
+  $handler->display->display_options['fields']['field_link_to_download_3']['id'] = 'field_link_to_download_3';
+  $handler->display->display_options['fields']['field_link_to_download_3']['table'] = 'field_data_field_link_to_download';
+  $handler->display->display_options['fields']['field_link_to_download_3']['field'] = 'field_link_to_download';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -113,15 +110,16 @@ function itunes_feed_views_default_views() {
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss_fields';
   $handler->display->display_options['style_options']['channel'] = array(
     'core' => array(
       'views_rss_core' => array(
-        'description' => 'With its high-powered, long-form conversations, Entitled Opinions has fans around the globe, from Australia to China, Mexico to Russia. Its host, Robert Pogue Harrison, has interviewed some of our era\'s leading figures in literature, philosophy, science, and cultural history for over a decade. One blogger called these intellectually expansive exchanges “the most fascinating, engaging podcasts in any possible universe.”',
-        'language' => 'english',
-        'category' => '',
-        'image' => 'https://entitledopinions.stanford.edu/sites/default/files/field/image/robert.jpg',
+        'description' => 'Entitled Opinions is a literary talk show on Stanford University Radio, KZSU, in which Professor Robert Harrison interviews guests about issues that range from literature and philosophy to politics and sports.',
+        'language' => 'en-us',
+        'category' => 'Philosophy,Public Radio',
+        'image' => '',
         'copyright' => '',
         'managingEditor' => 'harrison@stanford.edu',
         'webMaster' => '',
@@ -135,17 +133,13 @@ function itunes_feed_views_default_views() {
     ),
     'itunes' => array(
       'views_rss_itunes' => array(
-        'subtitle' => 'Entitled Opinions',
-        'summary' => 'With its high-powered, long-form conversations, Entitled Opinions has fans around the globe, from Australia to China, Mexico to Russia. Its host, Robert Pogue Harrison, has interviewed some of our era\'s leading figures in literature, philosophy, science, and cultural history for over a decade. One blogger called these intellectually expansive exchanges “the most fascinating, engaging podcasts in any possible universe.”',
-        'category' => array(
-          40 => '40',
-          50 => '50',
-          33 => '33',
-        ),
-        'keywords' => '',
-        'image' => 'https://entitledopinions.stanford.edu/sites/default/files/field/image/robert.jpg',
+        'subtitle' => '',
+        'summary' => '',
+        'category' => array(),
+        'keywords' => 'literature, philosophy, theory, politics, stanford',
+        'image' => '',
         'author' => 'Robert Harrison',
-        'explicit' => 'no',
+        'explicit' => '',
         'block' => '',
         'complete' => '',
         'new-feed-url' => '',
@@ -158,20 +152,20 @@ function itunes_feed_views_default_views() {
       'views_rss_core' => array(
         'title' => 'title',
         'link' => 'path',
-        'description' => 'field_about_guest',
+        'description' => 'field_itunes_description',
         'author' => '',
         'category' => '',
         'comments' => '',
-        'enclosure' => 'field_link_to_download',
-        'guid' => 'field_link_to_download_2',
+        'enclosure' => 'field_link_to_download_1',
+        'guid' => 'field_link_to_download',
         'pubDate' => 'field_date',
       ),
     ),
     'itunes' => array(
       'views_rss_itunes' => array(
-        'subtitle' => 'title',
-        'summary' => 'field_about_guest',
-        'duration' => '',
+        'subtitle' => '',
+        'summary' => 'field_itunes_description',
+        'duration' => 'field_link_to_download_2',
         'keywords' => '',
         'image' => '',
         'author' => '',
@@ -186,9 +180,9 @@ function itunes_feed_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'podcast.xml';
+  $handler->display->display_options['path'] = 'itunes.xml';
   $handler->display->display_options['sitename_title'] = 0;
-  $export['itunes_feed'] = $view;
+  $export['podcast_xml'] = $view;
 
   return $export;
 }
