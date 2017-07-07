@@ -1,7 +1,7 @@
 name = iTunes Feed
 description = Creates a feed for iTunes podcast
 core = 7.x
-package = Features
+package = Entitled Opinions
 version = 7.x-1.0
 dependencies[] = getid3
 dependencies[] = libraries
@@ -14,3 +14,4 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[views_view][] = itunes_feed
 features_exclude[dependencies][ctools] = ctools
+project path = sites/all/modules/features

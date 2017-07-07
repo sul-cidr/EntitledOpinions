@@ -70,21 +70,21 @@ function itunes_feed_views_default_views() {
   $handler->display->display_options['fields']['field_about_guest']['table'] = 'field_data_field_about_guest';
   $handler->display->display_options['fields']['field_about_guest']['field'] = 'field_about_guest';
   $handler->display->display_options['fields']['field_about_guest']['type'] = 'text_plain';
-  /* Field: Content: File to download */
+  /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download']['id'] = 'field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download']['field'] = 'field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download']['label'] = 'Audio';
   $handler->display->display_options['fields']['field_link_to_download']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_link_to_download']['type'] = 'enclosure';
-  /* Field: Content: File to download */
+  /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download_1']['id'] = 'field_link_to_download_1';
   $handler->display->display_options['fields']['field_link_to_download_1']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download_1']['field'] = 'field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download_1']['label'] = 'Audio';
   $handler->display->display_options['fields']['field_link_to_download_1']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_link_to_download_1']['type'] = 'itunes:duration';
-  /* Field: Content: File to download */
+  /* Field: Content: Episode MP3 */
   $handler->display->display_options['fields']['field_link_to_download_2']['id'] = 'field_link_to_download_2';
   $handler->display->display_options['fields']['field_link_to_download_2']['table'] = 'field_data_field_link_to_download';
   $handler->display->display_options['fields']['field_link_to_download_2']['field'] = 'field_link_to_download';
