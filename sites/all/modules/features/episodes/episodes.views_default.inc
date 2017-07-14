@@ -39,8 +39,7 @@ function episodes_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '4';
-  $handler->display->display_options['style_plugin'] = 'grid';
-  $handler->display->display_options['style_options']['columns'] = '5';
+  $handler->display->display_options['style_plugin'] = 'responsive_grid';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: Field: Photo */
   $handler->display->display_options['fields']['field_photo']['id'] = 'field_photo';
