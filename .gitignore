@@ -1,8 +1,9 @@
-/.htaccess
-/sites/default/settings.php
-/sites/default/files
-/sites/default/libraries
-/sites/default/modules
-/sites/default/themes
-/sites/default/webauth
-/php.fcgi
+docroot/.htaccess
+docroot/sites/default/settings.php
+docroot/sites/default/files
+docroot/sites/default/libraries
+docroot/sites/default/modules
+docroot/sites/default/themes
+docroot/sites/default/webauth
+docroot/php.fcgi
+db/
